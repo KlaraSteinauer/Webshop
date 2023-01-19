@@ -1,7 +1,15 @@
 package com.webshop.webshop.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Product {
-    private final Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String productName;
     private String productDescription;
     private String productImageUrl;
@@ -13,6 +21,10 @@ public class Product {
         this.productDescription = productDescription;
         this.productImageUrl = productImageUrl;
         this.productPrice = productPrice;
+    }
+
+    public Product(){
+
     }
 
     public Long getId() {
