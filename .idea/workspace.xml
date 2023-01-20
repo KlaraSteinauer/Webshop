@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added new model  (product)">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/help.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/impressum.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/impressum.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/user.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/klara/IdeaProjects/rest-webshop",
+    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Library",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -87,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674131627274</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)">
+      <created>1674137133823</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1674137133823</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,6 +111,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- adjusted file structure&#10;- created files in backend (config, controller, model, repository)" />
     <MESSAGE value="- added new model  (product)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added new model  (product)" />
+    <MESSAGE value="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)" />
   </component>
 </project>

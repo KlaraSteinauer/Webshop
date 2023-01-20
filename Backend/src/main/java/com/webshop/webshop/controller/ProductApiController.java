@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductApiController {
     private ProductRepository productRepository;
     public ProductApiController(ProductRepository productRepository){this.productRepository = productRepository;}
+
+
 //    @PostMapping("/register")
 //    public UserModel register(@Valid UserRequestDTO request, BindingResult bindingResult) {
 //        if(bindingResult.hasErrors()){

@@ -1,19 +1,22 @@
 package com.webshop.webshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
     private String lastName;
+    @Column
     private String firstName;
+    @Column
     private String userName;
+    @Column
     private String userPassword;
+    @Column
     boolean isAdmin;
 
     public User(Long id, String lastName, String firstName, String userName, String userPassword, boolean isAdmin) {

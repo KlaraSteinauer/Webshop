@@ -10,4 +10,8 @@ public class WebshopApplication {
 		SpringApplication.run(WebshopApplication.class, args);
 	}
 
+	public void run(String... args) throws Exception {
+
+	}
+
 }

@@ -2,69 +2,14 @@
     box-sizing: border-box;
 }
 
-/** Breakpoint Smartphone: 576px+ */
-@media (min-width: 36em) {}
-
-/** Breakpoint Tablett: 768px+ */
-@media (min-width: 48em) {}
-
-/** Breakpoint PC Screen: 1200px+ */
-@media (min-width: 75em) {}
-
-
-html {
-    font-size: 1em;
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+    border: 1px solid red;
 }
 
-a:hover {
-    color: green;
-}
-
-a {
-    text-decoration: none;
-    font-style: italic;
-    color: black;
-}
-
-h1,
-h2,
-p {
-    margin: 0;
-}
-
-h4 {
-    margin-bottom: 0.3rem;
-}
-
-body {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-footer {
-    text-align: center;
-}
-
-label{
-    display: inline-block;
-    width: 6.6rem;
-}
-
-.container {
-    background-image: url(/Frontend/images/spices2.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.transparent {
-    max-width: 75rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.index_login_list {
-    list-style-type: none;
-    padding: 0;
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }

@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/Frontend/styles/styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <title>Help</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="transparent">
+    <div class="row" class="col-12"><header>Header</header></div>
             <h1>Contact</h1>
             <p>Sie haben Fragen zu unseren Blümchen oder einer Bestellung? <br>
-                &#10049; &#10048; &#10047; Zögern Sie nicht und kontaktieren Sie uns jederzeit &#10047; &#10048; &#10049;</p>
+                Zögern Sie nicht und kontaktieren Sie uns jederzeit</p>
             <form method="post" action="./index.html">
-                <ul class="index_login_list">
                     <li><label for="fname">Vorname:</label>
                         <input type="text" name="fname" id="fname">
                     </li>
@@ -32,16 +32,16 @@
                     <li><input type="checkbox" name="checkbox" id="check">
                         <label for="check">AGB akzeptiert.</label>
                     </li>
-                </ul>
                 <button type="submit">
                     Absenden
                 </button>
                 <button type="reset">
                     Reset
                 </button>
-            </form>
-            <a href="/Frontend/src/index.html">Home</a>
+            </form>  
         </div>
-    </div>
 </body>
+<footer class="row" class="col-12">
+    <a href="/Frontend/src/index.html">Home</a>
+</footer>
 </html>

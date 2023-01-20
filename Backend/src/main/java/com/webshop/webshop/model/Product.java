@@ -1,18 +1,19 @@
 package com.webshop.webshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
     private String productName;
+    @Column
     private String productDescription;
+    @Column
     private String productImageUrl;
+    @Column
     private double productPrice;
 
     public Product(Long id, String productName, String productDescription, String productImageUrl, double productPrice) {
