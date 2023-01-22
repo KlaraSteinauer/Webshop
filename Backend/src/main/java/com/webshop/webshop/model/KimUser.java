@@ -1,10 +1,9 @@
 package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class User {
+public class KimUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,7 +18,7 @@ public class User {
     @Column
     boolean isAdmin;
 
-    public User(Long id, String lastName, String firstName, String userName, String userPassword, boolean isAdmin) {
+    public KimUser(Long id, String lastName, String firstName, String userName, String userPassword, boolean isAdmin) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -28,7 +27,7 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public User(){
+    public KimUser(){
 
     }
 
