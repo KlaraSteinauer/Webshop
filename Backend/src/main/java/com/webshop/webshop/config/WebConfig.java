@@ -14,4 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .allowedOrigins("*");
     }
+
+    //Mit CorsMapping wird sichergestellt, dass der Request von JS zum Endpoint ins Backend kommt.
+    //Hauptaufgabe des CorsMapping ist den Request sicherzustellen, nichts weiter passiert hier.
+    //Der Request kommt beim Controller im Backend an und wird dann weiter im Backend verarbeitet.
 }

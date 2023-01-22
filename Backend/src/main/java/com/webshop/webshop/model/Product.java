@@ -2,6 +2,7 @@ package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
+// TODO implement lombok
 @Entity
 public class Product {
     @Id
@@ -16,8 +17,7 @@ public class Product {
     @Column
     private double productPrice;
 
-    public Product(Long id, String productName, String productDescription, String productImageUrl, double productPrice) {
-        this.id = id;
+    public Product(String productName, String productDescription, String productImageUrl, double productPrice) {
         this.productName = productName;
         this.productDescription = productDescription;
         this.productImageUrl = productImageUrl;
