@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
  html{
-  font: 1em;
+  font: 1em;  
  }
 .row::after {
   content: "";
@@ -24,7 +24,7 @@ styling in rem (1rem = 16px)
 /* For mobile phones: */
 [class*="col-"] {
   float: left;
-  padding: 2.5rem;
+  padding: 0.0rem;
 }
 
 /* For tablets: */
@@ -40,6 +40,10 @@ Dunkelrot: (196,45,45)
 Rot: rgb(255, 76, 57); #ff4c39
 Grün: rgb(127, 198, 66); #7fc642
 */
+
+.container-fluid{
+  padding: 2.5rem;
+}
 
 .index_login_list{
   list-style: none;
