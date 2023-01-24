@@ -24,7 +24,7 @@ styling in rem (1rem = 16px)
 /* For mobile phones: */
 [class*="col-"] {
   float: left;
-  padding: 1.5rem;
+  padding: 2.5rem;
 }
 
 /* For tablets: */
