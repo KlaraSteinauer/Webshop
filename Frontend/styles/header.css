@@ -1,83 +1,47 @@
-* {
-    box-sizing: border-box;
-  }
-   html{
-    font: 1em;
-   }
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  
-  /*
-  .col (portrait phone -extra small devices – screen width unter 576px)• 
-  .col-sm- (landscape phone- screen width gleich oder größer 576px)
-  .col-md- (tablets - screen gleich oder größer 768px)
-  .col-lg- (laptops - screen gleich oder größer 992px)
-  .col-xl- (laptops&pc - screen width gleich oder größer 1200px)
-  
-  font-size in em (1em = 16px)
-  styling in rem (1rem = 16px)
-  */
-  /* For mobile phones: */
-  [class*="col-"] {
-    padding: 1rem;
-  }
-  
-  /* For tablets: */
-  @media only screen and (min-width: 768px) {}
-  
-  /* For desktop: */
-  @media only screen and (min-width: 992px) {}
-  
-  /*
-  Dunkelblau: rgb(2, 33, 53); #022135
-  Hellblau: rgb(125,204,255)
-  Dunkelrot: (196,45,45)
-  Rot: rgb(255, 76, 57); #ff4c39
-  Grün: rgb(127, 198, 66); #7fc642
-  */
 
-  
 .logo_black-bg {
-    width: 4.5rem;
-  }
-  
-.navbar-nav{
+  width: 4.5rem;
+}
+
+.navbar-nav {
   display: none;
 }
 
 /* For tablets: */
 @media only screen and (min-width: 768px) {
-  .navbar-nav{
-    display: contents;
-  }
-}
-  
-/* For desktop: */
-@media only screen and (min-width: 992px) {
-  .navbar-nav{
+  .navbar-nav {
     display: contents;
   }
 }
 
-  .navbar-dark {
-    --bs-navbar-color: rgba(255, 255, 255);
-    --bs-navbar-hover-color: rgba(240, 249, 255, 0.75);
-    --bs-navbar-disabled-color: rgba(240, 249, 255, 0.25);
-    --bs-navbar-active-color: #fff;
-    --bs-navbar-brand-color: #fff;
-    --bs-navbar-brand-hover-color: #fff;
-    --bs-navbar-toggler-border-color: rgba(240, 249, 255, 0.1);
+/* For desktop: */
+@media only screen and (min-width: 992px) {
+  .navbar-nav {
+    display: contents;
   }
-  
-  .bg-dark-navbar {
-    --bs-bg-opacity: 1;
-    background-color: rgb(2, 33, 53)
-  }
-  
-  .nav-item {
-    font-weight: bold;
-    font-size: 1em;
+}
+
+.navbar-dark {
+  --bs-navbar-color: rgba(255, 255, 255);
+  --bs-navbar-hover-color: rgba(240, 249, 255, 0.75);
+  --bs-navbar-disabled-color: rgba(240, 249, 255, 0.25);
+  --bs-navbar-active-color: #fff;
+  --bs-navbar-brand-color: #fff;
+  --bs-navbar-brand-hover-color: #fff;
+  --bs-navbar-toggler-border-color: rgba(240, 249, 255, 0.1);
+}
+
+.bg-dark-navbar {
+  --bs-bg-opacity: 1;
+  background-color: rgb(2, 33, 53)
+}
+
+.nav-item {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+  .dropdown {
+    display: block;
+    align-items: flex-end;
   }
