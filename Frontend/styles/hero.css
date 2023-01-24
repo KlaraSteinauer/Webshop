@@ -9,11 +9,15 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+    align-items: center;
   }
 
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
     .spices.jpg{
       font-size: 3.5rem;
+      align-items: stretch;
+      width:100%;
+      height: auto;
     }
   }
 
