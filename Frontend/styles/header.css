@@ -44,6 +44,24 @@
     width: 4.5rem;
   }
   
+.navbar-nav{
+  display: none;
+}
+
+/* For tablets: */
+@media only screen and (min-width: 768px) {
+  .navbar-nav{
+    display: contents;
+  }
+}
+  
+/* For desktop: */
+@media only screen and (min-width: 992px) {
+  .navbar-nav{
+    display: contents;
+  }
+}
+
   .navbar-dark {
     --bs-navbar-color: rgba(255, 255, 255);
     --bs-navbar-hover-color: rgba(240, 249, 255, 0.75);
