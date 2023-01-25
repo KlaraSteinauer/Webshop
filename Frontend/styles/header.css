@@ -16,6 +16,7 @@ body {
   --bs-navbar-padding-x: 0;
   --bs-navbar-padding-y: 0;
   padding-bottom: 0.5rem;
+  padding-right: 2.5rem;
 }
 
 .navbar_logo {
