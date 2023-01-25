@@ -1,9 +1,14 @@
 * {
   box-sizing: border-box;
 }
- html{
-  font: 1em;  
- }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .row::after {
   content: "";
   clear: both;
@@ -43,7 +48,9 @@ Grün: rgb(127, 198, 66); #7fc642
 
 .borders-main-content{
   padding: 2rem;
+  margin-top: 7rem;
 }
+
 .index_login_list{
   list-style: none;
 }
@@ -51,12 +58,3 @@ Grün: rgb(127, 198, 66); #7fc642
 .index_help_list{
   list-style: none;
 }
-
-html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0px;
-      padding: 0px;
-      overflow-x: hidden;
-    }
