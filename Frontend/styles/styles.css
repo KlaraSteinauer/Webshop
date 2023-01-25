@@ -41,10 +41,9 @@ Rot: rgb(255, 76, 57); #ff4c39
 Grün: rgb(127, 198, 66); #7fc642
 */
 
-.container-fluid{
-  padding: 2.5rem;
+.borders-main-content{
+  padding: 2rem;
 }
-
 .index_login_list{
   list-style: none;
 }
