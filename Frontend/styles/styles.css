@@ -46,15 +46,31 @@ Rot: rgb(255, 76, 57); #ff4c39
 Grün: rgb(127, 198, 66); #7fc642
 */
 
-.borders-main-content{
+.borders-main-content {
   padding: 2rem;
   margin-top: 7rem;
 }
 
-.index_login_list{
+.bg-registration{
+  background: url(../images/spices2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-transparent{
+  background-color: rgba(255,255,255,0.4) !important;
+}
+
+.index_login_list {
   list-style: none;
 }
 
-.index_help_list{
+.index_help_list {
   list-style: none;
+}
+
+@media (max-width: 768px) {
+  .no-display-sm {
+    display: none;
+  }
 }
