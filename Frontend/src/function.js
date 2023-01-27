@@ -14,11 +14,11 @@ $("#createProductButton").on("click", e => {
         contentType: "application/json",
         data: JSON.stringify(product),
         success: console.log,
-        error: console.error();
+        error: console.error()
     });
 });
 
-$("#getProductsButton").on("click", function (e)){
+$("#getProductsButton").on("click", function (e){
     $ajax({
         url: "http://localhost:8080/products",
         type: "GET",
@@ -26,4 +26,4 @@ $("#getProductsButton").on("click", function (e)){
         success: function (products) { addProductsToPage(products) },
         error: function (error) { console.error(error) }
     })
-};
+});
