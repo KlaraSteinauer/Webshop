@@ -57,3 +57,15 @@ body {
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 }
+
+@media (max-width: 991.98px) {
+  .home-svg-display-large {
+    display: none;
+  }
+}
+
+@media (min-width: 991.99px) {
+  .home-svg-display-small {
+    display: none;
+  }
+}

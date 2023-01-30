@@ -19,7 +19,9 @@
     <div class="container-fluid">
         <main>
             <div class="py-5 text-center">
-                <img class="d-block mx-auto mb-4" src="../images/logo_v2.1.png" alt="Logo" width="150rem">
+                <a href="../src/home.html">
+                    <img class="d-block mx-auto mb-4" src="../images/logo_v2.1.png" alt="Logo" width="150rem">
+                </a>
                 <h2>Warenkorb</h2>
                 <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required
                     form group has a validation state that can be triggered by attempting to submit the form without
@@ -27,7 +29,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-5 col-lg-4 order-md-last px-2">
+                <div class="col-md-5 col-lg-4 order-md-last p-3">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Ihr Warenkorb</span>
                         <span class="badge bg-primary rounded-pill">3</span>
@@ -160,12 +162,14 @@
 
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="same-address">
-                            <label class="form-check-label" for="same-address">Rechnungsadresse ist gleich wie die Lieferadresse</label>
+                            <label class="form-check-label" for="same-address">Rechnungsadresse ist gleich wie die
+                                Lieferadresse</label>
                         </div>
 
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="save-info">
-                            <label class="form-check-label" for="save-info">Informationen für den nächsten Einkauf speichern</label>
+                            <label class="form-check-label" for="save-info">Informationen für den nächsten Einkauf
+                                speichern</label>
                         </div>
 
                         <hr class="my-4">
@@ -188,7 +192,7 @@
                             </div>
                         </div>
 
-                        <div class="row gy-3">
+                        <div class="row">
                             <div class="col-md-6 p-1">
                                 <label for="cc-name" class="form-label">Name auf der Karte</label>
                                 <input type="text" class="form-control" id="cc-name" placeholder="" required>
@@ -225,7 +229,7 @@
 
                         <hr class="my-4">
 
-                        <button class="w-100 btn btn-primary btn-lg" type="submit">Bestellung abschließen</button>
+                        <button class="w-100 btn btn-checkout btn-lg" type="submit">Bestellung abschließen</button>
                     </form>
                 </div>
             </div>
@@ -239,7 +243,7 @@
                 <h3>ÜBER UNS</h3>
                 <ul>
                     <li><a href="./impressum.html">Unternehmen</a></li>
-                    <li><a href="./help.html">Kontakt</a></li>
+                    <li><a href="./help.html">Hilfe</a></li>
                     <li><a href="#">Team</a></li>
                     <li><a href="#">Karriere</a></li>
                     <br>
