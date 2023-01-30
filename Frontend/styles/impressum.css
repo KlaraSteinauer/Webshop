@@ -1,41 +1,10 @@
 body {
-    color: rgb(240, 249, 255);
+    color: rgb(2,33,53);
     background-color: rgb(2, 33, 53);
+    line-height: 1em;
+}
+
+.row>* {
     padding: 0;
     margin: 0;
-}
-
-h1,
-{
-    font-weight: bold;
-    font-size: 1.5em;
-}
-
-h2,
-{
-    font-weight: bold;
-    font-size: 2em;
-}
-
-ul {
-    list-style: none;
-    line-height: 1.6;
-    font-size: 0.80em;
-}
-
-ul a {
-    color: inherit;
-    text-decoration: none;
-    opacity: 0.6;
-}
-
-ul a:hover {
-    opacity: 0.8;
-}
-
-p {
-    opacity: 0.6;
-    list-style: none;
-    line-height: 1.6;
-    font-size: 0.80em;
 }
