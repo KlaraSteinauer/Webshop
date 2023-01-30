@@ -1,4 +1,34 @@
 .accordion-button:not(.collapsed) {
-    color: var(--bs-accordion-active-color);
-    box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+    color: #022135;
+    box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(#022135);
 }
+
+.accordion {
+    --bs-accordion-color: var(--bs-body-color);
+    --bs-accordion-bg: var(--bs-body-bg);
+    --bs-accordion-transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,border-radius 0.15s ease;
+    --bs-accordion-border-color: :not;
+    --bs-accordion-btn-color: var(--bs-body-color);
+    --bs-accordion-btn-bg: var(--bs-accordion-bg);
+    --bs-accordion-btn-focus-border-color: rgba(2, 33, 53, 0.5);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25remrgba(2, 33, 53, 0.25);
+    --bs-accordion-active-color: rgba(2, 33, 53, 0.5);
+    --bs-accordion-active-bg: rgba(2, 33, 53, 0.5);
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #022135;
+    --bs-btn-border-color: #022135;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgba(2, 33, 53, 0.5);
+    --bs-btn-hover-border-color: rgba(2, 33, 53, 0.5);
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #022135;
+    --bs-btn-active-border-color: #022135;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #022135;
+    --bs-btn-disabled-border-color: #022135;
+  }
