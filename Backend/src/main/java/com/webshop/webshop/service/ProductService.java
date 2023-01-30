@@ -21,5 +21,10 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return (List<Product>) productRepository.findAll();
     }
+    public List<Product> findByType(String description) {
+        return (List<Product>) productRepository.findByProductDescription(description);}
+
+    public Product save(Product product) {
+        return  productRepository.save(product);}
 
 }

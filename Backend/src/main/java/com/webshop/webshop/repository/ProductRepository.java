@@ -1,15 +1,20 @@
 package com.webshop.webshop.repository;
 
-import com.webshop.webshop.model.Product;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+        import com.webshop.webshop.model.Product;
+        import org.springframework.data.jpa.repository.JpaRepository;
+        import org.springframework.stereotype.Repository;
 
-import java.util.List;
+        import java.util.List;
 
 //Enthält alle "einfachen" Funktionen die mit der Datenbank verbunden sind.
-//Ähnlich den SQL Statements.(select/insert/delte/update)
+//Ähnlich den SQL Statements.(select/insert/delete/update)
 
-public interface ProductRepository extends CrudRepository<Product, Long> {
+
+//JpaRepository extends CrudRepository (kind of)
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    List<Product> findByProductDescription(String productDescription);
 
 
 }
