@@ -12,7 +12,7 @@ import java.util.List;
 //Controller erhält den Request vom Frontend und sendet die Informationen weiter an das Service.
 @RestController
 @RequestMapping("/product")
-public class ProductApiController {
+public class ProductController {
 
     /*@Autowired
     private ProductRepository repo;
@@ -42,7 +42,7 @@ public class ProductApiController {
 
 
         private ProductService productService;
-    public ProductApiController(ProductService productService) {
+    public ProductController(ProductService productService) {
             this.productService = productService;
         }
 

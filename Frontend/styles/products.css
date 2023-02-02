@@ -13,16 +13,16 @@
 }
 
 .btn-carousel {
-    --bs-btn-color: rgba(2, 33, 53, 0.5);
-    --bs-btn-border-color: rgba(2, 33, 53, 0.5);
+    --bs-btn-color: rgba(2, 33, 53);
+    --bs-btn-border-color: rgba(2, 33, 53);
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: rgba(2, 33, 53, 0.5);
     --bs-btn-hover-border-color: rgba(2, 33, 53, 0.5);
     --bs-btn-focus-shadow-rgb: 108, 117, 125;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: rgba(2, 33, 53, 0.5);
+    --bs-btn-active-bg: rgba(2, 33, 53);
     ;
-    --bs-btn-active-border-color: rgba(2, 33, 53, 0.5);
+    --bs-btn-active-border-color: rgba(2, 33, 53);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: rgba(2, 33, 53, 0.5);
     --bs-btn-disabled-bg: transparent;
@@ -30,7 +30,97 @@
     --bs-gradient: none
 }
 
+.btn-carousel-small {
+    --bs-btn-color: rgba(2, 33, 53);
+    --bs-btn-border-color: rgba(2, 33, 53);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgba(2, 33, 53);
+    --bs-btn-hover-border-color: rgba(2, 33, 53);
+    --bs-btn-focus-shadow-rgb: 108, 117, 125;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: rgba(2, 33, 53);
+    --bs-btn-active-border-color: rgba(2, 33, 53);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: rgba(2, 33, 53);
+    --bs-btn-disabled-border-color: rgba(2, 33, 53);
+    --bs-gradient: none
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #022135;
+    --bs-btn-border-color: #022135;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgba(2, 33, 53, 0.5);
+    --bs-btn-hover-border-color: rgba(2, 33, 53, 0.5);
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #022135;
+    --bs-btn-active-border-color: #022135;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #022135;
+    --bs-btn-disabled-border-color: #022135;
+}
 
 .carousel-indicators [data-bs-target] {
     background-color: rgba(2, 33, 53)
+}
+
+@media (max-width: 991.98px) {
+    .products-display-large {
+        display: none;
+    }
+}
+
+@media (min-width: 991.99px) {
+    .products-display-small {
+        display: none;
+    }
+}
+
+
+.card-body{
+    height: 14rem;
+}
+
+.card-content{
+    height: 9rem;
+    margin-bottom: 1rem;
+}
+
+.btn-center{
+    text-align: center;
+}
+
+@media (max-width: 991.98px) {
+    .d-flex {
+        flex-direction: column;
+    }
+
+    .card {
+        margin: 2rem;
+        width: 15rem;
+    }
+
+    .card-img-top {
+        height: 8rem;
+        object-fit: cover;
+    }
+}
+
+@media (min-width: 991.99px) {
+    .d-flex {
+        flex-direction: row;
+    }
+
+    .card {
+        margin: 4rem;
+        width: 20rem;
+    }
+
+    .card-img-top {
+        height: 8rem;
+        object-fit: cover;
+    }
 }

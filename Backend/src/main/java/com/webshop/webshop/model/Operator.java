@@ -2,23 +2,24 @@ package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
-@Entity
-public class KimUser {
+@Entity(name = "user")
+public class Operator {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-    @Column
+    @Column(name = "lastname")
     private String lastName;
-    @Column
+    @Column(name = "firstname")
     private String firstName;
-    @Column
+    @Column(name = "username")
     private String userName;
-    @Column
+    @Column(name = "password")
     private String userPassword;
-    @Column
+    @Column(name = "admin")
     boolean isAdmin;
 
-    public KimUser(Long id, String lastName, String firstName, String userName, String userPassword, boolean isAdmin) {
+    public Operator(Long id, String lastName, String firstName, String userName, String userPassword, boolean isAdmin) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -27,7 +28,7 @@ public class KimUser {
         this.isAdmin = isAdmin;
     }
 
-    public KimUser(){
+    public Operator() {
 
     }
 

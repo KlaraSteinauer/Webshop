@@ -2,6 +2,7 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +22,18 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return (List<Product>) productRepository.findAll();
     }
+
     public List<Product> findByType(String description) {
-        return (List<Product>) productRepository.findByProductDescription(description);}
+        return (List<Product>) productRepository.findByProductDescription(description);
+    }
 
     public Product save(Product product) {
-        return  productRepository.save(product);}
+        //hier muss/sollte man nochmals validieren
+        String name = product.getProductName();
+        if (name == null || name.isBlank()) {
+            throw new EntityNotFoundException();
+        }
+        return productRepository.save(product);
+    }
 
 }
