@@ -6,68 +6,91 @@ import jakarta.persistence.*;
 //Gibt mir die gespeicherten Werte der Datenbank oder fügt/ändert neue Objekte zur Datenbank. ("Vorlage" für Datenbankobjekte)
 
 // TODO implement lombok
-@Entity(name="product")
-public class Product {
+@Entity(name = "product")
+public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name="name")
-    private String productName;
-    @Column(name="description")
+    @Column(name = "name")
+    private String productTitle;
+    @Column(name = "description")
     private String productDescription;
-    @Column(name="image_url")
+    @Column(name = "image_url")
     private String productImageUrl;
-    @Column(name="price")
+    @Column(name = "price")
     private double productPrice;
+    @Column(name = "amount")
+    private int productAmount;
+    @Column(name = "category")
+    private String productCategory;
 
-    public Product(String productName, String productDescription, String productImageUrl, double productPrice) {
-        this.productName = productName;
+    public ProductModel(String productTitle, String productDescription, String productImageUrl, double productPrice, int productAmount, String productCategory) {
+        this.productTitle = productTitle;
         this.productDescription = productDescription;
         this.productImageUrl = productImageUrl;
         this.productPrice = productPrice;
+        this.productAmount = productAmount;
+        this.productCategory = productCategory;
     }
 
-    public Product(){
+    public ProductModel() {
 
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public String getProductTitle() {
+        return productTitle;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
-
-    public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
-    }
-
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public String getProductName() {
-        return productName;
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 
     public String getProductDescription() {
         return productDescription;
     }
 
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
     public String getProductImageUrl() {
         return productImageUrl;
     }
 
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
     public double getProductPrice() {
         return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public int getProductAmount() {
+        return productAmount;
+    }
+
+    public void setProductAmount(int productAmount) {
+        this.productAmount = productAmount;
+    }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 }
