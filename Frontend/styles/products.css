@@ -80,22 +80,23 @@
 }
 
 
-.card-body{
+.card-body {
     height: 14rem;
 }
 
-.card-content{
+.card-content {
     height: 9rem;
     margin-bottom: 1rem;
 }
 
-.btn-center{
+.btn-center {
     text-align: center;
 }
 
 @media (max-width: 991.98px) {
     .d-flex {
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
     }
 
@@ -113,6 +114,7 @@
 @media (min-width: 991.99px) {
     .d-flex {
         flex-direction: row;
+        justify-content: space-between;
         align-items: center;
     }
 
@@ -126,7 +128,3 @@
         object-fit: cover;
     }
 }
-
-#section-salt-pepper
-#section-herbs
-#section-sweetener
