@@ -2,7 +2,7 @@ package com.webshop.webshop.requestDTO;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class OperatorRequestDTO {
+public class CustomerRequestDTO {
     @NotBlank
     private String lastName;
     @NotBlank

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 
 // TODO implement lombok
 @Entity(name = "product")
-public class ProductModel {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -25,7 +25,7 @@ public class ProductModel {
     @Column(name = "category")
     private String productCategory;
 
-    public ProductModel(String productTitle, String productDescription, String productImageUrl, double productPrice, int productAmount, String productCategory) {
+    public Product(String productTitle, String productDescription, String productImageUrl, double productPrice, int productAmount, String productCategory) {
         this.productTitle = productTitle;
         this.productDescription = productDescription;
         this.productImageUrl = productImageUrl;
@@ -34,7 +34,7 @@ public class ProductModel {
         this.productCategory = productCategory;
     }
 
-    public ProductModel() {
+    public Product() {
 
     }
 

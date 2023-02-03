@@ -1,12 +1,12 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.repository.OperatorRepository;
+import com.webshop.webshop.repository.CustomerRepository;
 
-public class OperatorService {
+public class CustomerService {
 
-    private OperatorRepository operatorRepository;
+    private CustomerRepository operatorRepository;
 
-    public OperatorService(OperatorRepository operatorRepository) {
+    public CustomerService(CustomerRepository operatorRepository) {
         this.operatorRepository = operatorRepository;
     }
 }
