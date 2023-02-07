@@ -51,26 +51,54 @@ Grün: rgb(127, 198, 66); #7fc642
   margin-top: 7rem;
 }
 
-.bg-picture{
+.bg-picture {
   background: url(../images/spices2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.bg-transparent{
-  background-color: rgba(255,255,255,0.4) !important;
+.bg-transparent {
+  background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.index_login_list {
-  list-style: none;
+.bg-transparent-box {
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.index_help_list {
-  list-style: none;
+body {
+  font-family: 'Exo', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Indie Flower', cursive;
+}
+
+a {
+  color: rgb(196, 45, 45);
+}
+
+a:hover {
+  color: #ff4c39;
 }
 
 @media (max-width: 768px) {
   .no-display-sm {
     display: none;
   }
+}
+
+.form-check-input:focus {
+  border-color: rgba(2, 33, 53, 0.2);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(2, 33, 53, 0.1)
+}
+
+.form-check-input:checked {
+  background-color: #022135;
+  border-color: #022135
 }

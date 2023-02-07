@@ -92,3 +92,8 @@
     display: none;
   }
 }
+
+option:focus {
+  background-color: #022135;
+  color: white;
+}

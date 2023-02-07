@@ -6,7 +6,7 @@
 .accordion {
     --bs-accordion-color: var(--bs-body-color);
     --bs-accordion-bg: var(--bs-body-bg);
-    --bs-accordion-transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,border-radius 0.15s ease;
+    --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
     --bs-accordion-border-color: :not;
     --bs-accordion-btn-color: var(--bs-body-color);
     --bs-accordion-btn-bg: var(--bs-accordion-bg);
@@ -31,4 +31,5 @@
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: #022135;
     --bs-btn-disabled-border-color: #022135;
-  }
+}
+
