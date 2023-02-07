@@ -1,41 +1,43 @@
 package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-@Entity
+@Entity(name="shoppingCart")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "shoppingcartID")
-    private Long shoppingcartID;
-    @Column(name = "shoppingcart")
-    private List<Product> shoppingcartProducts;
+    @Column(name = "shoppingCartID")
+    private Long shoppingCartID;
+    @ManyToMany
+    @JoinTable(name="cartProduct",
+    joinColumns=@JoinColumn(name = "cartsId", referencedColumnName = "shoppingCartID"),
+    inverseJoinColumns = @JoinColumn(name = "productsID", referencedColumnName = "productID"))
+    private List<Product> shoppingCartProducts;
 
-    public List<Product> getShoppingcartProducts() {
-        return shoppingcartProducts;
+    public List<Product> getShoppingCartProducts() {
+        return shoppingCartProducts;
     }
 
-    public void setShoppingcartProducts(List<Product> shoppingcartProducts) {
-        this.shoppingcartProducts = shoppingcartProducts;
+    public void setShoppingCartProducts(List<Product> shoppingCartProducts) {
+        this.shoppingCartProducts = shoppingCartProducts;
     }
 
-    public ShoppingCart(Long shoppingcartID, List<Product> shoppingcartProducts) {
-        this.shoppingcartID = shoppingcartID;
-        this.shoppingcartProducts = shoppingcartProducts;
+    public ShoppingCart(Long shoppingCartID, List<Product> shoppingCartProducts) {
+        this.shoppingCartID = shoppingCartID;
+        this.shoppingCartProducts = shoppingCartProducts;
     }
 
     public ShoppingCart() {
     }
 
-    public Long getShoppingcartID() {
-        return shoppingcartID;
+    public Long getShoppingCartID() {
+        return shoppingCartID;
     }
 
-    public void setShoppingcartID(Long shoppingcartID) {
-        this.shoppingcartID = shoppingcartID;
+    public void setShoppingCartID(Long shoppingCartID) {
+        this.shoppingCartID = shoppingCartID;
     }
 
 }

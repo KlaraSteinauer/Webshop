@@ -10,13 +10,13 @@ import jakarta.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "productID")
     private Long id;
     @Column(name = "name")
     private String productTitle;
     @Column(name = "description")
     private String productDescription;
-    @Column(name = "image_url")
+    @Column(name = "imageURL")
     private String productImageUrl;
     @Column(name = "price")
     private double productPrice;

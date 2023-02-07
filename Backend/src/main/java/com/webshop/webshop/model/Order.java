@@ -8,11 +8,10 @@ public class Order<T> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
     private Long orderID;
-    @OneToOne
-    @JoinColumn(name = "client_id")
+    @Column(name = "client_id")
     private Customer client;
-    @OneToOne
-    @JoinColumn(name = "shopping_cart_shoppingcart_id")
+
+    @Column(name = "shopping_cart_shoppingcart_id")
     private ShoppingCart shoppingCart;
     @Column(name = "order_status")
     private String orderStatus;
