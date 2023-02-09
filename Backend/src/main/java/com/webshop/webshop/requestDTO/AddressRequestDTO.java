@@ -58,4 +58,5 @@ public class AddressRequestDTO {
     public void setCountry(String country) {
         this.country = country;
     }
+
 }

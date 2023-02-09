@@ -9,14 +9,21 @@ import org.hibernate.validator.constraints.Length;
 //3. Im DTO findet die validierung der Attribute statt! NICHT im Model.
 public class ProductRequestDTO {
     @NotBlank
-    @Length(min=2, max=100)
+    @Length(min = 2, max = 64)
     private String productName;
+    @Length(max = 512)
     private String productDescription;
     private String productImageUrl;
+    @NotBlank
     @DecimalMin("0.01")
     private double productPrice;
+    @NotBlank
     @Min(0)
     private int productQuantity;
+    @NotBlank
+    //@Enum
+    private String productCategory;
+
 
     public String getProductName() {
         return productName;
@@ -50,7 +57,19 @@ public class ProductRequestDTO {
         this.productPrice = productPrice;
     }
 
-    public int getProductQuantity() { return productQuantity;}
+    public int getProductQuantity() {
+        return productQuantity;
+    }
 
-    public void setProductQuantity(int productQuantity) {this.productQuantity = productQuantity;}
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
 }

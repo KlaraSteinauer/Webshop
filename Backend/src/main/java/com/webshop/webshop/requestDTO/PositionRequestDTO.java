@@ -1,4 +1,3 @@
 package com.webshop.webshop.requestDTO;
-
-public class AdminRequestDTO {
+public class PositionRequestDTO {
 }

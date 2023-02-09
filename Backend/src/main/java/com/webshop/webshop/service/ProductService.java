@@ -29,7 +29,7 @@ public class ProductService {
 
     public Product save(Product product) {
         //hier muss/sollte man nochmals validieren
-        String name = product.getProductTitle();
+        String name = product.getProductName();
         if (name == null || name.isBlank()) {
             throw new EntityNotFoundException();
         }

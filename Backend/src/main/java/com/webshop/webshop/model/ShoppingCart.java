@@ -1,43 +1,65 @@
 package com.webshop.webshop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity(name="shoppingCart")
+@Entity(name="shopping_cart")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "shoppingCartID")
-    private Long shoppingCartID;
+    @Column(name = "shopping_cart_id")
+    private Long shoppingCartId;
+
+    @ManyToOne
+    @JoinColumn(name="shopping_cart_user")
+    private KimUser shoppingCartUser;
+
+
+    @OneToMany(mappedBy = "shoppingCart")
+    @JsonBackReference
+    private List<Position> shoppingCartPositions;
+
+/*WTF IS THIS?
     @ManyToMany
     @JoinTable(name="cartProduct",
     joinColumns=@JoinColumn(name = "cartsId", referencedColumnName = "shoppingCartID"),
     inverseJoinColumns = @JoinColumn(name = "productsID", referencedColumnName = "productID"))
-    private List<Product> shoppingCartProducts;
 
-    public List<Product> getShoppingCartProducts() {
-        return shoppingCartProducts;
-    }
+     */
 
-    public void setShoppingCartProducts(List<Product> shoppingCartProducts) {
-        this.shoppingCartProducts = shoppingCartProducts;
-    }
-
-    public ShoppingCart(Long shoppingCartID, List<Product> shoppingCartProducts) {
-        this.shoppingCartID = shoppingCartID;
-        this.shoppingCartProducts = shoppingCartProducts;
+    public ShoppingCart(Long shoppingCartId, KimUser shoppingCartUser,
+                        List<Position> shoppingCartPositions) {
+        this.shoppingCartId = shoppingCartId;
+        this.shoppingCartUser = shoppingCartUser;
+        this.shoppingCartPositions = shoppingCartPositions;
     }
 
     public ShoppingCart() {
     }
 
-    public Long getShoppingCartID() {
-        return shoppingCartID;
+    public Long getShoppingCartId() {
+        return shoppingCartId;
     }
 
-    public void setShoppingCartID(Long shoppingCartID) {
-        this.shoppingCartID = shoppingCartID;
+    public void setShoppingCartId(Long shoppingCartId) {
+        this.shoppingCartId = shoppingCartId;
     }
 
+    public KimUser getShoppingCartUser() {
+        return shoppingCartUser;
+    }
+
+    public void setShoppingCartUser(KimUser shoppingCartUser) {
+        this.shoppingCartUser = shoppingCartUser;
+    }
+
+    public List<Position> getShoppingCartPositions() {
+        return shoppingCartPositions;
+    }
+
+    public void setShoppingCartPositions(List<Position> shoppingCartPositions) {
+        this.shoppingCartPositions = shoppingCartPositions;
+    }
 }

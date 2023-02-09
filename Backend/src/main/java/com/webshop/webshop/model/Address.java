@@ -1,8 +1,13 @@
 package com.webshop.webshop.model;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
+@Entity(name="address")
 public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "address_id")
+    private Long addressId;
     @Column(name = "street")
     private String street;
     @Column (name="number")
@@ -62,5 +67,13 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 }
