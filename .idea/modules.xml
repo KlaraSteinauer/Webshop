@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/webshop/Backend.iml" filepath="$PROJECT_DIR$/webshop/Backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Webshop.iml" filepath="$PROJECT_DIR$/.idea/Webshop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Backend/webshop.iml" filepath="$PROJECT_DIR$/Backend/webshop.iml" />
     </modules>
   </component>
 </project>

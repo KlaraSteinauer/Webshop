@@ -1,5 +1,7 @@
 package com.webshop.webshop;
 
+import com.webshop.webshop.model.Address;
+import com.webshop.webshop.model.Person;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

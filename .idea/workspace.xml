@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/webshop/webshop/config/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/help.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/impressum.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/impressum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/styles/hero.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/styles/hero.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +26,9 @@
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -51,7 +52,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Library",
+    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Webshop/Backend",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"

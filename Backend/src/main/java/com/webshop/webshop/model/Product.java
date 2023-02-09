@@ -1,6 +1,8 @@
 package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 //Ist das Kernobjekt der Datenbank.
 //Gibt mir die gespeicherten Werte der Datenbank oder fügt/ändert neue Objekte zur Datenbank. ("Vorlage" für Datenbankobjekte)

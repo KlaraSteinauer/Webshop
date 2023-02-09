@@ -2,6 +2,7 @@ package com.webshop.webshop.controller;
 
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class ProductController {
             return new ResponseEntity<>(typeProducts, HttpStatus.OK);
         }
         @PostMapping //Endpunkt
-        public ResponseEntity<Product> createProduct (@RequestBody Product product){
+        public ResponseEntity<Product> createProduct (@RequestBody @Valid Product product){
             product = productService.save(product);
             return ResponseEntity.created(URI.create("http://localhost:8080/product")).body(product);
         }
