@@ -3,9 +3,9 @@ package com.webshop.webshop.service;
 import com.webshop.webshop.repository.KimUserRepository;
 
 public class KimUserService {
-    private KimUserRepository operatorRepository;
+    private KimUserRepository kimUserRepository;
 
-    public KimUserService(KimUserRepository operatorRepository) {
-        this.operatorRepository = operatorRepository;
+    public KimUserService(KimUserRepository kimUserRepository) {
+        this.kimUserRepository = kimUserRepository;
     }
 }
