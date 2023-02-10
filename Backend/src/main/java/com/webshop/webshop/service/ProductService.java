@@ -19,14 +19,6 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts() {
-        return (List<Product>) productRepository.findAll();
-    }
-
-    public List<Product> findByType(String description) {
-        return (List<Product>) productRepository.findByProductDescription(description);
-    }
-
     public Product save(Product product) {
         //hier muss/sollte man nochmals validieren
         String name = product.getProductName();
@@ -35,5 +27,20 @@ public class ProductService {
         }
         return productRepository.save(product);
     }
+
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    public List<Product> getAllProducts() {
+        return (List<Product>)productRepository.findAll();
+    }
+
+
+
+    public List<Product> findByType(String description) {
+        return productRepository.findByProductDescription(description);
+    }
+
 
 }
