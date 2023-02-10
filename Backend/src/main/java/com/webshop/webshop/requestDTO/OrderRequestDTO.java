@@ -1,4 +1,6 @@
-package com.webshop.webshop.requestDTO;
+/*package com.webshop.webshop.requestDTO;
 
 public class OrderRequestDTO {
 }
+
+ */

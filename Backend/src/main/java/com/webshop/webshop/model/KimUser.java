@@ -23,7 +23,9 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "address") // address id besser?
+    //@Column(name = "address")
+    @JoinColumn(name="addressId")
+    @OneToOne
     private Address address;
 
     public KimUser(Long kimUserId, String userName, String userPassword, String eMail, Role userRole,

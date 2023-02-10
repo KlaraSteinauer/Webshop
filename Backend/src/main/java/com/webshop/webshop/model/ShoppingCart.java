@@ -17,8 +17,8 @@ public class ShoppingCart {
     private KimUser shoppingCartUser;
 
 
-    @OneToMany(mappedBy = "shoppingCart")
-    @JsonBackReference
+    @OneToMany(mappedBy = "shoppingCart") // mapping in #Position
+    @JsonBackReference // JsonBackReference <-> JsonManagedReference counterparts in @OneToMany
     private List<Position> shoppingCartPositions;
 
 /*WTF IS THIS?

@@ -1,4 +1,4 @@
-package com.webshop.webshop.model;
+/*package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
@@ -26,3 +26,5 @@ public class Order {
 
 
 }
+
+ */
