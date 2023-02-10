@@ -28,33 +28,35 @@ public class ProductController {
         }
      */
 
-        @GetMapping("/{description}") //filter by description
-        public ResponseEntity<List<Product>> findByType (@PathVariable String description){
-            // calls the service to get all the products
-            List<Product> typeProducts = productService.findByType(description);
-            // wraps the found products as a list in a ResponseEntity with the status 200 ok!
-            return new ResponseEntity<>(typeProducts, HttpStatus.OK);
-        }
-        @PostMapping //Endpunkt
-        public ResponseEntity<Product> createProduct (@RequestBody @Valid Product product){
-            product = productService.save(product);
-            return ResponseEntity.created(URI.create("http://localhost:8080/product")).body(product);
-        }
-
-
-        private ProductService productService;
-    public ProductController(ProductService productService) {
-            this.productService = productService;
-        }
-
-        //http://localhost:8080/product/allProducts
-        @GetMapping("/allProducts")
-        public ResponseEntity<List<Product>> getAllProducts () {
-            // calls the service to get all the products
-            List<Product> allProducts = productService.getAllProducts();
-            // wraps the found products as a list in a ResponseEntity with the status 200 ok!
-            return new ResponseEntity<>(allProducts, HttpStatus.OK);
-        }
-
-
+    @GetMapping("/{description}") //filter by description
+    public ResponseEntity<List<Product>> findByType(@PathVariable String description) {
+        // calls the service to get all the products
+        List<Product> typeProducts = productService.findByType(description);
+        // wraps the found products as a list in a ResponseEntity with the status 200 ok!
+        return new ResponseEntity<>(typeProducts, HttpStatus.OK);
     }
+
+    @PostMapping //Endpunkt
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid Product product) {
+        product = productService.save(product);
+        return ResponseEntity.created(URI.create("http://localhost:8080/product")).body(product);
+    }
+
+
+    private ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    //http://localhost:8080/product/allProducts
+    @GetMapping("/allProducts")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        // calls the service to get all the products
+        List<Product> allProducts = productService.getAllProducts();
+        // wraps the found products as a list in a ResponseEntity with the status 200 ok!
+        return new ResponseEntity<>(allProducts, HttpStatus.OK);
+    }
+
+
+}

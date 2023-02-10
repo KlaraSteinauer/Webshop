@@ -1,6 +1,7 @@
 package com.webshop.webshop.service;
 
 import com.webshop.webshop.repository.KimUserRepository;
+import com.webshop.webshop.repository.ProductRepository;
 
 public class KimUserService {
     private KimUserRepository kimUserRepository;
