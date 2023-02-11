@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 //Controller erhält den Request vom Frontend und sendet die Informationen weiter an das Service.
 @RestController
@@ -21,49 +22,62 @@ public class ProductController {
     }
 
     //POST METHOD
+
+    /*{
+        "productName":"Salz",
+            "productDescription":"Das ist Salz.",
+            "productImageUrl":"IMAGE URL",
+            "productPrice":"0.99",
+            "productQuantity":5,
+            "productCategory":"Salz&Pfeffer"
+    }*/
     @PostMapping // creates a new product (JSON)
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product product) {
         product = productService.save(product);
         return ResponseEntity.created(URI.create("http://localhost:8080/product")).body(product);
     }
 
-    // TODO
+    // TODO try,catch
     //DELETE METHOD
     @DeleteMapping("/{id}")// deletes a product (ID)
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         //try {
 
         //}    //404 file not found
         productService.deleteById(id);
 
-        String msg = "Product "+id+ " deleted.";
+        String msg = "Product " + id + " deleted.";
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
-
     //PUT METHOD
-    @PutMapping // updates a product (ID)
-    public ResponseEntity<Product> updateProduct(Product product){
+    @PutMapping("/{id}") // updates a product (ID)
+    public ResponseEntity<Product> updateProductById(@RequestBody Product product, @PathVariable Long id) {
 
-        return new ResponseEntity<>(product,HttpStatus.OK);
+        Product updatedProduct = productService.update(id, product);
+
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
-
 
 
     //GET METHOD
 
-    // http://localhost:8080/product/all
+    // GET:     http://localhost:8080/product
     @GetMapping // shows all products
     public ResponseEntity<List<Product>> getAllProducts() {
         // calls the service to get all products
         List<Product> allProducts = productService.getAllProducts();
         // wraps the found products as a list in a ResponseEntity with the status 200 ok!
-        return new ResponseEntity<>(allProducts,HttpStatus.OK);
+        return new ResponseEntity<>(allProducts, HttpStatus.OK);
     }
 
+    @GetMapping("/findById/{id}") // filter by id
+    public ResponseEntity<Optional<Product>> findById(@PathVariable Long id) {
+        Optional<Product> p = productService.findById(id);
+        return new ResponseEntity<>(p, HttpStatus.OK);
+    }
 
-
-    @GetMapping("/{description}") // filter by description
+    @GetMapping("/findByDescription/{description}") // filter by description
     public ResponseEntity<List<Product>> findByType(@PathVariable String description) {
         // calls the service to get all products
         List<Product> typeProducts = productService.findByType(description);
