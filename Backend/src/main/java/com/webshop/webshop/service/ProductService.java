@@ -54,6 +54,26 @@ public class ProductService {
     public List<Product> findByType(String description) {
         return productRepository.findByProductDescription(description);
     }
+    public List<Product> findByCategory(String category){
+        return productRepository.findByProductCategory(category);
+    }
+    public List<Product> findByName(String name){
+
+
+        /* TODO get this to work
+        List <Product> matchingProducts=getAllProducts(); // list containing all products
+        for (Product p : matchingProducts
+        ) {
+            // checks if productName contains input String
+            if (!p.getProductName().toLowerCase().contains(name.toLowerCase())) {
+                matchingProducts.remove(p);
+            }
+
+        }
+        return matchingProducts;
+        */
+        return productRepository.findByProductName(name);
+    }
 
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);

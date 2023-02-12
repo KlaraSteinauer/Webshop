@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 //Controller erhält den Request vom Frontend und sendet die Informationen weiter an das Service.
@@ -17,14 +19,14 @@ import java.util.Optional;
 public class ProductController {
     private ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     //POST METHOD
 
     /*{
-        "productName":"Salz",
+            "productName":"Salz",
             "productDescription":"Das ist Salz.",
             "productImageUrl":"IMAGE URL",
             "productPrice":"0.99",
@@ -72,9 +74,15 @@ public class ProductController {
     }
 
     @GetMapping("/findById/{id}") // filter by id
-    public ResponseEntity<Optional<Product>> findById(@PathVariable Long id) {
-        Optional<Product> p = productService.findById(id);
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
+        Product p = productService.findById(id).get();
         return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByCategory/{category}")
+    public ResponseEntity<List<Product>> findByCategory(@PathVariable String category) {
+        List<Product> categoryProducts = productService.findByCategory(category);
+        return new ResponseEntity<>(categoryProducts, HttpStatus.OK);
     }
 
     @GetMapping("/findByDescription/{description}") // filter by description
@@ -85,6 +93,14 @@ public class ProductController {
         return new ResponseEntity<>(typeProducts, HttpStatus.OK);
     }
 
+    @GetMapping("/findByName/{name}") // filter by name (or part of name)
+    public ResponseEntity<List<Product>> findByName(@PathVariable String name) {
+        List<Product> matchingProducts = productService.findByName(name);
+        return new ResponseEntity(matchingProducts, HttpStatus.OK);
+    }
+}
+
+
 /*
     // http://localhost:8080/product/caveman
     //@ResponseStatus(HttpStatus.OK)
@@ -94,4 +110,3 @@ public class ProductController {
     }
 
      */
-}
