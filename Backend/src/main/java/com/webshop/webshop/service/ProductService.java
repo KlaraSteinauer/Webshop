@@ -60,7 +60,7 @@ public class ProductService {
     public List<Product> findByName(String name){
 
 
-        /* TODO get this to work
+        /* //TODO get this to work
         List <Product> matchingProducts=getAllProducts(); // list containing all products
         for (Product p : matchingProducts
         ) {

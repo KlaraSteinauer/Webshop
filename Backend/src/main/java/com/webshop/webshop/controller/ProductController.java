@@ -40,7 +40,9 @@ public class ProductController {
     }
 
     // TODO try,catch
-    //DELETE METHOD
+      /*-------------*/
+     //DELETE METHOD//
+    /*-------------*/
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         //try {
