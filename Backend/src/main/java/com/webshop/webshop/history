@@ -1,0 +1,11 @@
+public List<Product> findByName(String name) {
+    List <Product> matchingProducts=getAllProducts();
+        for (Product p : matchingProducts) {
+            if (!p.getProductName().toLowerCase().contains(name.toLowerCase())) {
+                matchingProducts.remove(p);
+            }
+        }
+        return matchingProducts;
+
+    return productRepository.findByProductName(name);
+}

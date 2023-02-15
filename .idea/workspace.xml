@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)">
-      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/styles/hero.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/styles/hero.css" afterDir="false" />
-    </list>
+    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +47,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Webshop/Backend",
+    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Library-Backend",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
