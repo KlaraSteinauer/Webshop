@@ -20,17 +20,12 @@ public class AddressController {
     private AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
-@PostMapping // creates a new address (JSON)
-    public ResponseEntity<Address> createAddress(@RequestBody Address address){
-        address=addressService.save(address);
+
+    @PostMapping // creates a new address (JSON)
+    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
+        address = addressService.save(address);
         return ResponseEntity.created(URI.create("http://localhost:8080/address")).body(address);
-}
+    }
 
-
-
-
-    /*
-    - neue addresse erstellen mit DTO
-    - addresse in DB speichern
-     */
+    //this is a test
 }
