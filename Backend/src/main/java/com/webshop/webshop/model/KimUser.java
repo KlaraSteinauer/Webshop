@@ -2,8 +2,9 @@ package com.webshop.webshop.model;
 
 import com.webshop.webshop.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-@Entity(name = "user")
+@Entity(name = "kim_user")
 public class KimUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +16,7 @@ public class KimUser {
     private String userPassword;
     @Column(name = "e-mail")
     private String eMail;
+    @NotNull
     @Column(name = "user_role")
     private Role userRole;
     @Column(name = "gender")
@@ -23,9 +25,8 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    //@Column(name = "address")
-    @JoinColumn(name="addressId")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
     public KimUser(Long kimUserId, String userName, String userPassword, String eMail, Role userRole,

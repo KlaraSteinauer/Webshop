@@ -2,16 +2,21 @@ package com.webshop.webshop.requestDTO;
 
 
 import com.webshop.webshop.model.Address;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 
-public class KimUserRequestDTO {
+public class KimUserDTO {
+    @NotNull
+    private Long kimUserId;
     @NotBlank
-    @Length(min=2, max=12)
+    @Length(min = 2, max = 12)
     private String userName;
     @NotBlank
-    @Length(min=4, max=16)
+    @Length(min = 4, max = 16)
     private String userPassword;
     @NotBlank
     @Email
@@ -21,13 +26,32 @@ public class KimUserRequestDTO {
     @NotBlank
     private String gender;
     @Pattern(regexp = "^[A-Za-z]*$")
-    @Length(min=2, max=64)
+    @Length(min = 2, max = 64)
     private String firstname;
     @Pattern(regexp = "^[A-Za-z]*$")
-    @Length(min=2, max=64)
+    @Length(min = 2, max = 64)
     private String lastname;
     @NotBlank
     private Address address;
+
+    public KimUserDTO(Long kimUserId, String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
+        this.kimUserId = kimUserId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.eMail = eMail;
+        this.gender = gender;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+    }
+
+    public Long getKimUserId() {
+        return kimUserId;
+    }
+
+    public void setKimUserId(Long kimUserId) {
+        this.kimUserId = kimUserId;
+    }
 
     public String getUserName() {
         return userName;

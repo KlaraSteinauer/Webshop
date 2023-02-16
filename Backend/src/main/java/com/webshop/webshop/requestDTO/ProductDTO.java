@@ -1,13 +1,17 @@
 package com.webshop.webshop.requestDTO;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 //Spiegelobject von Model(Entity) das ans Frontend bzw. vom Frontend gesendet wird.
 //1. Informationen werden als neues Model erstellt und an die Datenbank weiterübertragen. (Service!)
 //2. Informationen vom Model(Datenbank) werden in ein DTO übertragen und im Frontend angezeit. (Service!)
 //3. Im DTO findet die validierung der Attribute statt! NICHT im Model.
-public class ProductRequestDTO {
+public class ProductDTO {
+    @NotBlank
+    private Long productId;
     @NotBlank
     @Length(min = 2, max = 64)
     private String productName;
@@ -24,6 +28,23 @@ public class ProductRequestDTO {
     //@Enum
     private String productCategory;
 
+    public ProductDTO(Long productId, String productName, String productDescription, String productImageUrl, double productPrice, int productQuantity, String productCategory) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productImageUrl = productImageUrl;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.productCategory = productCategory;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;

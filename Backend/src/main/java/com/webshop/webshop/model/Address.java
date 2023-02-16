@@ -2,7 +2,11 @@ package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
-@Entity(name="address")
+/**
+ * Example of oneToOne relation
+ * https://www.baeldung.com/jpa-one-to-one
+ */
+@Entity(name = "address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -10,7 +14,7 @@ public class Address {
     private Long addressId;
     @Column(name = "street")
     private String street;
-    @Column (name="number")
+    @Column(name = "number")
     private String number;
     @Column(name = "zip")
     private int zip;
@@ -18,6 +22,9 @@ public class Address {
     private String city;
     @Column(name = "country")
     private String country;
+
+    @OneToOne(mappedBy = "address")
+    private KimUser kimUser;
 
     public Address(String street, String number, int zip, String city, String country) {
         this.street = street;
@@ -27,7 +34,8 @@ public class Address {
         this.country = country;
     }
 
-    public Address(){}
+    public Address() {
+    }
 
     public String getStreet() {
         return street;
