@@ -1,3 +1,4 @@
+-------------------------PRODUCT------------------------------------
 public List<Product> findByName(String name) {
     List <Product> matchingProducts=getAllProducts();
         for (Product p : matchingProducts) {
@@ -9,3 +10,27 @@ public List<Product> findByName(String name) {
 
     return productRepository.findByProductName(name);
 }
+
+-------------------------KIM USER------------------------------------
+//    @GetMapping("/login")
+//    public KimUserRequestDTO loginKimUser(@RequestBody KimUser kimUser){
+//        return kimUserService.login(kimUser);
+//    }
+
+//    public static boolean login(KimUserRepository kimUserRepository, KimUserRequestDTO kimUserRequestDTO) {
+//        for (KimUser kimUser : kimUserRepository.findAll()) {
+//            String userName = kimUserRequestDTO.getUserName();
+//            String userPassword = kimUserRequestDTO.getUserPassword();
+//            if (kimUser.getUserName().equals(userName)) {
+//                if (kimUser.getUserPassword().equals(userPassword)) {
+//                    System.out.println("Willkommen " + userName + "!");
+//                    return true;
+//                } else {
+//                    System.out.println("Passwort falsch!");
+//                }
+//            } else {
+//                System.out.println("User nicht vorhanden!");
+//            }
+//        }
+//        return false;
+//    }

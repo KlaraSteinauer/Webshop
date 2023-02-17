@@ -2,8 +2,9 @@ package com.webshop.webshop.model;
 
 import com.webshop.webshop.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
-@Entity(name = "user")
+@Entity(name = "kim_user")
 public class KimUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +16,7 @@ public class KimUser {
     private String userPassword;
     @Column(name = "e-mail")
     private String eMail;
+    @NotNull
     @Column(name = "user_role")
     private Role userRole;
     @Column(name = "gender")
@@ -23,13 +25,16 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    //@Column(name = "address")
-    @JoinColumn(name="addressId")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "shopping_cart_id")
+    private ShoppingCart userShoppingCart;
+
     public KimUser(Long kimUserId, String userName, String userPassword, String eMail, Role userRole,
-                   String gender, String firstName, String lastName, Address address) {
+                   String gender, String firstName, String lastName, Address address, ShoppingCart shoppingCart) {
         this.kimUserId = kimUserId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -39,6 +44,7 @@ public class KimUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.userShoppingCart = shoppingCart;
     }
 
 
@@ -117,4 +123,11 @@ public class KimUser {
         this.address = address;
     }
 
+    public ShoppingCart getUserShoppingCart() {
+        return userShoppingCart;
+    }
+
+    public void setUserShoppingCart(ShoppingCart userShoppingCart) {
+        this.userShoppingCart = userShoppingCart;
+    }
 }

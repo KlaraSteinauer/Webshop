@@ -2,6 +2,8 @@ package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 //Ist das Kernobjekt der Datenbank.
 //Gibt mir die gespeicherten Werte der Datenbank oder fügt/ändert neue Objekte zur Datenbank. ("Vorlage" für Datenbankobjekte)
 
@@ -23,10 +25,9 @@ public class Product {
     private int productQuantity;
     @Column(name = "category")
     private String productCategory;
-    /*
-    private active ?
-    private taxrate ?
-     */
+
+    @ManyToMany
+    private List<ShoppingCart> shoppingCarts;
 
     public Product(Long productId, String productName, String productDescription, String productImageUrl,
                    double productPrice, int productQuantity, String productCategory) {

@@ -1,16 +1,20 @@
-package com.webshop.webshop.requestDTO;
+package com.webshop.webshop.DTO;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
-public class AddressRequestDTO {
+public class AddressDTO {
+    @NotEmpty
+    private Long addressId;
     @NotEmpty
     @Pattern(regexp = "^[A-Za-z]*$")
     private String street;
-    @NotEmpty //liest Leerzeichen
+    @NotEmpty
     private String number;
     @NotBlank
-    @Length(min=4,max=4)
+    @Length(min = 4, max = 4)
     private int zip;
     @NotEmpty
     @Pattern(regexp = "^[A-Za-z]*$")
@@ -18,6 +22,15 @@ public class AddressRequestDTO {
     @NotEmpty
     @Pattern(regexp = "^[A-Za-z]*$")
     private String country;
+
+    public AddressDTO(Long addressId, String street, String number, int zip, String city, String country) {
+        this.addressId = addressId;
+        this.street = street;
+        this.number = number;
+        this.zip = zip;
+        this.city = city;
+        this.country = country;
+    }
 
     public String getStreet() {
         return street;

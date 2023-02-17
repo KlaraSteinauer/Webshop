@@ -1,8 +1,9 @@
 package com.webshop.webshop.service;
 
+import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,31 +15,33 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
+    @Autowired
     private ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public Product save(Product product) {
-        //hier muss/sollte man nochmals validieren
-        String name = product.getProductName();
-        if (name == null || name.isBlank()) {
-            throw new EntityNotFoundException();
-        }
-        return productRepository.save(product);
+    public ProductDTO save(Product product) {
+        Product savedProduct = productRepository.save(product);
+        return toDto(savedProduct);
     }
 
-    public Product update(Long id, Product product) {
-        Product updatedProduct = findById(id).get(); // removes "Optional<>" and returns Product
-        updatedProduct.setProductName(product.getProductName());
-        updatedProduct.setProductDescription(product.getProductDescription());
-        updatedProduct.setProductImageUrl(product.getProductImageUrl());
-        updatedProduct.setProductPrice(product.getProductPrice());
-        updatedProduct.setProductQuantity(product.getProductQuantity());
-        updatedProduct.setProductCategory(product.getProductCategory());
-        save(updatedProduct);
-        return updatedProduct;
+    public ProductDTO update(Long id, Product updateProduct) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        Product updatedProduct;
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setProductName(updateProduct.getProductName());
+            product.setProductDescription(updateProduct.getProductDescription());
+            product.setProductImageUrl(updateProduct.getProductImageUrl());
+            product.setProductPrice(updateProduct.getProductPrice());
+            product.setProductQuantity(updateProduct.getProductQuantity());
+            product.setProductCategory(updateProduct.getProductCategory());
+            updatedProduct = productRepository.save(product);
+            return toDto(updatedProduct);
+        }
+        return null;
     }
 
 
@@ -46,38 +49,42 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Product> getAllProducts() {
-        return (List<Product>) productRepository.findAll();
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return toDtos(products);
     }
 
 
-    public List<Product> findByType(String description) {
-        return productRepository.findByProductDescription(description);
+    public List<ProductDTO> findByDescription(String description) {
+        return toDtos(productRepository.findByProductDescription(description));
     }
-    public List<Product> findByCategory(String category){
-        return productRepository.findByProductCategory(category);
+
+    public List<ProductDTO> findByCategory(String category) {
+        return toDtos(productRepository.findByProductCategory(category));
     }
-    public List<Product> findByName(String name){
 
-
-        /* //TODO get this to work
-        List <Product> matchingProducts=getAllProducts(); // list containing all products
-        for (Product p : matchingProducts
-        ) {
-            // checks if productName contains input String
-            if (!p.getProductName().toLowerCase().contains(name.toLowerCase())) {
-                matchingProducts.remove(p);
-            }
-
+    public ProductDTO findById(Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            return toDto(optionalProduct.get());
         }
-        return matchingProducts;
-        */
-        return productRepository.findByProductName(name);
+        return null;
     }
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public List<ProductDTO> findByLetter(String letter) {
+        List<Product> productList = productRepository.findAll().stream()
+                .filter(product -> product.getProductName().contains(letter))
+                .toList();
+        return toDtos(productList);
     }
 
+    private List<ProductDTO> toDtos(List<Product> products) {
+        return products.stream()
+                .map(this::toDto)
+                .toList();
+    }
 
+    private ProductDTO toDto(Product data) {
+        return new ProductDTO(data.getProductId(), data.getProductName(), data.getProductDescription(), data.getProductImageUrl(), data.getProductPrice(), data.getProductQuantity(), data.getProductCategory());
+    }
 }
