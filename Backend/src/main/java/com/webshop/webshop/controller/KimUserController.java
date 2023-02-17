@@ -1,9 +1,11 @@
 package com.webshop.webshop.controller;
 
+import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.requestDTO.KimUserDTO;
 import com.webshop.webshop.service.KimUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,13 +20,13 @@ public class KimUserController {
     }
 
     @PostMapping("/add")
-    public KimUserDTO createKimUser(@RequestBody KimUser kimUser) {
-        return kimUserService.save(kimUser);
+    public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUser kimUser) {
+        return new ResponseEntity<>(kimUserService.save(kimUser), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
-    public KimUserDTO getUser(@PathVariable Long id) {
-        return kimUserService.findById(id);
+    public ResponseEntity<KimUserDTO> getUser(@PathVariable Long id) {
+        return new ResponseEntity<>(kimUserService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -33,13 +35,12 @@ public class KimUserController {
     }
 
     /*
-    // TODO figure out how to add address to JSON
-    // or run createAddress and connect it to user
+    example: JSON input for creating a new user
         {
                 "userName":"Mais",
                 "userPassword":"1234",
                 "eMail":"abd@def.com",
-                "userRole":"admin",
+                "userRole":"ADMIN",
                 "gender":"m",
                 "firstName":"Michael",
                 "lastName":"Mayr",

@@ -29,8 +29,12 @@ public class KimUser {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "shopping_cart_id")
+    private ShoppingCart userShoppingCart;
+
     public KimUser(Long kimUserId, String userName, String userPassword, String eMail, Role userRole,
-                   String gender, String firstName, String lastName, Address address) {
+                   String gender, String firstName, String lastName, Address address, ShoppingCart shoppingCart) {
         this.kimUserId = kimUserId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -40,6 +44,7 @@ public class KimUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.userShoppingCart = shoppingCart;
     }
 
 
@@ -118,4 +123,11 @@ public class KimUser {
         this.address = address;
     }
 
+    public ShoppingCart getUserShoppingCart() {
+        return userShoppingCart;
+    }
+
+    public void setUserShoppingCart(ShoppingCart userShoppingCart) {
+        this.userShoppingCart = userShoppingCart;
+    }
 }

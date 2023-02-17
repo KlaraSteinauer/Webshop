@@ -1,14 +1,10 @@
-package com.webshop.webshop.requestDTO;
+package com.webshop.webshop.DTO;
 
 import com.webshop.webshop.model.Product;
-import com.webshop.webshop.model.ShoppingCart;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-public class PositionRequestDTO {
+public class OrdertDTO {
 
 
     // private ShoppingCart shoppingCart;

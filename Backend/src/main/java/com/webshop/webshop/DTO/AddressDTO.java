@@ -1,4 +1,4 @@
-package com.webshop.webshop.requestDTO;
+package com.webshop.webshop.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,7 +11,7 @@ public class AddressDTO {
     @NotEmpty
     @Pattern(regexp = "^[A-Za-z]*$")
     private String street;
-    @NotEmpty //liest Leerzeichen
+    @NotEmpty
     private String number;
     @NotBlank
     @Length(min = 4, max = 4)

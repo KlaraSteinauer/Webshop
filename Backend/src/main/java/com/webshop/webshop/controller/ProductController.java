@@ -1,7 +1,7 @@
 package com.webshop.webshop.controller;
 
+import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
-import com.webshop.webshop.requestDTO.ProductDTO;
 import com.webshop.webshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//Controller erhält den Request vom Frontend und sendet die Informationen weiter an das Service.
+//Controller: receives the request information from frontend and sends it to service for further action.
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -21,7 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    /**
+    /*
      * Example: Request body as json
      * {
      * "productName":"Salz",
@@ -35,7 +35,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product) {
-        /**
+        /*
          * ResponseEntity is the typical http response, which usually contains the body (json, xml or whatsoever..)
          * and response code (200 OK, 400 bad request, 404 unauthorized usw...)
          */
@@ -51,7 +51,11 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody Product product, @PathVariable Long id) {
-        return new ResponseEntity<>(productService.update(id, product), HttpStatus.OK);
+        ProductDTO updatedProduct = productService.update(id, product);
+        if (updatedProduct == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
     @GetMapping
@@ -74,7 +78,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.findByDescription(description), HttpStatus.OK);
     }
 
-    @GetMapping("/findByName/{name}")
+    @GetMapping("/findByName/{letter}")
     public ResponseEntity<List<ProductDTO>> findByLetter(@PathVariable String letter) {
         return new ResponseEntity<>(productService.findByLetter(letter), HttpStatus.OK);
     }

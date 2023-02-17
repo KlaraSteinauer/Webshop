@@ -12,7 +12,7 @@ import java.util.List;
 
 //JpaRepository extends CrudRepository (kind of)
 
-/**
+/*
  * All annotated classes (e.g. @Component, @Service, @Repository...) are beans that will be created by Spring framework
  * Benefits: this way, spring creates the class only once, and you can use it everywhere.. without the need to
  * instantiate it over and over again.

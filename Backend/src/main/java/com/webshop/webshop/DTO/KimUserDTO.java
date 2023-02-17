@@ -1,4 +1,4 @@
-package com.webshop.webshop.requestDTO;
+package com.webshop.webshop.DTO;
 
 
 import com.webshop.webshop.model.Address;

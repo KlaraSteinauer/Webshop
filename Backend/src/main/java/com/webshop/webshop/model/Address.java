@@ -2,7 +2,7 @@ package com.webshop.webshop.model;
 
 import jakarta.persistence.*;
 
-/**
+/*
  * Example of oneToOne relation
  * https://www.baeldung.com/jpa-one-to-one
  */

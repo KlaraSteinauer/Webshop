@@ -1,8 +1,8 @@
 package com.webshop.webshop.service;
 
+import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
-import com.webshop.webshop.requestDTO.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +29,19 @@ public class ProductService {
 
     public ProductDTO update(Long id, Product updateProduct) {
         Optional<Product> optionalProduct = productRepository.findById(id);
+        Product updatedProduct;
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
-            updateProduct.setProductName(product.getProductName());
-            updateProduct.setProductDescription(product.getProductDescription());
-            updateProduct.setProductImageUrl(product.getProductImageUrl());
-            updateProduct.setProductPrice(product.getProductPrice());
-            updateProduct.setProductQuantity(product.getProductQuantity());
-            updateProduct.setProductCategory(product.getProductCategory());
+            product.setProductName(updateProduct.getProductName());
+            product.setProductDescription(updateProduct.getProductDescription());
+            product.setProductImageUrl(updateProduct.getProductImageUrl());
+            product.setProductPrice(updateProduct.getProductPrice());
+            product.setProductQuantity(updateProduct.getProductQuantity());
+            product.setProductCategory(updateProduct.getProductCategory());
+            updatedProduct = productRepository.save(product);
+            return toDto(updatedProduct);
         }
-        Product updatedProduct = productRepository.save(updateProduct);
-        return toDto(updatedProduct);
+        return null;
     }
 
 

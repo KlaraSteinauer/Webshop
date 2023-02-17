@@ -1,4 +1,4 @@
-package com.webshop.webshop.requestDTO;
+package com.webshop.webshop.DTO;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

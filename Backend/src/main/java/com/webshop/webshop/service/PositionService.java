@@ -1,13 +1,14 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.repository.PositionRepository;
-import com.webshop.webshop.repository.ProductRepository;
+import com.webshop.webshop.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PositionService {
 
-    private PositionRepository positionRepository;
+    private OrderRepository positionRepository;
 
-    public PositionService(PositionRepository positionRepository) {
+    public PositionService(OrderRepository positionRepository) {
         this.positionRepository = positionRepository;
     }
 

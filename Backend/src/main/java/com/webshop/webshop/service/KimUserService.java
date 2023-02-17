@@ -1,9 +1,9 @@
 package com.webshop.webshop.service;
 
+import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.AddressRepository;
 import com.webshop.webshop.repository.KimUserRepository;
-import com.webshop.webshop.requestDTO.KimUserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,13 +17,6 @@ public class KimUserService {
         this.kimUserRepository = kimUserRepository;
         this.addressRepository = addressRepository;
     }
-//    public KimUser save(KimUser kimUser) {
-//        String name = kimUser.getUserName();
-//        if (name == null || name.isBlank()) {
-//            throw new EntityNotFoundException();
-//        }
-//        return kimUserRepository.save(kimUser);
-//    }
 
     public KimUserDTO save(KimUser kimUser) {
         KimUser result = kimUserRepository.save(kimUser);
