@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/address")
 public class AddressController {
-
+    //TODO use DTO as requestBody
     @Autowired
     private AddressService addressService;
     private final AddressRepository addressRepository;
@@ -25,7 +25,7 @@ public class AddressController {
         this.addressRepository = addressRepository;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add") //hier muss man ein DTO übergeben
     public ResponseEntity<AddressDTO> createAddress(@RequestBody Address address) {
         return new ResponseEntity<>(addressService.save(address), HttpStatus.OK);
     }

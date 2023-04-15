@@ -19,7 +19,7 @@ public class KimUserController {
         this.kimUserService = kimUserService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add") //DTO übergeben
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUser kimUser) {
         return new ResponseEntity<>(kimUserService.save(kimUser), HttpStatus.OK);
     }
