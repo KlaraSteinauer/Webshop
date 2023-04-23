@@ -6,30 +6,29 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 public class AddressDTO {
-    @NotEmpty
-    private Long addressId;
-    @NotEmpty
-    @Pattern(regexp = "^[A-Za-z]*$")
+    private Long id;
     private String street;
-    @NotEmpty
     private String number;
-    @NotBlank
-    @Length(min = 4, max = 4)
     private int zip;
-    @NotEmpty
-    @Pattern(regexp = "^[A-Za-z]*$")
     private String city;
-    @NotEmpty
-    @Pattern(regexp = "^[A-Za-z]*$")
     private String country;
 
-    public AddressDTO(Long addressId, String street, String number, int zip, String city, String country) {
-        this.addressId = addressId;
+
+    public AddressDTO(Long id, String street, String number, int zip, String city, String country) {
+        this.id = id;
         this.street = street;
         this.number = number;
         this.zip = zip;
         this.city = city;
         this.country = country;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStreet() {
@@ -71,5 +70,4 @@ public class AddressDTO {
     public void setCountry(String country) {
         this.country = country;
     }
-
 }
