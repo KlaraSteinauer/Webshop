@@ -13,31 +13,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/address")
-public class AddressController {
-    //TODO use DTO as requestBody
-    @Autowired
-    private AddressService addressService;
-    private final AddressRepository addressRepository;
+public record AddressController(AddressService addressService) {
 
-    private AddressController(AddressService addressService,
-                              AddressRepository addressRepository) {
-        this.addressService = addressService;
-        this.addressRepository = addressRepository;
-    }
-
-    @PostMapping("/add") //hier muss man ein DTO übergeben
+    @PostMapping("/add")
     public ResponseEntity<AddressDTO> createAddress(@RequestBody Address address) {
         return new ResponseEntity<>(addressService.save(address), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AddressDTO> findById(@PathVariable Long id) {
-        return new ResponseEntity<>(addressService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<AddressDTO>> getAllAddress() {
-        return new ResponseEntity<>(addressService.getAllAddress(), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.getAllAddress()
+                .stream()
+                .map(Address::convertToDto)
+                .toList(),
+                HttpStatus.OK);
     }
 
 }

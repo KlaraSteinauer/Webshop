@@ -10,23 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-public class KimUserController {
+public record KimUserController(KimUserService kimUserService) {
 
-    @Autowired
-    private KimUserService kimUserService;
-
-    private KimUserController(KimUserService kimUserService) {
-        this.kimUserService = kimUserService;
-    }
 
     @PostMapping("/add") //DTO übergeben
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUser kimUser) {
-        return new ResponseEntity<>(kimUserService.save(kimUser), HttpStatus.OK);
+        return new ResponseEntity<>(kimUserService.save(kimUser).convertToDto(), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<KimUserDTO> getUser(@PathVariable Long id) {
-        return new ResponseEntity<>(kimUserService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
