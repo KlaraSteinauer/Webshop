@@ -12,9 +12,7 @@ public class ShoppingCartDTO {
         this.shoppingCartProducts = shoppingCartProducts;
     }
 
-    @NotBlank
     private KimUser shoppingCartUser;
-    @NotBlank
     private List<Product> shoppingCartProducts;
 
     public KimUser getShoppingCartUser() {
