@@ -4,7 +4,6 @@
   }
 }
 
-
 .spices.jpg {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -63,11 +62,33 @@
   --bs-btn-disabled-border-color: #022135;
 }
 
+@media (min-width: 991.99px) {
+  .flex-center-height {
+    height: 70vh;
+  }
+
+  .bg-main-content {
+    height: 70vh;
+    background:
+      linear-gradient(110deg, rgba(187, 165, 142, 0.8) 55%, transparent 45%),
+      url("../images/spices2.jpg") no-repeat;
+
+    background-size: cover;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .bg-main-content{
+    background-color: rgba(187, 165, 142, 0.8)
+  }
+}
+
 @media (max-width: 991.98px) {
   .home-img-display-large {
     display: none;
   }
-  .home-img-display-small{
+
+  .home-img-display-small {
     margin-top: 9rem;
     margin-bottom: 1.5rem;
   }
