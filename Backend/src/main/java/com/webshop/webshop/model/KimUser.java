@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -34,9 +36,9 @@ public class KimUser {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
-    private ShoppingCart shoppingCart;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private List<ShoppingCart> shoppingCart;
 
     public KimUserDTO convertToDto() {
         return new KimUserDTO(
