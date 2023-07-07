@@ -15,8 +15,10 @@ import java.util.Optional;
 //Hier werden auch die DTO in Model umgewandelt und umgekehrt! (mithilfe des Mappers)
 
 @Service
-public record ProductService(ProductRepository productRepository) {
+public class ProductService {
 
+    @Autowired
+    ProductRepository productRepository;
 
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productDTO.convertToProduct();

@@ -5,12 +5,19 @@ import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.AddressRepository;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public record KimUserService(KimUserRepository kimUserRepository, AddressService addressService) {
+public class KimUserService {
+
+    @Autowired
+    KimUserRepository kimUserRepository;
+
+    @Autowired
+    AddressService addressService;
 
     public KimUser save(KimUser kimUser) {
         return kimUserRepository.save(kimUser);

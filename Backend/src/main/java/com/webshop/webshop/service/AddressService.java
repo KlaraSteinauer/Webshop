@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public record AddressService(AddressRepository addressRepository) {
+public class AddressService {
 
+    @Autowired
+    AddressRepository addressRepository;
 
 public AddressDTO save(Address address) {
         Address data = addressRepository.save(address);
