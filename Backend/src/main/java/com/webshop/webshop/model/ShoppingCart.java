@@ -19,7 +19,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long shoppingCartId;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "kim_user_id", referencedColumnName = "id")
     private KimUser kimUser;
     @ManyToMany
