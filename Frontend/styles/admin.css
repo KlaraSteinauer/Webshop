@@ -1,0 +1,13 @@
+.justify-size{
+    height: 38rem;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: rgb(2, 33, 53)!important;
+}
+
+span svg:hover{
+color:  rgb(255, 76, 57);
+}
+
