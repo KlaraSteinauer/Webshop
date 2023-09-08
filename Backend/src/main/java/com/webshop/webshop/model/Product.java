@@ -32,8 +32,7 @@ public class Product {
     private int quantity;
     @Column(name = "category")
     private ProductCategory category;
-
-    @ManyToMany
+    @ManyToMany(mappedBy = "products")
     private List<ShoppingCart> shoppingCarts;
     public ProductDTO convertToDto() {
         return new ProductDTO(
