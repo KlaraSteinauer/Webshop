@@ -64,6 +64,7 @@ public class ProductService {
         return product.get();
     }
 
+    @Deprecated
     public List<Product> findByLetter(String letter) {
         return productRepository.findAll();
     }

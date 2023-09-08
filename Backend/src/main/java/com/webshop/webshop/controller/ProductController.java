@@ -84,6 +84,7 @@ public record ProductController(ProductService productService) {
                 HttpStatus.OK);
     }
 
+    @Deprecated
     @GetMapping("/findByName/{letter}")
     public ResponseEntity<List<ProductDTO>> findByLetter(@PathVariable String letter) {
         return new ResponseEntity<>(productService.findByLetter(letter).stream()
