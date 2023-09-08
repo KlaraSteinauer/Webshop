@@ -10,21 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/shoppingCart")
-public class ShoppingCartController {
-    @Autowired
-    private ShoppingCartService shoppingCartService;
-
-    private ShoppingCartController(ShoppingCartService shoppingCartService) {
-        this.shoppingCartService = shoppingCartService;
-    }
+public record ShoppingCartController(ShoppingCartService shoppingCartService){
 
     @PostMapping("/addProduct/{ShoppingCartId}")
     public ResponseEntity<ShoppingCartDTO> addProductToCart(@RequestBody Product product, @PathVariable Long ShoppingCartId) {
-        ShoppingCartDTO shoppingCartDTO = shoppingCartService.addProduct(product, ShoppingCartId);
+        ShoppingCartDTO shoppingCartDTO = shoppingCartService.addProduct(product, ShoppingCartId).convertToDto();
         if (shoppingCartDTO == null) {
             new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(shoppingCartDTO, HttpStatus.OK);
     }
-
 }
