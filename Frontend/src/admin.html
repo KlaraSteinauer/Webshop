@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="../styles/help.css">
     <link rel="stylesheet" href="../styles/admin.css">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="/scripts/admin.js"></script>
     <title>admin</title>
 </head>
 
@@ -75,30 +78,30 @@
                                 <hr class="my-4">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <a class="nav-link" href="#">Produkte</a>
+                                        <a class="nav-link" href="#" id="productManagement">Produkte</a>
+                                    </li>
+                                    <li class="list-group-item"> 
+                                        <a class="nav-link" href="#" id="orderManagement">Bestellungen</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a class="nav-link" href="#">Bestellungen</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a class="nav-link" href="#">Nutzer</a>
+                                        <a class="nav-link" href="#" id="userManagement">Nutzer</a>
                                     </li>
                                 </ul>
                             </form>
                         </div>
 
-                        <div class="col-12 col-md-4 m-2">
-                            <form class="p-2 border rounded-3 bg-light justify-size">
+                        <div class="col-12 col-md-4 m-2" id="adminManagementForm">
+                            <form class="p-2 border rounded-3 bg-light justify-size" id="productManagementForm">
                                 <h2>Produkt-Management</h2>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-id">ID</span>
                                     <input type="text" class="form-control" placeholder="ProduktID"
-                                        aria-label="Produkt-ID" aria-describedby="product-id">
+                                        aria-label="Produkt-ID" aria-describedby="product-id" id="product-id-val">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-name">Produktname</span>
                                     <input type="text" class="form-control" placeholder="Produktname"
-                                        aria-label="Produkt-ID" aria-describedby="product-name">
+                                        aria-label="Produkt-ID" aria-describedby="product-name" id="product-name-val">
                                 </div>
                                 <div class="input-group mb-3">
                                     <select name="product-categorie" class="form-control" id="product-category"
@@ -112,25 +115,25 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-img">Produktbild</span>
                                     <input type="text" class="form-control" placeholder="\Webshop-Branch\Webshop\Frontend\images\bild.jpg
-                                    " aria-label="Produkt-ID" aria-describedby="product-img">
+                                    " aria-label="Produkt-ID" aria-describedby="product-img" id="product-img-val">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Preis</span>
-                                    <input type="number" class="form-control" aria-label="Price">
+                                    <span class="input-group-text" id="product-price">Preis</span>
+                                    <input type="number" class="form-control" aria-label="Price" id="product-price-val">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Anzahl</span>
-                                    <input type="number" class="form-control" aria-label="Amount">
+                                    <span class="input-group-text" id="product-amount">Anzahl</span>
+                                    <input type="number" class="form-control" aria-label="Amount" id="product-amount-val">
                                 </div>
                                 <div class="input-group">
-                                    <span class="input-group-text">Produktbeschreibung</span>
-                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                    <span class="input-group-text" id="product-description">Produktbeschreibung</span>
+                                    <textarea class="form-control" aria-label="With textarea"id="product-description-val"></textarea>
                                 </div>
-                                <button class="w-100 btn btn-lg btn-primary my-2">Hinzufügen</button>
-                                <button class="w-100 btn btn-lg btn-primary my-2">Speichern</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="addProduct">Hinzufügen</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Speichern</button>
                             </form>
 
-                            <form class="d-none p-2 border rounded-3 bg-light">
+                            <form class="p-2 border rounded-3 bg-light" id="userManagementForm">
                                 <h2>User-Management</h2>
                                 <div class="form-floating mb-3">
                                     <select name="anrede" class="form-control" id="floatingAnrede" placeholder="Anrede">
@@ -176,7 +179,7 @@
                                 <button class="w-100 btn btn-lg btn-primary my-2">Bearbeiten</button>
                             </form>
 
-                            <form class="d-none p-2 border rounded-3 bg-light">
+                            <form class="p-2 border rounded-3 bg-light" id="orderManagementForm">
                                 <h2>Order-Management</h2>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="order-id">ID</span>
@@ -203,55 +206,23 @@
                             </form>
                         </div>
 
-                        <div class="col-12 col-md-4 m-2">
+                        <div class="col-12 col-md-4 m-2" id="productManagementList">
                             <div class="p-3 border rounded-3 bg-light justify-size">
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div><span class="badge bg-primary rounded-pill">2</span>
-                                            A list item
-                                        </div>
-                                        <div>
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                    <path fill-rule="evenodd"
-                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                </svg>
-                                            </span>
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div><span class="badge bg-primary rounded-pill">5</span>
-                                            Another list item
-                                        </div>
-                                        <div>
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                    <path fill-rule="evenodd"
-                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                </svg>
-                                            </span>
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </li>
+                                <ul class="list-group" id="list-group-product">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 m-2" id="userManagementList">
+                            <div class="p-3 border rounded-3 bg-light justify-size">
+                                <ul class="list-group" id="list-group-user">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 m-2" id="orderManagementList">
+                            <div class="p-3 border rounded-3 bg-light justify-size">
+                                <ul class="list-group" id="list-group-order">
                                 </ul>
                             </div>
                         </div>
