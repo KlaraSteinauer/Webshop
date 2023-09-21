@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface KimUserRepository extends JpaRepository<KimUser, Long> {
 
-Optional<KimUser> findByUserNameAndPassword(String userName, String userPassword);
+Optional<KimUser> findByUserNameAndUserPassword(String userName, String userPassword);
 
 }

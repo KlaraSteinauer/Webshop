@@ -12,12 +12,12 @@ import lombok.*;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
     private Long orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "shopping_cart_id", nullable = false)
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
     private ShoppingCart shoppingCart;
 
     @Column(name = "price")
