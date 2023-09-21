@@ -17,7 +17,7 @@ public class AuthenticationService {
     KimUserRepository kimUserRepository;
 
     public String login(String userName, String password) throws LoginException, GeneralJwtException {
-        var user = kimUserRepository.findByUserNameAndPassword(userName, password);
+        var user = kimUserRepository.findByUserNameAndUserPassword(userName, password);
         if (user.isEmpty()) {
             throw new LoginException("User not found.");
         }
