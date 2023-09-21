@@ -34,9 +34,11 @@ $(document).ready(function () {
         $('#productManagementList').hide();
     })
 
-    //OOP - Product Klasse + Constructor
+    //___
+
+    //Product Klasse + Constructor + Logic
     class Product {
-        constructor(productId, productName, productCategory, productPicture, productPrice, productAmount, productDescription) {
+        constructor(productId, productName, productDescription, productPicture, productPrice, productAmount, productCategory) {
             this.productId = productId;
             this.productName = productName;
             this.productCategory = productCategory;
@@ -47,26 +49,16 @@ $(document).ready(function () {
         }
     }
 
-    let productData = {
-        Id: $('#product-id-val').val(),
-        Name: $('#product-name-val').val(),
-        Description: $('#product-category').val(),
-        ImageUrl: $('#product-img-val').val(),
-        Price: $('#product-price-val').val(),
-        Quantity: $('#product-amount-val').val(),
-        Category: $('#product-description-val').val(),
-    };
+    let productList = [];
 
-    $('#addProduct').click(function (e) {
-        e.preventDefault();
-        const product = new Product(productData.Id, productData.Name, productData.Category, productData.ImageUrl, productData.Price, productData.Quantity, productData.Description)
+    function newProductItem(Product) {
         // Create a new li element with some text
         let newItem = $('<li class="list-group-item d-flex justify-content-between align-items-center" id="list-group-product-item">' +
-            '<div id="list-group-product-item-content"><span class="badge bg-primary rounded-pill"> ' + product.productAmount + ' </span> ' +
-            product.productName +
+            '<div id="list-group-product-item-content"><span class="badge bg-primary rounded-pill"> ' + Product.productAmount + ' </span> ' +
+            Product.productName +
             ' </div>' +
             '<div>' +
-            '<span>' +
+            '<span class="updateItem">' +
             ' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">' +
             '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />' +
             '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />' +
@@ -79,63 +71,107 @@ $(document).ready(function () {
             '</span>' +
             '</div>' +
             '</li>');
+        //adds an id to the li-Element
+        newItem.data('item-id', Product.productId);
         // Append the new li element to the ul with id 'myList'
         $('#list-group-product').append(newItem)
-    });
+    }
 
-    $.ajax({
-        url: 'http://localhost:8080/product',
-        method: 'POST',
-        data: JSON.stringify(productData),
-        contentType: 'application/json',
-        dataType: 'json',
-        //Handle the successful response here
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (error) {
-            console.error(error);
-        }
-    });
+    function updateProduct(Product) {
+        
+        /* productList.forEach(product => {
+            if (product.Id === Product.Id) {
+                let id = (product.Id === Product.Id);
+                let name = (product.Name = Product.Name);
+                let description = (product.Description = Product.Description);
+                let imageUrl = (product.ImageUrl = Product.ImageUrl);
+                let price = (product.Price = Product.Price);
+                let quantity = (product.Quantity = Product.Quantity);
+                let category = (product.Category = Product.Category);
 
-    /*
-    $('.deleteItem').click(function (e) {
-        //TODO implement delete Function as soon as Data from List and DB is loaded in FrontEnd
+                return productList.push(Product(id, name, description, imageUrl, price, quantity, category))
+
+            } else {
+                console.error("Produkt konnte nicht aktualisiert werden!")
+            }
+        });*/
+    }
+
+    //function to load product list from db
+    $("#productManagement").on("click", _e => {
+        $.ajax({
+            url: 'http://localhost:8080/product',
+            method: 'GET',
+            success: function (products) {
+                products.forEach(product => {
+                    newProductItem(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     })
 
-    $.ajax({
-        url: '/product/{id}',  
-        method: 'DELETE',
-        success: function (data) {
-            // Handle the successful response here
-            console.log(data);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors here
-            console.error(error);
-        }
+    //function to add a new product to the list
+    $("#addProduct").on("click", _e => {
+        let productValues = {
+            "Id": $('#product-id-val').val(),
+            "Name": $('#product-name-val').val(),
+            "Description": $('#product-category').val(),
+            "ImageUrl": $('#product-img-val').val(),
+            "Price": $('#product-price-val').val(),
+            "Quantity": $('#product-amount-val').val(),
+            "Category": $('#product-description-val').val(),
+        };
+
+        let product = new Product(productValues.Id, productValues.Name, productValues.Description, productValues.ImageUrl, productValues.Price, productValues.Quantity, productValues.Category)
+        productList.push(product);
+
+        $.ajax({
+            url: "http://localhost:8080/product",
+            type: "POST",
+            cors: true,
+            headers: { "Authorization": sessionStorage.getItem("token") },
+            contentType: "application/json",
+            data: JSON.stringify(product),
+            success: newProductItem(product),
+            error: error => {
+                console.log(error);
+            }
+        });
     });
 
+    //function to delete a product from the list
+    $('#list-group-product').on("click", '.deleteItem', function () {
+        let newItem = $(this).closest('li');
+        let itemId = newItem.data('item-id');
 
-    $('#saveProduct').click(function (e) {
-        e.preventDefault();
-        //TODO implement save/adjust Function as soon as Data from List and DB is loaded in FrontEnd
-    })
-
-    $.ajax({
-        url: '/product/{id}',  
-        method: 'GET',
-        dataType: 'json',     // The expected data type in response
-        success: function (data) {
-            // Handle the successful response here
-            console.log(data);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors here
-            console.error(error);
-        }
+        $.ajax({
+            url: `/product/${itemId}`,
+            method: 'DELETE',
+            success: function () {
+                newItem.remove();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     });
-*/
+
+    //function to update product from the list
+    $('#list-group-product').on("click", function () {
+        let itemId = updateItem.data('item-id');
+
+        $.ajax({
+            url: `/product/${itemId}`,
+            method: 'PUT',
+            success: updateProduct(itemId),
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
 
 });
 
