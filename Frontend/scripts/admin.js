@@ -54,8 +54,8 @@ $(document).ready(function () {
     function newProductItem(Product) {
         // Create a new li element with some text
         let newItem = $('<li class="list-group-item d-flex justify-content-between align-items-center" id="list-group-product-item">' +
-            '<div id="list-group-product-item-content"><span class="badge bg-primary rounded-pill"> ' + Product.productAmount + ' </span> ' +
-            Product.productName +
+            '<div id="list-group-product-item-content"><span class="badge bg-primary rounded-pill"> ' + Product.quantity + ' </span> ' +
+            Product.name +
             ' </div>' +
             '<div>' +
             '<span class="updateItem">' +
@@ -72,13 +72,26 @@ $(document).ready(function () {
             '</div>' +
             '</li>');
         //adds an id to the li-Element
-        newItem.data('item-id', Product.productId);
+        newItem.data('item-id', Product.id);
         // Append the new li element to the ul with id 'myList'
         $('#list-group-product').append(newItem)
     }
 
+    function createProduct() {
+        let productValues = {
+            "Id": $('#product-id-val').val(),
+            "Name": $('#product-name-val').val(),
+            "Description": $('#product-category').val(),
+            "ImageUrl": $('#product-img-val').val(),
+            "Price": $('#product-price-val').val(),
+            "Quantity": $('#product-amount-val').val(),
+            "Category": $('#product-description-val').val(),
+        };
+       return new Product(productValues.Id, productValues.Name, productValues.Description, productValues.ImageUrl, productValues.Price, productValues.Quantity, productValues.Category)
+    }
+
     function updateProduct(Product) {
-        
+
         /* productList.forEach(product => {
             if (product.Id === Product.Id) {
                 let id = (product.Id === Product.Id);
@@ -98,7 +111,7 @@ $(document).ready(function () {
     }
 
     //function to load product list from db
-    $("#productManagement").on("click", _e => {
+    $("#search").on("click", _e => {
         $.ajax({
             url: 'http://localhost:8080/product',
             method: 'GET',
@@ -115,17 +128,8 @@ $(document).ready(function () {
 
     //function to add a new product to the list
     $("#addProduct").on("click", _e => {
-        let productValues = {
-            "Id": $('#product-id-val').val(),
-            "Name": $('#product-name-val').val(),
-            "Description": $('#product-category').val(),
-            "ImageUrl": $('#product-img-val').val(),
-            "Price": $('#product-price-val').val(),
-            "Quantity": $('#product-amount-val').val(),
-            "Category": $('#product-description-val').val(),
-        };
-
-        let product = new Product(productValues.Id, productValues.Name, productValues.Description, productValues.ImageUrl, productValues.Price, productValues.Quantity, productValues.Category)
+        let product = createProduct();
+        console.log(product)
         productList.push(product);
 
         $.ajax({
