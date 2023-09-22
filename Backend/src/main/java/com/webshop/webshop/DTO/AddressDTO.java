@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 public class AddressDTO {
-    private Long id;
     private String street;
     private String number;
     private int zip;
@@ -14,21 +13,12 @@ public class AddressDTO {
     private String country;
 
 
-    public AddressDTO(Long id, String street, String number, int zip, String city, String country) {
-        this.id = id;
+    public AddressDTO(String street, String number, int zip, String city, String country) {
         this.street = street;
         this.number = number;
         this.zip = zip;
         this.city = city;
         this.country = country;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getStreet() {

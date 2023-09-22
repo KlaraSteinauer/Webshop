@@ -19,7 +19,6 @@ public class AddressService {
 public AddressDTO save(Address address) {
         Address data = addressRepository.save(address);
         return new AddressDTO(
-                data.getId(),
                 data.getStreet(),
                 data.getNumber(),
                 data.getZip(),

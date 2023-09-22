@@ -42,7 +42,6 @@ public class KimUser {
 
     public KimUserDTO convertToDto() {
         return new KimUserDTO(
-                this.getUserId(),
                 this.getUserName(),
                 this.getUserPassword(),
                 this.getEMail(),
