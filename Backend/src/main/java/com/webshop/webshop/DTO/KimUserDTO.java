@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 
 public class KimUserDTO {
-    private Long kimUserId;
     private String userName;
     private String userPassword;
     private String eMail;
@@ -20,8 +19,7 @@ public class KimUserDTO {
     private String lastname;
     private Address address;
 
-    public KimUserDTO(Long kimUserId, String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
-        this.kimUserId = kimUserId;
+    public KimUserDTO(String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.eMail = eMail;
@@ -31,13 +29,6 @@ public class KimUserDTO {
         this.address = address;
     }
 
-    public Long getKimUserId() {
-        return kimUserId;
-    }
-
-    public void setKimUserId(Long kimUserId) {
-        this.kimUserId = kimUserId;
-    }
 
     public String getUserName() {
         return userName;
