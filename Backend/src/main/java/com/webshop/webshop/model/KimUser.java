@@ -12,8 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "kim_user")
+@Entity
 public class KimUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,7 +34,7 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)

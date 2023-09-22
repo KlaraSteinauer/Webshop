@@ -16,26 +16,26 @@ $(document).ready(function () {
         return new UserLogin(userData.username, userData.password)
     }
     
-
     $('#loginButton').click(function (e) {
         e.preventDefault();
         let user = setLoginData();
+
         $.ajax({
             url: 'http://localhost:8080/login',
             method: 'POST',
             data: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
+            contentType: 'application/json', 
+            dataType: 'json', 
             success: (response) => {
                 const accessToken = response.accessToken;
-                localSotrage.getItem(accessToken),
-                    window.location.href = '/admin';
+                localStorage.setItem('accessToken', accessToken); 
+                window.location.href = '/admin';
             },
             error: (err) => {
-                console.error("Login fehlgeschlagen!")
+                console.error(err, "Login fehlgeschlagen!");
             }
-        })
-    })
+        });
+    });
+    
 })
+

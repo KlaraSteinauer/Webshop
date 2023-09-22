@@ -11,9 +11,6 @@ import java.util.Optional;
 @Repository
 public interface KimUserRepository extends JpaRepository<KimUser, Long> {
 
-    @Query("SELECT k FROM KimUser k " +
-            "WHERE k.userName = :name " +
-            "AND k.userPassword = :password")
-    Optional<KimUser> findByUserNameAndUserPassword(@Param("name") String userName, @Param("password") String userPassword);
 
+    Optional<KimUser> findByUserNameAndUserPassword(String userName, String userPassword);
 }
