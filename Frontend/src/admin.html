@@ -73,14 +73,14 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingSearch" placeholder="Suche">
                                     <label for="floatingSearch">Suche</label>
-                                    <button class="w-100 btn btn-lg btn-primary my-2" id="search">Suchen</button>
+                                    <button class="w-100 btn btn-lg btn-primary my-2" id="search">Liste laden</button>
                                 </div>
                                 <hr class="my-4">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <a class="nav-link" href="#" id="productManagement">Produkte</a>
                                     </li>
-                                    <li class="list-group-item"> 
+                                    <li class="list-group-item">
                                         <a class="nav-link" href="#" id="orderManagement">Bestellungen</a>
                                     </li>
                                     <li class="list-group-item">
@@ -90,8 +90,9 @@
                             </form>
                         </div>
 
-                        <div class="col-12 col-md-4 m-2" id="adminManagementForm">
-                            <form class="p-2 border rounded-3 bg-light justify-size" id="productManagementForm">
+                        <div class="col-12 col-md-4 m-2">
+                            <form class="p-2 border rounded-3 bg-light justify-size adminManagementForm"
+                                id="productManagementForm">
                                 <h2>Produkt-Management</h2>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-id">ID</span>
@@ -123,17 +124,19 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-amount">Anzahl</span>
-                                    <input type="number" class="form-control" aria-label="Amount" id="product-amount-val">
+                                    <input type="number" class="form-control" aria-label="Amount"
+                                        id="product-amount-val">
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text" id="product-description">Produktbeschreibung</span>
-                                    <textarea class="form-control" aria-label="With textarea"id="product-description-val"></textarea>
+                                    <textarea class="form-control" aria-label="With textarea"
+                                        id="product-description-val"></textarea>
                                 </div>
                                 <button class="w-100 btn btn-lg btn-primary my-2" id="addProduct">Hinzufügen</button>
                                 <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Speichern</button>
                             </form>
 
-                            <form class="p-2 border rounded-3 bg-light" id="userManagementForm">
+                            <form class="p-2 border rounded-3 bg-light adminManagementForm" id="userManagementForm">
                                 <h2>User-Management</h2>
                                 <div class="form-floating mb-3">
                                     <select name="anrede" class="form-control" id="floatingAnrede" placeholder="Anrede">
@@ -179,7 +182,7 @@
                                 <button class="w-100 btn btn-lg btn-primary my-2">Bearbeiten</button>
                             </form>
 
-                            <form class="p-2 border rounded-3 bg-light" id="orderManagementForm">
+                            <form class="p-2 border rounded-3 bg-light adminManagementForm" id="orderManagementForm">
                                 <h2>Order-Management</h2>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="order-id">ID</span>
@@ -205,22 +208,21 @@
                                 <button class="w-100 btn btn-lg btn-primary my-2">Bearbeiten</button>
                             </form>
                         </div>
-
-                        <div class="col-12 col-md-4 m-2" id="productManagementList">
+                        <div class="col-12 col-md-4 m-2 managementList" id="productManagementList">
                             <div class="p-3 border rounded-3 bg-light justify-size">
                                 <ul class="list-group" id="list-group-product">
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-4 m-2" id="userManagementList">
+                        <div class="col-12 col-md-4 m-2 managementList" id="userManagementList">
                             <div class="p-3 border rounded-3 bg-light justify-size">
                                 <ul class="list-group" id="list-group-user">
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-4 m-2" id="orderManagementList">
+                        <div class="col-12 col-md-4 m-2 managementList" id="orderManagementList">
                             <div class="p-3 border rounded-3 bg-light justify-size">
                                 <ul class="list-group" id="list-group-order">
                                 </ul>
