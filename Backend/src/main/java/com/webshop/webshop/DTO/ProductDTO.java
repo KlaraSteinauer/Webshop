@@ -1,96 +1,101 @@
 package com.webshop.webshop.DTO;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
+import com.webshop.webshop.enums.ProductCategory;
+import com.webshop.webshop.model.Product;
 
 //Spiegelobject von Model(Entity) das ans Frontend bzw. vom Frontend gesendet wird.
 //1. Informationen werden als neues Model erstellt und an die Datenbank weiterübertragen. (Service!)
 //2. Informationen vom Model(Datenbank) werden in ein DTO übertragen und im Frontend angezeit. (Service!)
 //3. Im DTO findet die validierung der Attribute statt! NICHT im Model.
 public class ProductDTO {
-    @NotBlank
-    private Long productId;
-    @NotBlank
-    @Length(min = 2, max = 64)
-    private String productName;
-    @Length(max = 512)
-    private String productDescription;
-    private String productImageUrl;
-    @NotBlank
-    @DecimalMin("0.01")
-    private double productPrice;
-    @NotBlank
-    @Min(0)
-    private int productQuantity;
-    @NotBlank
-    //@Enum
-    private String productCategory;
+    private Long id;
+    private String name;
+    private String description;
+    private String imageUrl;
+    private double price;
+    private int quantity;
+    private String category;
 
-    public ProductDTO(Long productId, String productName, String productDescription, String productImageUrl, double productPrice, int productQuantity, String productCategory) {
-        this.productId = productId;
-        this.productName = productName;
-        this.productDescription = productDescription;
-        this.productImageUrl = productImageUrl;
-        this.productPrice = productPrice;
-        this.productQuantity = productQuantity;
-        this.productCategory = productCategory;
+    public ProductDTO() {
     }
 
-    public Long getProductId() {
-        return productId;
+    public ProductDTO(Long id, String name, String description, String imageUrl, double price, int quantity,
+                      String category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public Long getId() {
+        return id;
     }
 
-    public String getProductName() {
-        return productName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public String getName() {
+        return name;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public String getProductImageUrl() {
-        return productImageUrl;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public double getProductPrice() {
-        return productPrice;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public int getProductQuantity() {
-        return productQuantity;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setProductQuantity(int productQuantity) {
-        this.productQuantity = productQuantity;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public String getProductCategory() {
-        return productCategory;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Product convertToProduct() {
+        return new Product(
+                this.getId(),
+                this.getName(),
+                this.getDescription(),
+                this.getImageUrl(),
+                this.getPrice(),
+                this.getQuantity(),
+                ProductCategory.valueOf(this.getCategory()),
+                null
+        );
     }
 }

@@ -13,17 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/address")
-public class AddressController {
-
-    @Autowired
-    private AddressService addressService;
-    private final AddressRepository addressRepository;
-
-    private AddressController(AddressService addressService,
-                              AddressRepository addressRepository) {
-        this.addressService = addressService;
-        this.addressRepository = addressRepository;
-    }
+public record AddressController(AddressService addressService) {
 
     @PostMapping("/add")
     public ResponseEntity<AddressDTO> createAddress(@RequestBody Address address) {
@@ -32,12 +22,16 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AddressDTO> findById(@PathVariable Long id) {
-        return new ResponseEntity<>(addressService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<AddressDTO>> getAllAddress() {
-        return new ResponseEntity<>(addressService.getAllAddress(), HttpStatus.OK);
+        return new ResponseEntity<>(addressService.getAllAddress()
+                .stream()
+                .map(Address::convertToDto)
+                .toList(),
+                HttpStatus.OK);
     }
 
 }

@@ -1,50 +1,38 @@
 package com.webshop.webshop.model;
 
+import com.webshop.webshop.DTO.ShoppingCartDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "shopping_cart")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "shopping_cart_id")
+    @Column(name = "id")
     private Long shoppingCartId;
-
-    @OneToOne(mappedBy = "userShoppingCart")
+    @ManyToOne
+    @JoinColumn(name = "kim_user_id", referencedColumnName = "id")
     private KimUser kimUser;
     @ManyToMany
+    @JoinTable(name = "shopping_cart_products", joinColumns = @JoinColumn(name = "shopping_cart_id"),
+    inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
+    @OneToOne(mappedBy = "shoppingCart")
+    private KimOrder order;
 
-    public ShoppingCart() {
-    }
-
-    public ShoppingCart(KimUser kimUser, List<Product> products) {
-        this.kimUser = kimUser;
-        this.products = products;
-    }
-
-    public Long getShoppingCartId() {
-        return shoppingCartId;
-    }
-
-    public void setShoppingCartId(Long shoppingCart) {
-        this.shoppingCartId = shoppingCart;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> shoppingCartProducts) {
-        this.products = shoppingCartProducts;
-    }
-
-    public KimUser getKimUser() {
-        return kimUser;
-    }
-
-    public void setKimUser(KimUser kimUser) {
-        this.kimUser = kimUser;
+    public ShoppingCartDTO convertToDto() {
+        return new ShoppingCartDTO(
+                this.getKimUser(),
+                this.getProducts()
+        );
     }
 }

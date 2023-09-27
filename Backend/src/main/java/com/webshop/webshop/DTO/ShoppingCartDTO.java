@@ -7,15 +7,15 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 public class ShoppingCartDTO {
+
+
+    private KimUser shoppingCartUser;
+    private List<Product> shoppingCartProducts;
+
     public ShoppingCartDTO(KimUser shoppingCartUser, List<Product> shoppingCartProducts) {
         this.shoppingCartUser = shoppingCartUser;
         this.shoppingCartProducts = shoppingCartProducts;
     }
-
-    @NotBlank
-    private KimUser shoppingCartUser;
-    @NotBlank
-    private List<Product> shoppingCartProducts;
 
     public KimUser getShoppingCartUser() {
         return shoppingCartUser;

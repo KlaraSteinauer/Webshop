@@ -10,32 +10,16 @@ import org.hibernate.validator.constraints.Length;
 
 
 public class KimUserDTO {
-    @NotNull
-    private Long kimUserId;
-    @NotBlank
-    @Length(min = 2, max = 12)
     private String userName;
-    @NotBlank
-    @Length(min = 4, max = 16)
     private String userPassword;
-    @NotBlank
-    @Email
     private String eMail;
-    // TODO @Enum
     // private Role userRole;
-    @NotBlank
     private String gender;
-    @Pattern(regexp = "^[A-Za-z]*$")
-    @Length(min = 2, max = 64)
     private String firstname;
-    @Pattern(regexp = "^[A-Za-z]*$")
-    @Length(min = 2, max = 64)
     private String lastname;
-    @NotBlank
     private Address address;
 
-    public KimUserDTO(Long kimUserId, String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
-        this.kimUserId = kimUserId;
+    public KimUserDTO(String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.eMail = eMail;
@@ -45,13 +29,6 @@ public class KimUserDTO {
         this.address = address;
     }
 
-    public Long getKimUserId() {
-        return kimUserId;
-    }
-
-    public void setKimUserId(Long kimUserId) {
-        this.kimUserId = kimUserId;
-    }
 
     public String getUserName() {
         return userName;

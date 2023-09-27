@@ -2,7 +2,9 @@ package com.webshop.webshop.repository;
 
 import com.webshop.webshop.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -26,11 +28,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findByProductDescription(String productDescription);
+    List<Product> findByDescription(String productDescription);
 
-    List<Product> findByProductCategory(String productCategory);
-
-    List<Product> findByProductName(String productName);
-
-
+    List<Product> findByCategory(String productCategory);
 }
