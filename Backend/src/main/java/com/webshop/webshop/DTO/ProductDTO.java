@@ -2,92 +2,88 @@ package com.webshop.webshop.DTO;
 
 import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.model.Product;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
 
 //Spiegelobject von Model(Entity) das ans Frontend bzw. vom Frontend gesendet wird.
 //1. Informationen werden als neues Model erstellt und an die Datenbank weiterübertragen. (Service!)
 //2. Informationen vom Model(Datenbank) werden in ein DTO übertragen und im Frontend angezeit. (Service!)
 //3. Im DTO findet die validierung der Attribute statt! NICHT im Model.
 public class ProductDTO {
-    private Long Id;
-    private String Name;
-    private String Description;
-    private String ImageUrl;
-    private double Price;
-    private int Quantity;
-    private String Category;
+    private Long id;
+    private String name;
+    private String description;
+    private String imageUrl;
+    private double price;
+    private int quantity;
+    private String category;
 
     public ProductDTO() {
     }
 
     public ProductDTO(Long id, String name, String description, String imageUrl, double price, int quantity,
                       String category) {
-        Id = id;
-        Name = name;
-        Description = description;
-        ImageUrl = imageUrl;
-        Price = price;
-        Quantity = quantity;
-        Category = category;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        name = name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        description = description;
     }
 
     public String getImageUrl() {
-        return ImageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        imageUrl = imageUrl;
     }
 
     public double getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(double price) {
-        Price = price;
+        price = price;
     }
 
     public int getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
-        Quantity = quantity;
+        quantity = quantity;
     }
 
     public String getCategory() {
-        return Category;
+        return category;
     }
 
     public void setCategory(String category) {
-        Category = category;
+        category = category;
     }
 
     public Product convertToProduct() {

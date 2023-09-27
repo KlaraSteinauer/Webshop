@@ -18,14 +18,14 @@ $(document).ready(function () {
 
     //Product Klasse + Constructor + Logic
     class Product {
-        constructor(productId, productName, productDescription, productPicture, productPrice, productAmount, productCategory) {
-            this.productId = productId;
-            this.productName = productName;
-            this.productCategory = productCategory;
-            this.productPicture = productPicture;
-            this.productPrice = productPrice;
-            this.productAmount = productAmount;
-            this.productDescription = productDescription
+        constructor(id, name, description, imageUrl, price, quantity, category) {
+            this.id = id;
+            this.name = name;
+            this.category = category;
+            this.imageUrl = imageUrl;
+            this.price = price;
+            this.quantity = quantity;
+            this.description = description
         }
     }
 
@@ -81,13 +81,13 @@ $(document).ready(function () {
 
     function createProduct() {
         let productValues = {
-            "Id": $('#product-id-val').val(),
-            "Name": $('#product-name-val').val(),
-            "Description": $('#product-description-val').val(),
-            "ImageUrl": $('#product-img-val').val(),
-            "Price": $('#product-price-val').val(),
-            "Quantity": $('#product-amount-val').val(),
-            "Category": $('#product-category-val').val(),
+            Id: $('#product-id-val').val(),
+            Name: $('#product-name-val').val(),
+            Description: $('#product-description-val').val(),
+            ImageUrl: $('#product-img-val').val(),
+            Price: $('#product-price-val').val(),
+            Quantity: $('#product-amount-val').val(),
+            Category: $('#product-category-val').val(),
         };
         return new Product(productValues.Id, productValues.Name, productValues.Description, productValues.ImageUrl, productValues.Price, productValues.Quantity, productValues.Category);
     }
@@ -130,15 +130,15 @@ $(document).ready(function () {
     //function to add a new product to the list
     $("#addProduct").on("click", _e => {
         let product = createProduct();
-        productList.push(product);
+        console.log(product)
 
         $.ajax({
-            url: "http://localhost:8080/product",
+            url: "http://localhost:8080/product/create",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(product),
             success: function () {
-                console.log("Seite muss laden und Produkt muss erscheinen")
+                productList.push(product);
             },
             error: error => {
                 console.log(error);

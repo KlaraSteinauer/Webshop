@@ -3,6 +3,7 @@ package com.webshop.webshop.controller;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
+import jakarta.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,13 +29,13 @@ public record ProductController(ProductService productService) {
      * }
      */
 
-    @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        /*
-         * ResponseEntity is the typical http response, which usually contains the body (json, xml or whatsoever..)
-         * and response code (200 OK, 400 bad request, 404 unauthorized usw...)
-         */
-        return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+        try{
+        return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);}
+        catch (Exception e){
+            return new ResponseEntity<ProductDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")// deletes a product (ID)
