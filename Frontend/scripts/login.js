@@ -29,7 +29,11 @@ $(document).ready(function () {
             success: (response) => {
                 const accessToken = response.accessToken;
                 localStorage.setItem('accessToken', accessToken); 
-                window.location.href = '/admin';
+                if (accessToken.role === 'ADMIN') {
+                    window.location.href = 'src/admin.html';
+                } else if (accessToken.role === 'CUSTOMER' || accessToken.role === 'ANONYMOUS') {
+                    window.location.href = 'src/home.html';
+                }
             },
             error: (err) => {
                 console.error(err, "Login fehlgeschlagen!");
