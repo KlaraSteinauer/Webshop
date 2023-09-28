@@ -1,4 +1,4 @@
-package service;
+package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.WebshopApplication;
@@ -71,7 +71,6 @@ class ProductServiceTest {
             () -> assertEquals(productToConvert.getQuantity(), convertedProduct.getQuantity()),
             () -> assertEquals(productToConvert.getCategory().toString(), convertedProduct.getCategory())
         );
-
     }
 
     @Test
