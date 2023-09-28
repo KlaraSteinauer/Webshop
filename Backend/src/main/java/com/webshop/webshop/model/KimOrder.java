@@ -1,6 +1,5 @@
 package com.webshop.webshop.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "order")
-public class Order {
+@Entity(name = "kim_order")
+public class KimOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

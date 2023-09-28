@@ -39,7 +39,6 @@ public class Address {
 
     public AddressDTO convertToDto() {
         return new AddressDTO(
-                this.getId(),
                 this.getStreet(),
                 this.getNumber(),
                 this.getZip(),

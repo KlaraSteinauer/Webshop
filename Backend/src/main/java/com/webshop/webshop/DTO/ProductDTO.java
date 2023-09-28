@@ -35,7 +35,7 @@ public class ProductDTO {
     }
 
     public void setId(Long id) {
-        id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -43,7 +43,7 @@ public class ProductDTO {
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 
     public String getDescription() {
@@ -51,7 +51,7 @@ public class ProductDTO {
     }
 
     public void setDescription(String description) {
-        description = description;
+        this.description = description;
     }
 
     public String getImageUrl() {
@@ -59,7 +59,7 @@ public class ProductDTO {
     }
 
     public void setImageUrl(String imageUrl) {
-        imageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public double getPrice() {
@@ -67,7 +67,7 @@ public class ProductDTO {
     }
 
     public void setPrice(double price) {
-        price = price;
+        this.price = price;
     }
 
     public int getQuantity() {
@@ -75,7 +75,7 @@ public class ProductDTO {
     }
 
     public void setQuantity(int quantity) {
-        quantity = quantity;
+        this.quantity = quantity;
     }
 
     public String getCategory() {
@@ -83,7 +83,7 @@ public class ProductDTO {
     }
 
     public void setCategory(String category) {
-        category = category;
+        this.category = category;
     }
 
     public Product convertToProduct() {
