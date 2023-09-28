@@ -2,11 +2,17 @@ package com.webshop.webshop.DTO;
 
 import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.model.Product;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //Spiegelobject von Model(Entity) das ans Frontend bzw. vom Frontend gesendet wird.
 //1. Informationen werden als neues Model erstellt und an die Datenbank weiterübertragen. (Service!)
 //2. Informationen vom Model(Datenbank) werden in ein DTO übertragen und im Frontend angezeit. (Service!)
 //3. Im DTO findet die validierung der Attribute statt! NICHT im Model.
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
     private Long id;
     private String name;
@@ -15,76 +21,6 @@ public class ProductDTO {
     private double price;
     private int quantity;
     private String category;
-
-    public ProductDTO() {
-    }
-
-    public ProductDTO(Long id, String name, String description, String imageUrl, double price, int quantity,
-                      String category) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.price = price;
-        this.quantity = quantity;
-        this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public Product convertToProduct() {
         return new Product(

@@ -1,5 +1,6 @@
 package com.webshop.webshop.service;
 
+import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
@@ -66,7 +67,7 @@ public class KimUserServiceTest {
     @Test
     void saveTest() {
         assertEquals(3, kimUserRepository.findAll().size());
-        KimUser user = new KimUser();
+        KimUserDTO user = new KimUserDTO();
         user.setUserName("user");
         user.setUserPassword("userPassword");
         user.setEMail("user@email.com");
@@ -74,7 +75,7 @@ public class KimUserServiceTest {
         user.setGender("male");
         user.setFirstName("userFirst");
         user.setLastName("userLast");
-        KimUser emptyUser = new KimUser();
+        KimUserDTO emptyUser = new KimUserDTO();
         assertThrows(IllegalArgumentException.class,
                 () -> kimUserService.save(emptyUser));
         final KimUser savedUser = assertDoesNotThrow(() -> kimUserService.save(user));

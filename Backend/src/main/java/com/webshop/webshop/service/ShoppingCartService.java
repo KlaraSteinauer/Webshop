@@ -1,15 +1,11 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.DTO.ShoppingCartDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.model.ShoppingCart;
 import com.webshop.webshop.repository.ShoppingCartRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ShoppingCartService {

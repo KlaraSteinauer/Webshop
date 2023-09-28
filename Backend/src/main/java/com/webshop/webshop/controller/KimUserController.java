@@ -1,21 +1,22 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.KimUserDTO;
-import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.service.KimUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-public record KimUserController(KimUserService kimUserService) {
+@RequiredArgsConstructor
+public class KimUserController {
 
+    private final KimUserService kimUserService;
 
     @PostMapping("/add") //DTO übergeben
-    public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUser kimUser) {
-        return new ResponseEntity<>(kimUserService.save(kimUser).convertToDto(), HttpStatus.OK);
+    public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
+        return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")

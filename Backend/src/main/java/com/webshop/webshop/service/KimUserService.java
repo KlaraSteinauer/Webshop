@@ -11,20 +11,16 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
-import java.util.Optional;
-
 @Service
 public class KimUserService {
 
     @Autowired
     KimUserRepository kimUserRepository;
 
-    @Autowired
-    AddressService addressService;
 
-    public KimUser save(KimUser kimUser) {
+public KimUser save(KimUserDTO kimUserDTO) {
         try {
-            return kimUserRepository.save(kimUser);
+            return kimUserRepository.save(kimUserDTO.convertToKimUser());
         }
         catch (TransactionSystemException e) {
             throw new IllegalArgumentException("Invalid fields for user!");
