@@ -141,7 +141,6 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/product/${id}`,
             method: 'DELETE',
-            cors: true,
             contentType: "application/json",
             success: function () {
                 newItem.remove();
