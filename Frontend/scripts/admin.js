@@ -81,33 +81,16 @@ $(document).ready(function () {
 
     function createProduct() {
         let productValues = {
-            Id: $('#product-id-val').val(),
-            Name: $('#product-name-val').val(),
-            Description: $('#product-description-val').val(),
-            ImageUrl: $('#product-img-val').val(),
-            Price: $('#product-price-val').val(),
-            Quantity: $('#product-amount-val').val(),
-            Category: $('#product-category-val').val(),
+            id: $('#product-id-val').val(),
+            name: $('#product-name-val').val(),
+            description: $('#product-description-val').val(),
+            imageUrl: $('#product-img-val').val(),
+            price: $('#product-price-val').val(),
+            quantity: $('#product-amount-val').val(),
+            category: $('#product-category-val').val(),
         };
-        return new Product(productValues.Id, productValues.Name, productValues.Description, productValues.ImageUrl, productValues.Price, productValues.Quantity, productValues.Category);
+        return new Product(productValues.id, productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
     }
-
-    /*function updateProduct(Product) {
-          productList.forEach(product => {
-             if (product.Id === Product.Id) {
-                 let id = (product.Id === Product.Id);
-                 let name = (product.Name = Product.Name);
-                 let description = (product.Description = Product.Description);
-                 let imageUrl = (product.ImageUrl = Product.ImageUrl);
-                 let price = (product.Price = Product.Price);
-                 let quantity = (product.Quantity = Product.Quantity);
-                 let category = (product.Category = Product.Category);
-                 return productList.push(Product(id, name, description, imageUrl, price, quantity, category))
-             } else {
-                 console.error("Produkt konnte nicht aktualisiert werden!")
-             }
-         });
-     }*/
 
     //function to load product list from db
     $("#search").on("click", _e => {
@@ -120,6 +103,7 @@ $(document).ready(function () {
                 products.forEach(product => {
                     newProductItem(product);
                 });
+                loadAndUpdateProduct();
             },
             error: function (error) {
                 console.log(error);
@@ -130,19 +114,22 @@ $(document).ready(function () {
     //function to add a new product to the list
     $("#addProduct").on("click", _e => {
         let product = createProduct();
-        console.log(product)
+        console.log(JSON.stringify(product))
 
         $.ajax({
-            url: "http://localhost:8080/product/create",
+            url: 'http://localhost:8080/product',
             method: "POST",
-            contentType: "application/json",
+            contentType: 'application/json',
             data: JSON.stringify(product),
             success: function () {
                 productList.push(product);
             },
-            error: error => {
-                console.log(error);
+            error: function (xhr, status, error) {
+                console.log("Status: " + status);
+                console.log("Error: " + error);
+                console.log(xhr.responseText); 
             }
+
         });
     });
 
@@ -164,18 +151,45 @@ $(document).ready(function () {
     });
 
     //function to update product from the list
-    /* $('#list-group-product').on("click", function () {
-         let itemId = updateItem.data('item-id');
- 
-         $.ajax({
-             url: `/product/${itemId}`,
-             method: 'PUT',
-             success: updateProduct(itemId),
-             error: function (error) {
-                 console.log(error);
-             }
-         });
-     });*/
+    function loadAndUpdateProduct() {
+        $('#list-group-product').on("click", '.updateItem', function () {
+            const listItem = $(this).closest("li");
+            const itemId = listItem.data("data-item-id");
+    
+            $.ajax({
+                url: `http://localhost:8080/product/findById/${itemId}`,
+                method: 'GET',
+                success: function (product) {
+                    $('#product-id-val').val(product.id);
+                    $('#product-name-val').val(product.name);
+                    $('#product-description-val').val(product.description);
+                    $('#product-img-val').val(product.imageUrl);
+                    $('#product-price-val').val(product.price);
+                    $('#product-amount-val').val(product.quantity);
+                    $('#product-category-val').val(product.category);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    
+        $('#saveProduct').on("click", function (e) {
+            const updatedProduct = createProduct()
+    
+            $.ajax({
+                url: `http://localhost:8080/product/${updatedProduct.id}`,
+                method: 'PUT', 
+                data: updatedProduct, 
+                success: function (response) {
+                    console.log("Product updated:", response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    }
 
 });
 

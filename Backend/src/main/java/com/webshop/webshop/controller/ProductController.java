@@ -3,9 +3,7 @@ package com.webshop.webshop.controller;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
-import jakarta.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,20 +15,8 @@ import java.util.List;
 @RequestMapping("/product")
 public record ProductController(ProductService productService) {
 
-    /*
-     * Example: Request body as json
-     * {
-     * "productName":"Salz",
-     * "productDescription":"Das ist Salz.",
-     * "productImageUrl":"IMAGE URL",
-     * "productPrice":"0.99",
-     * "productQuantity":5,
-     * "productCategory":"SALZPFEFFER"
-     * }
-     */
-
-    @PostMapping("/create")
-    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+    @PostMapping
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         try{
         return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);}
         catch (Exception e){
