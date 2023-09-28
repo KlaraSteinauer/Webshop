@@ -9,25 +9,16 @@ import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import org.jose4j.jwt.GeneralJwtException;
 import org.jose4j.jwt.JwtClaims;
-import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.jwt.consumer.InvalidJwtException;
-import org.jose4j.jwt.consumer.JwtConsumer;
-import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.HmacKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.security.SignatureException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
-import java.util.Map;
 import java.util.Optional;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
-
 
 @Service
 public class TokenService {
@@ -50,7 +41,6 @@ public class TokenService {
      * Generates a Token out of the given User details.
      *
      * @param kimUser kimUser to make the token out of
-     *
      * @return String The token
      */
     public String generateToken(KimUser kimUser) throws GeneralJwtException {
@@ -97,12 +87,12 @@ public class TokenService {
      * @return Boolean if the token is valid
 
     public Boolean validateToken(String token) {
-        try {
-            getClaimsFromToken(token);
-        } catch (InvalidJwtException e) {
-            return false;
-        }
-        return true;
+    try {
+    getClaimsFromToken(token);
+    } catch (InvalidJwtException e) {
+    return false;
+    }
+    return true;
     }
 
     /**
@@ -115,16 +105,14 @@ public class TokenService {
      * @throws InvalidJwtException if the jwt is invalid, pending rework
 
     public Map<String, Object> getClaimsFromToken(String token) throws InvalidJwtException {
-        JwtConsumer jwtc = new JwtConsumerBuilder()
-                .setRequireExpirationTime()
-                .setVerificationKey(key)
-                .build();
-        JwtClaims claims = jwtc.processToClaims(token);
-        return claims.getClaimsMap();
+    JwtConsumer jwtc = new JwtConsumerBuilder()
+    .setRequireExpirationTime()
+    .setVerificationKey(key)
+    .build();
+    JwtClaims claims = jwtc.processToClaims(token);
+    return claims.getClaimsMap();
     }
-*/
-
-
+     */
 
 
 }

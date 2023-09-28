@@ -2,13 +2,10 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.repository.AddressRepository;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class KimUserService {
@@ -16,11 +13,8 @@ public class KimUserService {
     @Autowired
     KimUserRepository kimUserRepository;
 
-    @Autowired
-    AddressService addressService;
-
-    public KimUser save(KimUser kimUser) {
-        return kimUserRepository.save(kimUser);
+    public KimUser save(KimUserDTO kimUserDTO) {
+        return kimUserRepository.save(kimUserDTO.convertToKimUser());
     }
 
     public KimUser findById(Long id) {

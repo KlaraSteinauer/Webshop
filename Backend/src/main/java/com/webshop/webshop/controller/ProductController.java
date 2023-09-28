@@ -3,6 +3,7 @@ package com.webshop.webshop.controller;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//Controller: receives the request information from frontend and sends it to service for further action.
 @RestController
 @RequestMapping("/product")
-public record ProductController(ProductService productService) {
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final ProductService productService;
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        try{
-        return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);}
-        catch (Exception e){
+        try {
+            return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<ProductDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -32,16 +35,13 @@ public record ProductController(ProductService productService) {
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long id) {
-        ProductDTO updatedProduct = productService.update(id, productDTO);
-        if (updatedProduct == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("/{itemId}")
+    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
+        ProductDTO updatedProduct = productService.update(itemId, productDTO);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProducts()
                 .stream()
