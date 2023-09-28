@@ -87,7 +87,7 @@ $(document).ready(function () {
             imageUrl: $('#product-img-val').val(),
             price: $('#product-price-val').val(),
             quantity: $('#product-amount-val').val(),
-            category: $('#product-category-val').val(),
+            category: $('#product-category option:selected').val(),
         };
         return new Product(productValues.id, productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
     }
