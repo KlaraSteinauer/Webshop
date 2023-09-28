@@ -9,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
-//Enthält die Logik und darf mit dem Repository direkt kontaktieren um die CRUD-Funktionen aufzurufen.
-//Hier werden auch die DTO in Model umgewandelt und umgekehrt! (mithilfe des Mappers)
 
 @Service
 public class ProductService {
@@ -22,19 +18,19 @@ public class ProductService {
 
     public ProductDTO save(ProductDTO productDTO) {
         Product product = productDTO.convertToProduct();
-        productRepository.save(product);
-        return productDTO;
+        Product savedProduct = productRepository.save(product);
+        return savedProduct.convertToDto();
     }
 
     public ProductDTO update(Long id, ProductDTO updateProductDTO) throws ObjectNotFoundException {
         Product product = findById(id);
-            product.setName(updateProductDTO.getName());
-            product.setDescription(updateProductDTO.getDescription());
-            product.setImageUrl(updateProductDTO.getImageUrl());
-            product.setPrice(updateProductDTO.getPrice());
-            product.setQuantity(updateProductDTO.getQuantity());
-            product.setCategory(ProductCategory.valueOf(updateProductDTO.getCategory()));
-            productRepository.save(product);
+        product.setName(updateProductDTO.getName());
+        product.setDescription(updateProductDTO.getDescription());
+        product.setImageUrl(updateProductDTO.getImageUrl());
+        product.setPrice(updateProductDTO.getPrice());
+        product.setQuantity(updateProductDTO.getQuantity());
+        product.setCategory(ProductCategory.valueOf(updateProductDTO.getCategory()));
+        productRepository.save(product);
         return product.convertToDto();
     }
 
