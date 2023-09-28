@@ -131,13 +131,13 @@ class ProductServiceTest {
                 .filter(p -> p.getName().equals("Product 1"))
                 .findFirst()
                 .get();
-        final Long idToBeDeleted = productToUpdate.getId();
+        final Long idToDelete = productToUpdate.getId();
         final Long wrongId = 123456L;
         assertThrows(ObjectNotFoundException.class,
                 () -> productService.deleteById(wrongId));
         // make sure no products were deleted
         assertEquals(3, productRepository.findAll().size());
-        assertDoesNotThrow(() -> productService.deleteById(idToBeDeleted));
+        assertDoesNotThrow(() -> productService.deleteById(idToDelete));
         // only 2 products remain
         assertEquals(2, productRepository.findAll().size());
     }

@@ -2,11 +2,14 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.AddressRepository;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 
 import java.util.Optional;
 
@@ -20,7 +23,12 @@ public class KimUserService {
     AddressService addressService;
 
     public KimUser save(KimUser kimUser) {
-        return kimUserRepository.save(kimUser);
+        try {
+            return kimUserRepository.save(kimUser);
+        }
+        catch (TransactionSystemException e) {
+            throw new IllegalArgumentException("Invalid fields for user!");
+        }
     }
 
     public KimUser findById(Long id) {
@@ -32,6 +40,11 @@ public class KimUserService {
     }
 
     public void deleteById(Long id) {
-        kimUserRepository.deleteById(id);
+        try {
+            kimUserRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ObjectNotFoundException(Product.class, "User with id: " + id + "not found!");
+        }
     }
 }
