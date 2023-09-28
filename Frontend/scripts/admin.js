@@ -114,7 +114,6 @@ $(document).ready(function () {
     //function to add a new product to the list
     $("#addProduct").on("click", _e => {
         let product = createProduct();
-        console.log(JSON.stringify(product))
 
         $.ajax({
             url: 'http://localhost:8080/product',
@@ -136,11 +135,14 @@ $(document).ready(function () {
     //function to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
         let newItem = $(this).closest('li');
-        let itemId = newItem.data('item-id');
+        let id = newItem.data('item-id');
+        console.log(id)
 
         $.ajax({
-            url: `/product/${itemId}`,
+            url: `http://localhost:8080/product/${id}`,
             method: 'DELETE',
+            cors: true,
+            contentType: "application/json",
             success: function () {
                 newItem.remove();
             },
