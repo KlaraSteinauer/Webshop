@@ -7,6 +7,7 @@ import com.webshop.webshop.repository.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,10 +55,15 @@ public class ProductService {
         return productRepository.findByDescription(description);
     }
 
-    public List<Product> findByCategory(String category) {
-        return productRepository.findByCategory(category);
-    }
 
+    public List<Product> findByCategory(String category) {
+        try {
+            return productRepository.findByCategory(ProductCategory.valueOf(category));
+        }
+        catch (InvalidDataAccessApiUsageException e) {
+            throw new IllegalArgumentException(category + " is no valid product category!");
+        }
+    }
     public Product findById(Long id) throws ObjectNotFoundException {
         var product = productRepository.findById(id);
         if (product.isEmpty()) {
