@@ -1,6 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -23,22 +24,32 @@ public class ProductController {
         try {
             return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<ProductDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        System.out.println("Anfrage kommt and backend");
-        productService.deleteById(id);
-        String msg = "Product " + id + " deleted.";
-        return new ResponseEntity<>(msg, HttpStatus.OK);
+        try {
+            productService.deleteById(id);
+            String msg = "Product " + id + " deleted.";
+            return new ResponseEntity<>(msg, HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            String msg = "Product " + id + " not found.";
+            return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PutMapping("/{itemId}")
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
-        ProductDTO updatedProduct = productService.update(itemId, productDTO);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        try {
+            ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/all")
@@ -52,7 +63,11 @@ public class ProductController {
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) throws ObjectNotFoundException {
-        return new ResponseEntity<>(productService.findById(id).convertToDto(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(productService.findById(id).convertToDto(), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/findByCategory/{category}")

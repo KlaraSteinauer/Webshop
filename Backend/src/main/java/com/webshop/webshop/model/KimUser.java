@@ -36,7 +36,7 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)

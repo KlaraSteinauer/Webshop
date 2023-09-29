@@ -1,5 +1,13 @@
 package com.webshop.webshop.enums;
 
 public enum Role {
-    ADMIN, CUSTOMER, ANONYMOUS;
+    ANONYMOUS(1),
+    CUSTOMER(2),
+    ADMIN(3);
+
+    public final int value;
+
+    private Role(int value) {
+        this.value = value;
+    }
 }
