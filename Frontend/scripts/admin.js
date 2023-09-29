@@ -1,6 +1,5 @@
 $(document).ready(function () {
     let pageLoaded = true;
-
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
 
@@ -29,9 +28,10 @@ $(document).ready(function () {
         }
     }
 
+    let productList = [];
+
     function toggleFormAndList(formSelector, listSelector) {
         if (pageLoaded) {
-            $('.adminManagementForm, .managementList').hide();
             $(formSelector).show();
             $(listSelector).show();
             pageLoaded = false;
@@ -41,8 +41,6 @@ $(document).ready(function () {
             $(listSelector).show();
         }
     }
-
-    let productList = [];
 
     function newProductItem(product) {
         let newItem = $("<li>", {
@@ -81,7 +79,19 @@ $(document).ready(function () {
 
     function createProduct() {
         let productValues = {
-            id: $('#product-id-val').val(),
+            name: $('#product-name-val').val(),
+            description: $('#product-description-val').val(),
+            imageUrl: $('#product-img-val').val(),
+            price: $('#product-price-val').val(),
+            quantity: $('#product-amount-val').val(),
+            category: $('#product-category option:selected').val(),
+        };
+        return new Product(productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
+    }
+
+    function updateProduct(id) {
+        let productValues = {
+            id: id,
             name: $('#product-name-val').val(),
             description: $('#product-description-val').val(),
             imageUrl: $('#product-img-val').val(),
@@ -90,20 +100,21 @@ $(document).ready(function () {
             category: $('#product-category option:selected').val(),
         };
         return new Product(productValues.id, productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
+    
     }
 
-    //function to load product list from db
+    //event to load product list from server
+    console.log("search ist hier")
     $("#search").on("click", _e => {
+        $('#list-group-product').empty();
         $.ajax({
-            url: 'http://localhost:8080/product',
+            url: 'http://localhost:8080/product/all',
             method: 'GET',
-            success: function (products) {
+            success: (products) => {
                 productList = products;
-                $('#list-group-product').empty();
                 products.forEach(product => {
                     newProductItem(product);
                 });
-                loadAndUpdateProduct();
             },
             error: function (error) {
                 console.log(error);
@@ -111,7 +122,7 @@ $(document).ready(function () {
         });
     })
 
-    //function to add a new product to the list
+    //event to add a new product to the list
     $("#addProduct").on("click", _e => {
         let product = createProduct();
 
@@ -126,13 +137,13 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 console.log("Status: " + status);
                 console.log("Error: " + error);
-                console.log(xhr.responseText); 
+                console.log(xhr.responseText);
             }
 
         });
     });
 
-    //function to delete a product from the list
+    //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
@@ -151,46 +162,45 @@ $(document).ready(function () {
         });
     });
 
-    //function to update product from the list
-    function loadAndUpdateProduct() {
-        $('#list-group-product').on("click", '.updateItem', function () {
-            const listItem = $(this).closest("li");
-            const itemId = listItem.data("data-item-id");
-    
-            $.ajax({
-                url: `http://localhost:8080/product/findById/${itemId}`,
-                method: 'GET',
-                success: function (product) {
-                    $('#product-id-val').val(product.id);
-                    $('#product-name-val').val(product.name);
-                    $('#product-description-val').val(product.description);
-                    $('#product-img-val').val(product.imageUrl);
-                    $('#product-price-val').val(product.price);
-                    $('#product-amount-val').val(product.quantity);
-                    $('#product-category-val').val(product.category);
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
+    //event to update product from the list
+    $('#list-group-product').on("click", '.updateItem', function () {
+        let newItem = $(this).closest('li');
+        let itemId = newItem.data('item-id');
+        $.ajax({
+            url: `http://localhost:8080/product/findById/${itemId}`,
+            method: 'GET',
+            success: function (product) {
+                $('#product-name-val').val(product.name);
+                $('#product-description-val').val(product.description);
+                $('#product-img-val').val(product.imageUrl);
+                $('#product-price-val').val(product.price);
+                $('#product-amount-val').val(product.quantity);
+                $('#product-category option:selected').val(product.category);
+                console.log("geladenes produkt", product)
+            },
+            error: function (error) {
+                console.log(error);
+            }
         });
-    
-        $('#saveProduct').on("click", function (e) {
-            const updatedProduct = createProduct()
-    
+
+        $('#saveProduct').on("click", _e => {
+            let product = updateProduct(itemId);
             $.ajax({
-                url: `http://localhost:8080/product/${updatedProduct.id}`,
-                method: 'PUT', 
-                data: updatedProduct, 
-                success: function (response) {
-                    console.log("Product updated:", response);
+                url: `http://localhost:8080/product/${itemId}`,
+                method: "PUT",
+                contentType: 'application/json',
+                data: JSON.stringify(product),
+                success: function () {
+                    console.log("Produkt wurde geladen !!")
                 },
-                error: function (error) {
-                    console.log(error);
+                error: function (xhr, status, error) {
+                    console.log("Status: " + status);
+                    console.log("Error: " + error);
+                    console.log(xhr.responseText);
                 }
             });
         });
     }
-
+    );
 });
 
