@@ -17,8 +17,7 @@ $(document).ready(function () {
 
     //Product Klasse + Constructor + Logic
     class Product {
-        constructor(id, name, description, imageUrl, price, quantity, category) {
-            this.id = id;
+        constructor(name, description, imageUrl, price, quantity, category) {
             this.name = name;
             this.category = category;
             this.imageUrl = imageUrl;
@@ -99,25 +98,23 @@ $(document).ready(function () {
             quantity: $('#product-amount-val').val(),
             category: $('#product-category option:selected').val(),
         };
-        return new Product(productValues.id, productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
-    
+        return new Product(productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
     }
 
     //event to load product list from server
-    console.log("search ist hier")
     $("#search").on("click", _e => {
-        $('#list-group-product').empty();
         $.ajax({
             url: 'http://localhost:8080/product/all',
             method: 'GET',
             success: (products) => {
                 productList = products;
+                $('#list-group-product').empty();
                 products.forEach(product => {
                     newProductItem(product);
                 });
             },
             error: function (error) {
-                console.log(error);
+                console.log("Error: " + error);
             }
         });
     })
@@ -131,13 +128,22 @@ $(document).ready(function () {
             method: "POST",
             contentType: 'application/json',
             data: JSON.stringify(product),
-            success: function () {
-                productList.push(product);
-            },
-            error: function (xhr, status, error) {
-                console.log("Status: " + status);
+            success: $.ajax({
+                url: 'http://localhost:8080/product/all',
+                method: 'GET',
+                success: (products) => {
+                    productList = products;
+                    $('#list-group-product').empty();
+                    products.forEach(product => {
+                        newProductItem(product);
+                    });
+                },
+                error: function (error) {
+                    console.log("Error: " + error);
+                }
+            }),
+            error: function (error) {
                 console.log("Error: " + error);
-                console.log(xhr.responseText);
             }
 
         });
@@ -157,7 +163,7 @@ $(document).ready(function () {
                 newItem.remove();
             },
             error: function (error) {
-                console.log(error);
+                console.log("Error: " + error);
             }
         });
     });
@@ -165,9 +171,9 @@ $(document).ready(function () {
     //event to update product from the list
     $('#list-group-product').on("click", '.updateItem', function () {
         let newItem = $(this).closest('li');
-        let itemId = newItem.data('item-id');
+        let id = newItem.data('item-id');
         $.ajax({
-            url: `http://localhost:8080/product/findById/${itemId}`,
+            url: `http://localhost:8080/product/findById/${id}`,
             method: 'GET',
             success: function (product) {
                 $('#product-name-val').val(product.name);
@@ -179,24 +185,23 @@ $(document).ready(function () {
                 console.log("geladenes produkt", product)
             },
             error: function (error) {
-                console.log(error);
+                console.log("Error: " + error);
             }
         });
 
         $('#saveProduct').on("click", _e => {
-            let product = updateProduct(itemId);
+            let product = updateProduct(id);
+            console.log("update produkt", product)
             $.ajax({
-                url: `http://localhost:8080/product/${itemId}`,
+                url: `http://localhost:8080/product/${id}`,
                 method: "PUT",
                 contentType: 'application/json',
                 data: JSON.stringify(product),
                 success: function () {
                     console.log("Produkt wurde geladen !!")
                 },
-                error: function (xhr, status, error) {
-                    console.log("Status: " + status);
+                error: function (error) {
                     console.log("Error: " + error);
-                    console.log(xhr.responseText);
                 }
             });
         });
