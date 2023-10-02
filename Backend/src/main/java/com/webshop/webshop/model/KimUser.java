@@ -4,14 +4,12 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -42,6 +40,19 @@ public class KimUser {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private List<ShoppingCart> shoppingCart;
+
+    public KimUser(Long userId, String userName, String userPassword, String eMail, Role role, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.eMail = eMail;
+        this.role = Role.CUSTOMER;
+        this.gender = gender;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.shoppingCart = shoppingCart;
+    }
 
     public KimUserDTO convertToDto() {
         return new KimUserDTO(

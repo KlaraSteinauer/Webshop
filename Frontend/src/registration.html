@@ -15,6 +15,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="/scripts/registration.js"></script>
     <title>registration</title>
 </head>
 
@@ -81,7 +82,7 @@
                                 <div class="col-md-10 mx-auto col-lg-6" method="post">
                                     <form class="p-4 p-md-5 border rounded-3 bg-light" id="registrationForm">
                                         <div class="form-floating mb-3">
-                                            <select name="anrede" class="form-control" id="floatingAnrede"
+                                            <select name="anrede" class="form-control" id="Anrede"
                                                 placeholder="Anrede">
                                                 <option value="default">Anrede</option>
                                                 <option value="Herr">Herr</option>
@@ -90,44 +91,59 @@
                                             </select>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingFirstname"
+                                            <input type="text" class="form-control" id="Firstname"
                                                 placeholder="Vorname">
-                                            <label for="floatingFirstname">Vorname</label>
+                                            <label for="Firstname">Vorname</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingLastname"
+                                            <input type="text" class="form-control" id="Lastname"
                                                 placeholder="Nachname">
-                                            <label for="floatingLastname">Nachname</label>
+                                            <label for="Lastname">Nachname</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingStreet"
+                                            <input type="text" class="form-control" id="Street"
                                                 placeholder="Straße">
-                                            <label for="floatingStreet">Straße</label>
+                                            <label for="Street">Straße</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingPLZ"
+                                            <input type="text" class="form-control" id="Number"
+                                                placeholder="Hausnummer">
+                                            <label for="Number">Hausnummer</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="PLZ"
                                                 placeholder="Postleitzahl">
-                                            <label for="floatingPLZ">PLZ</label>
+                                            <label for="PLZ">PLZ</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingPlace"
+                                            <input type="text" class="form-control" id="City"
                                                 placeholder="Ort">
-                                            <label for="floatingPlace">Ort</label>
+                                            <label for="City">Ort</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="floatingInput"
+                                            <input type="text" class="form-control" id="Country"
+                                                placeholder="Land">
+                                            <label for="Country">Land</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="Email"
                                                 placeholder="name@example.com">
-                                            <label for="floatingInput">E-Mail</label>
+                                            <label for="Email">E-Mail</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="password" class="form-control" id="floatingPassword"
-                                                placeholder="Password">
-                                            <label for="floatingPassword">Passwort</label>
+                                            <input type="text" class="form-control" id="Username"
+                                                placeholder="Username" autocomplete="username">
+                                            <label for="Username">Username</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" id="Password"
+                                                placeholder="Password" autocomplete="new-password">
+                                            <label for="Password">Passwort</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="floatingRepeatPassword"
-                                                placeholder="Password wiederholen">
-                                            <label for="floatingPassword">Passwort wiederholen</label>
+                                                placeholder="Password wiederholen" autocomplete="new-password">
+                                            <label for="Password">Passwort wiederholen</label>
                                         </div>
                                         <div class="checkbox mb-3">
                                             <label>
@@ -136,7 +152,7 @@
                                             </label>
                                         </div>
                                         <button class="w-100 btn btn-lg btn-primary my-2"
-                                            type="submit">Registrierung</button>
+                                            id="registration">Registrierung</button>
                                         <button class="w-100 btn btn-lg btn-outline-secondary my-2"
                                             type="reset">Reset</button>
                                         <hr class="my-4">
