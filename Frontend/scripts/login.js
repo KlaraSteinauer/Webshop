@@ -31,7 +31,7 @@ $(document).ready(function () {
                 localStorage.setItem('accessToken', accessToken); 
                 if (accessToken.role === 'ADMIN') {
                     window.location.href = 'src/admin.html';
-                } else if (accessToken.role === 'CUSTOMER' || accessToken.role === 'ANONYMOUS') {
+                } else if (accessToken.role === 'CUSTOMER') {
                     window.location.href = 'src/home.html';
                 }
             },
