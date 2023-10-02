@@ -3,14 +3,17 @@ package com.webshop.webshop.controller;
 import com.webshop.webshop.DTO.ShoppingCartDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/shoppingCart")
-public record ShoppingCartController(ShoppingCartService shoppingCartService){
+@RequiredArgsConstructor
+public class ShoppingCartController {
+
+    private final ShoppingCartService shoppingCartService;
 
     @PostMapping("/addProduct/{ShoppingCartId}")
     public ResponseEntity<ShoppingCartDTO> addProductToCart(@RequestBody Product product, @PathVariable Long ShoppingCartId) {

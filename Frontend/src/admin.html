@@ -69,7 +69,7 @@
 
 
                         <div class="col-12 col-md-3 m-2">
-                            <form class="p-3 border rounded-3 bg-light justify-size">
+                            <div class="p-3 border rounded-3 bg-light justify-size">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingSearch" placeholder="Suche">
                                     <label for="floatingSearch">Suche</label>
@@ -87,30 +87,30 @@
                                         <a class="nav-link" href="#" id="userManagement">Nutzer</a>
                                     </li>
                                 </ul>
-                            </form>
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-4 m-2">
                             <form class="p-2 border rounded-3 bg-light justify-size adminManagementForm"
                                 id="productManagementForm">
                                 <h2>Produkt-Management</h2>
-                                <div class="input-group mb-3">
+                                <!-- <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-id">ID</span>
                                     <input type="text" class="form-control" placeholder="ProduktID"
                                         aria-label="Produkt-ID" aria-describedby="product-id" id="product-id-val">
-                                </div>
+                                </div> -->
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="product-name">Produktname</span>
                                     <input type="text" class="form-control" placeholder="Produktname"
                                         aria-label="Produkt-ID" aria-describedby="product-name" id="product-name-val">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <select name="product-categorie" class="form-control" id="product-category"
+                                    <select name="product-category" class="form-control" id="product-category"
                                         placeholder="Kategorie">
                                         <option value="default">Kategorie auswählen...</option>
-                                        <option value="Salt and Pepper">Salt and Pepper</option>
-                                        <option value="Pure Herbs">Pure Herbs</option>
-                                        <option value="Sweet dreams">Sweet dreams</option>
+                                        <option value="SALZPFEFFER">SALZPFEFFER</option>
+                                        <option value="KRAEUTER">KRAEUTER</option>
+                                        <option value="SUESSMITTEL">SUESSMITTEL</option>
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
@@ -133,7 +133,7 @@
                                         id="product-description-val"></textarea>
                                 </div>
                                 <button class="w-100 btn btn-lg btn-primary my-2" id="addProduct">Hinzufügen</button>
-                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Speichern</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Bearbeiten</button>
                             </form>
 
                             <form class="p-2 border rounded-3 bg-light adminManagementForm" id="userManagementForm">

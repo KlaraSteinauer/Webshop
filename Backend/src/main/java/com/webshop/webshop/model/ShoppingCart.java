@@ -27,7 +27,7 @@ public class ShoppingCart {
     inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
     @OneToOne(mappedBy = "shoppingCart")
-    private Order order;
+    private KimOrder order;
 
     public ShoppingCartDTO convertToDto() {
         return new ShoppingCartDTO(
