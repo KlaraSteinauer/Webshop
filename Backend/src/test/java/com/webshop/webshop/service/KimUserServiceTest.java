@@ -36,7 +36,7 @@ public class KimUserServiceTest {
         customer.setUserId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
-        customer.setEMail("customer@email.com");
+        customer.setUserEmail("customer@email.com");
         customer.setRole(Role.CUSTOMER);
         customer.setGender("female");
         customer.setFirstName("customerFirst");
@@ -45,7 +45,7 @@ public class KimUserServiceTest {
         admin.setUserId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
-        admin.setEMail("admin@email.com");
+        admin.setUserEmail("admin@email.com");
         admin.setRole(Role.ADMIN);
         admin.setGender("male");
         admin.setFirstName("adminFirst");
@@ -54,7 +54,7 @@ public class KimUserServiceTest {
         anonymous.setUserId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
-        anonymous.setEMail("anonymous@email.com");
+        anonymous.setUserEmail("anonymous@email.com");
         anonymous.setRole(Role.ANONYMOUS);
         anonymous.setGender("non-binary");
         anonymous.setFirstName("anonymousFirst");
@@ -69,8 +69,8 @@ public class KimUserServiceTest {
         KimUserDTO user = new KimUserDTO();
         user.setUserName("user");
         user.setUserPassword("userPassword");
-        user.setEMail("user@email.com");
-        user.setRole(Role.CUSTOMER);
+        user.setUserEmail("user@email.com");
+        user.setRole(Role.CUSTOMER.name());
         user.setGender("male");
         user.setFirstName("userFirst");
         user.setLastName("userLast");
@@ -81,8 +81,8 @@ public class KimUserServiceTest {
         assertAll(
                 () -> assertEquals(user.getUserName(), savedUser.getUserName()),
                 () -> assertEquals(user.getUserPassword(), savedUser.getUserPassword()),
-                () -> assertEquals(user.getEMail(), savedUser.getEMail()),
-                () -> assertEquals(user.getRole(), savedUser.getRole()),
+                () -> assertEquals(user.getUserEmail(), savedUser.getUserEmail()),
+                () -> assertEquals(Role.valueOf(user.getRole()), savedUser.getRole()),
                 () -> assertEquals(user.getGender(), savedUser.getGender()),
                 () -> assertEquals(user.getFirstName(), savedUser.getFirstName()),
                 () -> assertEquals(user.getLastName(), savedUser.getLastName())
@@ -105,7 +105,7 @@ public class KimUserServiceTest {
                 () -> assertEquals(customer.getUserId(), foundUser.getUserId()),
                 () -> assertEquals(customer.getUserName(), foundUser.getUserName()),
                 () -> assertEquals(customer.getUserPassword(), foundUser.getUserPassword()),
-                () -> assertEquals(customer.getEMail(), foundUser.getEMail()),
+                () -> assertEquals(customer.getUserEmail(), foundUser.getUserEmail()),
                 () -> assertEquals(customer.getRole(), foundUser.getRole()),
                 () -> assertEquals(customer.getGender(), foundUser.getGender()),
                 () -> assertEquals(customer.getFirstName(), foundUser.getFirstName()),

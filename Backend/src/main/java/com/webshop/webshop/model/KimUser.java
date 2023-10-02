@@ -4,15 +4,13 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity(name = "kim_user")
 public class KimUser {
     @Id
@@ -24,12 +22,12 @@ public class KimUser {
     @Column(name = "user_password")
     private String userPassword;
     @Column(name = "e-mail")
-    private String eMail;
+    private String userEmail;
 
     @Enumerated(value = EnumType.ORDINAL)
     @NotNull
     @Column(name = "user_role")
-    private Role role;
+    private Role role = Role.CUSTOMER;
     @Column(name = "gender")
     private String gender;
     @Column(name = "first_name")
@@ -43,11 +41,10 @@ public class KimUser {
     @JoinColumn(name = "id")
     private List<ShoppingCart> shoppingCart;
 
-    public KimUser(String userName, String userPassword, String eMail, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
+    public KimUser(String userName, String userPassword, String userEmail, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
         this.userName = userName;
         this.userPassword = userPassword;
-        this.eMail = eMail;
-        this.role = Role.CUSTOMER;
+        this.userEmail = userEmail;
         this.gender = gender;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -60,7 +57,7 @@ public class KimUser {
                 this.getUserId(),
                 this.getUserName(),
                 this.getUserPassword(),
-                this.getEMail(),
+                this.getUserEmail(),
                 this.getRole().name(),
                 this.getGender(),
                 this.getFirstName(),
