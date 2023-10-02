@@ -16,9 +16,10 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+
     @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginDTO) throws GeneralJwtException, LoginException {
-        return "Bearer " + authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        return authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
     }
 
 }

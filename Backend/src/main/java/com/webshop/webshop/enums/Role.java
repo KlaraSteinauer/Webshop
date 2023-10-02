@@ -1,13 +1,11 @@
 package com.webshop.webshop.enums;
 
+import lombok.ToString;
+
+@ToString
 public enum Role {
-    ANONYMOUS(1),
-    CUSTOMER(2),
-    ADMIN(3);
+    ANONYMOUS,
+    CUSTOMER,
+    ADMIN;
 
-    public final int value;
-
-    private Role(int value) {
-        this.value = value;
-    }
 }
