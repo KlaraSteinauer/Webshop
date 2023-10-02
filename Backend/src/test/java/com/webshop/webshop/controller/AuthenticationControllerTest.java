@@ -1,6 +1,5 @@
 package com.webshop.webshop.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.enums.Role;

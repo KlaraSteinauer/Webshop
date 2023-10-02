@@ -41,8 +41,7 @@ public class KimUser {
     @JoinColumn(name = "id")
     private List<ShoppingCart> shoppingCart;
 
-    public KimUser(Long userId, String userName, String userPassword, String eMail, Role role, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
-        this.userId = userId;
+    public KimUser(String userName, String userPassword, String eMail, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.eMail = eMail;
@@ -60,7 +59,7 @@ public class KimUser {
                 this.getUserName(),
                 this.getUserPassword(),
                 this.getEMail(),
-                this.getRole(),
+                this.getRole().name(),
                 this.getGender(),
                 this.getFirstName(),
                 this.getLastName(),

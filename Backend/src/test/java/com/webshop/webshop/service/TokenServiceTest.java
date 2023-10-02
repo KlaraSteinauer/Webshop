@@ -1,30 +1,23 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.WebshopApplication;
-import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.model.Address;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.KimUserRepository;
-import com.webshop.webshop.repository.ProductRepository;
 import com.webshop.webshop.security.UserDetails;
-import org.h2.command.Token;
-import org.hibernate.ObjectNotFoundException;
 import org.jose4j.jwt.GeneralJwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -94,7 +87,7 @@ public class TokenServiceTest {
                 .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
         Optional<UserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
-        UserDetails userDetails =  assertDoesNotThrow(() -> var.get());
+        UserDetails userDetails = assertDoesNotThrow(() -> var.get());
         assertAll(
                 () -> assertEquals(customer.getUserId(), userDetails.getUserId()),
                 () -> assertEquals(customer.getUserName(), userDetails.getUserName()),

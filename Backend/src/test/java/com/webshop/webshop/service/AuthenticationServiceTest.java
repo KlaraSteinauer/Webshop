@@ -13,17 +13,16 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = WebshopApplication.class)
 @ActiveProfiles("test")
 public class AuthenticationServiceTest {
 
-        @Autowired
-        private AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
-        @Autowired
-        private KimUserRepository kimUserRepository;
+    @Autowired
+    private KimUserRepository kimUserRepository;
 
 
     @BeforeEach

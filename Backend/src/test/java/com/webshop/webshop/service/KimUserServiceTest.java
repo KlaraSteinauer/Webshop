@@ -4,7 +4,6 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -61,7 +61,6 @@ public class KimUserServiceTest {
         anonymous.setLastName("anonymousLast");
         kimUserRepository.saveAll(List.of(customer, admin, anonymous));
     }
-
 
 
     @Test

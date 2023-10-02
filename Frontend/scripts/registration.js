@@ -1,15 +1,13 @@
 $(document).ready(function () {
-
-    //User Role {ANONYMOUS(1), CUSTOMER(2), ADMIN(3);}
+    //User 
     class User {
-        constructor(userName, userPassword, eMail, gender, firstname, lastname, address) {
+        constructor(userName, userPassword, eMail, gender, firstName, lastName) {
             this.userName = userName;
             this.userPassword = userPassword;
             this.eMail = eMail;
             this.gender = gender;
-            this.firstname = firstname;
-            this.lastname = lastname;
-            this.address = address
+            this.firstName = firstName;
+            this.lastName = lastName;
         }
     }
 
@@ -24,45 +22,47 @@ $(document).ready(function () {
         }
     }
 
+    let addressData = {
+        "street": $('#Street').val(),
+        "number": $('#Number').val(),
+        "plz": $('#PLZ').val(),
+        "city": $('#City').val(),
+        "country": $('#Country').val(),
+    };
+
     function createNewUser() {
         let registrationData = {
+            "gender": $('#Anrede').val(),
+            "firstName": $('#Firstname').val(),
+            "lastName": $('#Lastname').val(),
+            "eMail": $('#Email').val(),
             "userName": $('#Username').val(),
             "userPassword": $('#Password').val(),
-            "eMail": $('#Email').val(),
-            "role": $('#username').val(),
-            "gender": $('#Anrede option:selected').val(),
-            "firstname": $('#Firstname').val(),
-            "lastname": $('#Lastname').val(),
-        }
-
-        let registrationAddress = {
-            "street": $('#Street').val(),
-            "number": $('#Number').val(),
-            "zip": $('#PLZ').val(),
-            "city": $('#City').val(),
-            "country": $('#Country').val(),
-        }
-
-        let address = new Address(registrationAddress.street, registrationAddress.number, registrationAddress.zip, registrationAddress.city, registrationAddress.country)
-        let user = new User(registrationData.userName, registrationData.userPassword, registrationData.eMail, registrationData.gender, registrationData.firstname, registrationData.lastname, address)
-
-        return user;
+        };
+        return new User (registrationData.userName, registrationData.userPassword, registrationData.eMail, registrationData.gender, registrationData.firstName, registrationData.lastName)
     }
 
-    $("#registration").on("click", _e => {
+    $("#registration").on("click", function (event) {
+        event.preventDefault();
+
         let newUser = createNewUser();
+
         $.ajax({
             url: 'http://localhost:8080/user/add',
             method: "POST",
             contentType: 'application/json',
             data: JSON.stringify(newUser),
-            success: console.log("User wurde erfolgreich hinzugefügt!"),
+            success: function (response) {
+                console.log("User wurde erfolgreich hinzugefügt!");
+            },
             error: function (error) {
-                console.log("Error: " + error);
+                console.log("Error: " + JSON.stringify(error));
             }
         });
     });
+});
 
 
 
-})
+
+
