@@ -4,7 +4,10 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -12,9 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity(name = "kim_user")
 public class KimUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -34,7 +36,7 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)
@@ -43,13 +45,15 @@ public class KimUser {
 
     public KimUserDTO convertToDto() {
         return new KimUserDTO(
+                this.getUserId(),
                 this.getUserName(),
                 this.getUserPassword(),
                 this.getEMail(),
+                this.getRole(),
                 this.getGender(),
                 this.getFirstName(),
                 this.getLastName(),
-                this.getAddress()
-        );
+                this.getAddress(),
+                this.getShoppingCart());
     }
 }

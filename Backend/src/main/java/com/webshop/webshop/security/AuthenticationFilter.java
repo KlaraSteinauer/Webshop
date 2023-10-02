@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jose4j.jwt.GeneralJwtException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,12 @@ private final TokenService tokenService;
         }
 
         // Create authorization token
-        Optional<UsernamePasswordAuthenticationToken> authToken = createAuthToken(bearer.split(" ")[1]);
+        Optional<UsernamePasswordAuthenticationToken> authToken = null;
+        try {
+            authToken = createAuthToken(bearer.split(" ")[1]);
+        } catch (GeneralJwtException e) {
+            throw new RuntimeException(e);
+        }
 
         // JWT is invalid, auth token could not be created
         if (authToken.isEmpty()) {
@@ -51,7 +57,7 @@ private final TokenService tokenService;
         filterChain.doFilter(request, response);
     }
 
-    private Optional<UsernamePasswordAuthenticationToken> createAuthToken(String jwt) {
+    private Optional<UsernamePasswordAuthenticationToken> createAuthToken(String jwt) throws GeneralJwtException {
         // Parse JWT
         Optional<UserDetails> userDetails = tokenService.parseToken(jwt);
 
