@@ -18,7 +18,7 @@ public class KimUserService {
     KimUserRepository kimUserRepository;
 
 
-public KimUser save(KimUserDTO kimUserDTO) {
+    public KimUser save(KimUserDTO kimUserDTO) {
         try {
             return kimUserRepository.save(kimUserDTO.convertToKimUser());
         }

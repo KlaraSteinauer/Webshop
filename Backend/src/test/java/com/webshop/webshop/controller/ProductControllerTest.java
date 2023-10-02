@@ -3,9 +3,14 @@ package com.webshop.webshop.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.enums.ProductCategory;
+import com.webshop.webshop.enums.Role;
+import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.model.Product;
+import com.webshop.webshop.repository.KimUserRepository;
 import com.webshop.webshop.repository.ProductRepository;
+import com.webshop.webshop.service.TokenService;
 import org.hamcrest.Matchers;
+import org.jose4j.jwt.GeneralJwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -50,10 +55,19 @@ public class ProductControllerTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private KimUserRepository kimUserRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    private String token = "";
+
 
     @BeforeEach
-    void setup() {
+    void setup() throws GeneralJwtException {
         productRepository.deleteAll();
+        kimUserRepository.deleteAll();
         Product product1 = new Product();
         product1.setName("Product 1");
         product1.setDescription("This is Product 1");
@@ -75,7 +89,18 @@ public class ProductControllerTest {
         product3.setPrice(3);
         product3.setQuantity(3);
         product3.setCategory(ProductCategory.SUESSMITTEL);
+        KimUser admin = new KimUser();
+        admin.setUserId(2L);
+        admin.setUserName("admin");
+        admin.setUserPassword("adminPassword");
+        admin.setEMail("admin@email.com");
+        admin.setRole(Role.ADMIN);
+        admin.setGender("male");
+        admin.setFirstName("adminFirst");
+        admin.setLastName("adminLast");
         productRepository.saveAll(List.of(product1, product2, product3));
+        kimUserRepository.save(admin);
+        token = tokenService.generateToken(admin);
     }
 
 
@@ -92,6 +117,7 @@ public class ProductControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/product")
+                        .header("Authorization", "Bearer " + token)
                         .content(mapper.writeValueAsString(emptyBody))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -99,6 +125,7 @@ public class ProductControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/product")
+                        .header("Authorization", "Bearer " + token)
                             .content(mapper.writeValueAsString(responseBody))
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
@@ -117,11 +144,13 @@ public class ProductControllerTest {
         final Long wrongId = 123456L;
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/product/{id}", wrongId))
+                        .delete("/product/{id}", wrongId)
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNotFound());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/product/{id}", productId))
+                        .delete("/product/{id}", productId)
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
     }
@@ -144,24 +173,28 @@ public class ProductControllerTest {
         final Long wrongId = 123456L;
 
         mockMvc.perform(MockMvcRequestBuilders.put("/product/{itemid}", wrongId)
+                        .header("Authorization", "Bearer " + token)
                         .content(mapper.writeValueAsString(responseBody))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/product/{itemid}", productId)
+                        .header("Authorization", "Bearer " + token)
                         .content(mapper.writeValueAsString(emptyBody))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/product/{itemid}", wrongId)
+                        .header("Authorization", "Bearer " + token)
                         .content(mapper.writeValueAsString(emptyBody))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/product/{itemid}", productId)
+                        .header("Authorization", "Bearer " + token)
                         .content(mapper.writeValueAsString(responseBody))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

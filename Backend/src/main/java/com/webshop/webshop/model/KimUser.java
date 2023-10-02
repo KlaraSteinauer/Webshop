@@ -25,6 +25,8 @@ public class KimUser {
     private String userPassword;
     @Column(name = "e-mail")
     private String eMail;
+
+    @Enumerated(value = EnumType.ORDINAL)
     @NotNull
     @Column(name = "user_role")
     private Role role;
