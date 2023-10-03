@@ -102,6 +102,25 @@ public class TokenServiceTest {
         );
     }
 
+    @Test
+    void isAdminTest() {
+        final KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
+        Optional<UserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
+        assertFalse(tokenService.isAdmin(customerToken));
+
+        final KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst()
+                .get();
+        final String adminToken = assertDoesNotThrow(() -> tokenService.generateToken(admin));
+        var = assertDoesNotThrow(() -> tokenService.parseToken(adminToken));
+        assertTrue(tokenService.isAdmin(adminToken));
+    }
+
 
     @Disabled
     @Test
