@@ -11,12 +11,15 @@ import jakarta.annotation.PostConstruct;
 import org.jose4j.jwt.GeneralJwtException;
 import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
+import org.jose4j.jwt.consumer.JwtConsumer;
+import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.HmacKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
@@ -74,7 +77,6 @@ public class TokenService {
 
     public Optional<UserDetails> parseToken(String jwt) throws GeneralJwtException {
         Jws<Claims> jwsClaims;
-
         jwsClaims = Jwts.parser()
                 .setSigningKey(key.getEncoded())
                 .parseClaimsJws(jwt);
@@ -93,15 +95,7 @@ public class TokenService {
     }
 
 
-    // TODO
-    // test if this works
-    /**
-     * Validates a given Token. The token is invalid if it expired, was modified or doesn't contain the necessary
-     * claims.
-     *
-     * @param token The token to validate
-     *
-     * @return Boolean if the token is valid
+
 
     public Boolean validateToken(String token) {
     try {
@@ -112,24 +106,27 @@ public class TokenService {
     return true;
     }
 
-    /**
-     * Extracts the Claims of a given Token and returns them as a Map.
-     *
-     * @param token the token from which to extract data
-     *
-     * @return Map&lt;String, Object&gt; a map of claims
-     *
-     * @throws InvalidJwtException if the jwt is invalid, pending rework
 
     public Map<String, Object> getClaimsFromToken(String token) throws InvalidJwtException {
     JwtConsumer jwtc = new JwtConsumerBuilder()
-    .setRequireExpirationTime()
-    .setVerificationKey(key)
-    .build();
+        .setRequireExpirationTime()
+        .setVerificationKey(key)
+        .build();
     JwtClaims claims = jwtc.processToClaims(token);
     return claims.getClaimsMap();
     }
-     */
+
+
+    public boolean isAdmin(String token) {
+        Optional<UserDetails> var;
+        try {
+            var = parseToken(token);
+        } catch (GeneralJwtException e) {
+            throw new RuntimeException(e);
+        }
+        UserDetails userDetails = var.get();
+        return userDetails.getUserRole() == Role.ADMIN;
+    }
 
 
 }

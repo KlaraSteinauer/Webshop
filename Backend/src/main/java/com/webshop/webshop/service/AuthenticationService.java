@@ -21,7 +21,7 @@ public class AuthenticationService {
     public String login(String userName, String userPassword) throws LoginException, GeneralJwtException {
         Optional<KimUser> user = kimUserRepository.findByUserNameAndUserPassword(userName, userPassword);
         if (user.isEmpty()) {
-            throw new LoginException("User not found.");
+            throw new LoginException("Login failed!");
         }
         return tokenService.generateToken(user.get());
     }

@@ -1,8 +1,10 @@
 package com.webshop.webshop.security;
 
 import com.webshop.webshop.enums.Role;
+import lombok.ToString;
 
 
+@ToString
 public class UserDetails {
 
     private final Long userId;
