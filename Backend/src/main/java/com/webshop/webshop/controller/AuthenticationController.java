@@ -22,14 +22,14 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginDTO) throws GeneralJwtException, LoginException {
         String token = authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
-        /*String pre = "Bearer ";
+        String pre = "Bearer ";
         System.out.println(token);
         System.out.println(token.substring(0,5));
         if (!token.substring(0,5).equals(pre)) {
             token = pre.concat(token);
         }
-        System.out.println(token);*/
-        return (authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword()));
+        System.out.println(token);
+        return token;
     }
 
     @PreAuthorize("hasRole('ADMIN')")

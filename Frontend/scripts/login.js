@@ -44,13 +44,14 @@ $(document).ready(function () {
             method: 'GET',
             headers: 
             { 
-                "Authorization": localStorage.getItem('accessToken')
+                "Authorization": localStorage.getItem("accessToken")
             },
             contentType: 'application/json',
-            success: (response) => {
+            success: function () {
                 if (isAdmin) {
                     $('#admin-link').attr('href', '/admin.html');
                     $('#admin-link').attr('style', 'display: block');
+                    location.href = "admin.html"
 
                 } else {
                     console.log(localStorage.getItem("accessToken"))
@@ -58,7 +59,7 @@ $(document).ready(function () {
                 }
             },
             error: (err) => {
-                console.log(localStorage.getItem('accessToken'))
+                console.log(localStorage.getItem("accessToken"))
                 console.error(err, "Adminrechte benötigt!")
             }
 
