@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadDTO {
+public class FileDTO {
     private String fileName;
     private String contentType;
     private String url;
 }
+
