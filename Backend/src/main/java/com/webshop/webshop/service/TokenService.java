@@ -117,5 +117,16 @@ public class TokenService {
     }
 
 
+    public boolean isAdmin(String token) {
+        Optional<UserDetails> var;
+        try {
+            var = parseToken(token);
+        } catch (GeneralJwtException e) {
+            throw new RuntimeException(e);
+        }
+        UserDetails userDetails = var.get();
+        return userDetails.getUserRole() == Role.ADMIN;
+    }
+
 
 }
