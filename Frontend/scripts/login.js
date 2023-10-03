@@ -25,10 +25,11 @@ $(document).ready(function () {
             method: 'POST',
             data: JSON.stringify(user),
             contentType: 'application/json',
-            dataType: 'json',
+            dataType: 'text',
             success: (response) => {
-                const accessToken = response.accessToken;
+                const accessToken = response;
                 localStorage.setItem('accessToken', accessToken);
+                location.href = "home.html"
             },
             error: (err) => {
                 console.error(err, "Login fehlgeschlagen!");
@@ -43,22 +44,9 @@ $(document).ready(function () {
         contentType: 'application/json',
         success: function () {
             if (isAdmin) {
-                $('#admin-link').attr('href', 'admin.html');
-                $('#admin-link').attr('href', 'checkout.html');
-                $('#admin-link').attr('href', 'help.html');
-                $('#admin-link').attr('href', 'home.html');
-                $('#admin-link').attr('href', 'impressum.html');
-                $('#admin-link').attr('href', 'login.html');
-                $('#admin-link').attr('href', 'products.html');
-                $('#admin-link').attr('href', 'registration.html');
-            } else {
-                $('#user-link').attr('href', 'checkout.html');
-                $('#user-link').attr('href', 'help.html');
-                $('#user-link').attr('href', 'home.html');
-                $('#user-link').attr('href', 'impressum.html');
-                $('#user-link').attr('href', 'login.html');
-                $('#user-link').attr('href', 'products.html');
-                $('#user-link').attr('href', 'registration.html');
+                $('#admin-link').attr('href', '/admin.html');
+                $('#admin-link').attr('style', 'display: block');
+
             }
         },
         error: (err) => {

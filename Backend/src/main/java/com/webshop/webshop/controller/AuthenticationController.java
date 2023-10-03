@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String login(@RequestBody LoginDTO loginDTO) throws GeneralJwtException, LoginException {
-        return authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        return ("Bearer " + authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword()));
     }
 
     @GetMapping("/isAdmin")
