@@ -13,17 +13,16 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = WebshopApplication.class)
 @ActiveProfiles("test")
 public class AuthenticationServiceTest {
 
-        @Autowired
-        private AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
-        @Autowired
-        private KimUserRepository kimUserRepository;
+    @Autowired
+    private KimUserRepository kimUserRepository;
 
 
     @BeforeEach
@@ -33,7 +32,7 @@ public class AuthenticationServiceTest {
         customer.setUserId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
-        customer.setEMail("customer@email.com");
+        customer.setUserEmail("customer@email.com");
         customer.setRole(Role.CUSTOMER);
         customer.setGender("female");
         customer.setFirstName("customerFirst");
@@ -42,7 +41,7 @@ public class AuthenticationServiceTest {
         admin.setUserId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
-        admin.setEMail("admin@email.com");
+        admin.setUserEmail("admin@email.com");
         admin.setRole(Role.ADMIN);
         admin.setGender("male");
         admin.setFirstName("adminFirst");
@@ -51,7 +50,7 @@ public class AuthenticationServiceTest {
         anonymous.setUserId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
-        anonymous.setEMail("anonymous@email.com");
+        anonymous.setUserEmail("anonymous@email.com");
         anonymous.setRole(Role.ANONYMOUS);
         anonymous.setGender("non-binary");
         anonymous.setFirstName("anonymousFirst");

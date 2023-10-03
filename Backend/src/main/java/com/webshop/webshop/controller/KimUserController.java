@@ -15,10 +15,9 @@ public class KimUserController {
 
     private final KimUserService kimUserService;
 
-    @PostMapping("/add") //DTO übergeben
+    @PostMapping("/add")
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
-        return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.CREATED
-);
+        return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.CREATED);
     }
 
 
@@ -32,25 +31,5 @@ public class KimUserController {
     public void deleteUser(@PathVariable Long id) {
         kimUserService.deleteById(id);
     }
-
-    /*
-    example: JSON input for creating a new user
-        {
-                "userName":"Mais",
-                "userPassword":"1234",
-                "eMail":"abd@def.com",
-                "userRole":"ADMIN",
-                "gender":"m",
-                "firstName":"Michael",
-                "lastName":"Mayr",
-                "address":{
-                    "street":"Hauptstrasse",
-                    "number":"25",
-                    "zip":1200,
-                    "city":"Wien",
-                    "country":"Austria"
-            }
-        }
-    */
 
 }

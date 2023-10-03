@@ -1,6 +1,5 @@
 package com.webshop.webshop.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.enums.Role;
@@ -51,7 +50,7 @@ public class AuthenticationControllerTest {
         customer.setUserId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
-        customer.setEMail("customer@email.com");
+        customer.setUserEmail("customer@email.com");
         customer.setRole(Role.CUSTOMER);
         customer.setGender("female");
         customer.setFirstName("customerFirst");
@@ -60,7 +59,7 @@ public class AuthenticationControllerTest {
         admin.setUserId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
-        admin.setEMail("admin@email.com");
+        admin.setUserEmail("admin@email.com");
         admin.setRole(Role.ADMIN);
         admin.setGender("male");
         admin.setFirstName("adminFirst");
@@ -69,7 +68,7 @@ public class AuthenticationControllerTest {
         anonymous.setUserId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
-        anonymous.setEMail("anonymous@email.com");
+        anonymous.setUserEmail("anonymous@email.com");
         anonymous.setRole(Role.ANONYMOUS);
         anonymous.setGender("non-binary");
         anonymous.setFirstName("anonymousFirst");

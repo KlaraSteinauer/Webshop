@@ -87,8 +87,7 @@ public class TokenService {
         Role userRole;
         try {
             userRole = Role.valueOf(userRoleString);
-        }
-        catch (RequiredTypeException e) {
+        } catch (RequiredTypeException e) {
             throw new GeneralJwtException("Token includes invalid role!");
         }
         return Optional.of(new UserDetails(userId, sub, userRole));

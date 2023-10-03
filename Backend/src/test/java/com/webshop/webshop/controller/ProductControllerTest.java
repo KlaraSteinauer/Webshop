@@ -1,6 +1,6 @@
 package com.webshop.webshop.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.enums.Role;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -27,11 +25,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,7 +89,7 @@ public class ProductControllerTest {
         admin.setUserId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
-        admin.setEMail("admin@email.com");
+        admin.setUserEmail("admin@email.com");
         admin.setRole(Role.ADMIN);
         admin.setGender("male");
         admin.setFirstName("adminFirst");
@@ -126,9 +122,9 @@ public class ProductControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/product")
                         .header("Authorization", "Bearer " + token)
-                            .content(mapper.writeValueAsString(responseBody))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON))
+                        .content(mapper.writeValueAsString(responseBody))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name", Matchers.containsString("newProductName")));
