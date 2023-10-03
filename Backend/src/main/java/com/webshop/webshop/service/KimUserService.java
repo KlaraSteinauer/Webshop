@@ -17,7 +17,6 @@ public class KimUserService {
 
 
     public KimUser save(KimUserDTO kimUserDTO) {
-        System.out.println(kimUserDTO.toString());
         try {
             return kimUserRepository.save(kimUserDTO.convertToKimUser());
         } catch (NullPointerException e) {

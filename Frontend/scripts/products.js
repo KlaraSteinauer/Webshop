@@ -44,7 +44,7 @@ $(document).ready(function () {
 
     //function to load product list from db
     $.ajax({
-        url: 'http://localhost:8080/product',
+        url: 'http://localhost:8080/product/all',
         method: 'GET',
         success: function (products) {
             products.forEach(product => {

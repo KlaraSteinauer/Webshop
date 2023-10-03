@@ -60,11 +60,11 @@ $(document).ready(function () {
             success: (response) => {
                 const accessToken = response.accessToken;
                 localStorage.setItem('accessToken', accessToken); 
-                if (accessToken.role === 'ADMIN') {
+                /*if (accessToken.role === 'ADMIN') {
                     window.location.href = 'src/admin.html';
                 } else if (accessToken.role === 'CUSTOMER') {
                     window.location.href = 'src/home.html';
-                }
+                }*/
             },
             error: function (error) {
                 console.log("Error: " + JSON.stringify(error));

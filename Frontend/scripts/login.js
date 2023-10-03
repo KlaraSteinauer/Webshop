@@ -49,9 +49,9 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function () {
                 if (isAdmin) {
+                    location.href = "admin.html"
                     $('#admin-link').attr('href', '/admin.html');
                     $('#admin-link').attr('style', 'display: block');
-                    location.href = "admin.html"
 
                 } else {
                     console.log(localStorage.getItem("accessToken"))
@@ -60,7 +60,8 @@ $(document).ready(function () {
             },
             error: (err) => {
                 console.log(localStorage.getItem("accessToken"))
-                console.error(err, "Adminrechte benötigt!")
+                console.log("Kein Admin!")
+                location.href = "home.html"
             }
 
         })

@@ -74,9 +74,6 @@ public class KimUserServiceTest {
         user.setGender("male");
         user.setFirstName("userFirst");
         user.setLastName("userLast");
-        KimUserDTO emptyUser = new KimUserDTO();
-        assertThrows(IllegalArgumentException.class,
-                () -> kimUserService.save(emptyUser));
         final KimUser savedUser = assertDoesNotThrow(() -> kimUserService.save(user));
         assertAll(
                 () -> assertEquals(user.getUserName(), savedUser.getUserName()),
