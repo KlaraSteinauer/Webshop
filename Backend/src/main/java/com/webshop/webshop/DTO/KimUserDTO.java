@@ -5,51 +5,54 @@ import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.Address;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.model.ShoppingCart;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class KimUserDTO {
     private Long userId;
     private String userName;
     private String userPassword;
-    private String eMail;
-    private Role role;
+    private String userEmail;
+    private String role = Role.CUSTOMER.name();
     private String gender;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private Address address;
     private List<ShoppingCart> shoppingCart;
 
     public KimUser convertToKimUser() {
-        return new KimUser(
-                this.getUserId(),
+        KimUser user = new KimUser(
                 this.getUserName(),
                 this.getUserPassword(),
-                this.getEMail(),
-                this.getRole(),
+                this.getUserEmail(),
                 this.getGender(),
                 this.getFirstName(),
                 this.getLastName(),
                 this.getAddress(),
                 this.getShoppingCart());
+        user.setRole(Role.valueOf(this.getRole()));
+        return user;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstname = firstName;
+    /*public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
     public void setLastName(String lastName) {
-        this.lastname = lastName;
+        this.lastName = lastName;
     }
+
     public String getFirstName() {
-        return this.firstname;
+        return this.firstName;
     }
+
     public String getLastName() {
-        return this.lastname;
-    }
+        return this.lastName;
+    }*/
 }

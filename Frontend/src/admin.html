@@ -17,6 +17,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/scripts/admin.js"></script>
+    <script src="/scripts/login.js"></script>
+
     <title>admin</title>
 </head>
 
@@ -38,6 +40,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-current="page" href="#">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" id="admin-link" style="display: none">Adminintration</a>
                     </li>
                 </ul>
             </div>
@@ -114,7 +119,7 @@
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="product-img">Produktbild</span>
+                                    <span class="input-group-text" id="product-img">Bild</span>
                                     <input type="text" class="form-control" placeholder="\Webshop-Branch\Webshop\Frontend\images\bild.jpg
                                     " aria-label="Produkt-ID" aria-describedby="product-img" id="product-img-val">
                                 </div>
