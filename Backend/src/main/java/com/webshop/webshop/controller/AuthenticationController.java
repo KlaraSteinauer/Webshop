@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/isAdmin")
-    public boolean isAdmin(String token) {
+    public boolean isAdmin(@RequestBody String token) {
         return tokenService.isAdmin(token);
     }
 
