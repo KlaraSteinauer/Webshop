@@ -2,28 +2,37 @@ package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.service.AuthenticationService;
-import jakarta.servlet.http.HttpServletResponse;
+import com.webshop.webshop.service.TokenService;
+import lombok.RequiredArgsConstructor;
 import org.jose4j.jwt.GeneralJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+    private final TokenService tokenService;
+
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO, HttpServletResponse response)
-            throws GeneralJwtException, LoginException {
-        return "Bearer " + authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+    public String login(@RequestBody LoginDTO loginDTO) throws GeneralJwtException, LoginException {
+        String token = authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        String pre = "Bearer ";
+        if (!token.substring(0,5).equals(pre)) {
+            token = pre.concat(token);
+        }
+        return token;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/isAdmin")
+    public boolean isAdmin() {
+        return true;
     }
 
 }

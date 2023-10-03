@@ -1,88 +1,58 @@
 package com.webshop.webshop.DTO;
 
 
+import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.Address;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Length;
+import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.model.ShoppingCart;
+import lombok.*;
 
+import java.util.List;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class KimUserDTO {
+    private Long userId;
     private String userName;
     private String userPassword;
-    private String eMail;
-    // private Role userRole;
+    private String userEmail;
+    private String role = Role.CUSTOMER.name();
     private String gender;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private Address address;
+    private List<ShoppingCart> shoppingCart;
 
-    public KimUserDTO(String userName, String userPassword, String eMail, String gender, String firstname, String lastname, Address address) {
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.eMail = eMail;
-        this.gender = gender;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
+    public KimUser convertToKimUser() {
+        KimUser user = new KimUser(
+                this.getUserName(),
+                this.getUserPassword(),
+                this.getUserEmail(),
+                this.getGender(),
+                this.getFirstName(),
+                this.getLastName(),
+                this.getAddress(),
+                this.getShoppingCart());
+        user.setRole(Role.valueOf(this.getRole()));
+        return user;
     }
 
-
-    public String getUserName() {
-        return userName;
+    /*public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    public String getLastName() {
+        return this.lastName;
+    }*/
 }

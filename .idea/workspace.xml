@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)" />
+    <list default="true" id="d1811370-6d1c-41f6-80b0-816117a5dd59" name="Changes" comment="- added User (controller, repository, requestDTO)&#10;- added Product (controller, repository, requestDTO)">
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +49,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/klara/IdeaProjects/Library-Backend",
+    "last_opened_file_path": "C:/Users/klara/IdeaProjects/git/Webshop",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
