@@ -29,7 +29,8 @@ $(document).ready(function () {
             success: (response) => {
                 const accessToken = response;
                 localStorage.setItem('accessToken', accessToken);
-                location.href = "home.html"
+                console.log(localStorage.getItem("accessToken"))
+                isAdmin();
             },
             error: (err) => {
                 console.error(err, "Login fehlgeschlagen!");
@@ -37,23 +38,32 @@ $(document).ready(function () {
         });
     });
 
-    $.ajax({
-        url: 'http://localhost:8080/isAdmin',
-        method: 'GET',
-        data: JSON.stringify(accessToken),
-        contentType: 'application/json',
-        success: function () {
-            if (isAdmin) {
-                $('#admin-link').attr('href', '/admin.html');
-                $('#admin-link').attr('style', 'display: block');
+    function isAdmin() {
+        $.ajax({
+            url: 'http://localhost:8080/isAdmin',
+            method: 'GET',
+            headers: 
+            { 
+                "Authorization": localStorage.getItem('accessToken')
+            },
+            contentType: 'application/json',
+            success: (response) => {
+                if (isAdmin) {
+                    $('#admin-link').attr('href', '/admin.html');
+                    $('#admin-link').attr('style', 'display: block');
 
+                } else {
+                    console.log(localStorage.getItem("accessToken"))
+                    location.href = "home.html"
+                }
+            },
+            error: (err) => {
+                console.log(localStorage.getItem('accessToken'))
+                console.error(err, "Adminrechte benötigt!")
             }
-        },
-        error: (err) => {
-            console.error(err, "Adminrechte benötigt!")
-        }
 
-    })
+        })
+    }
+
 
 })
-
