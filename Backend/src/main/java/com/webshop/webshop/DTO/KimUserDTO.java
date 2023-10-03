@@ -34,10 +34,22 @@ public class KimUserDTO {
                 this.getEMail(),
                 this.getRole(),
                 this.getGender(),
-                this.getFirstname(),
-                this.getLastname(),
+                this.getFirstName(),
+                this.getLastName(),
                 this.getAddress(),
                 this.getShoppingCart());
     }
 
+    public void setFirstName(String firstName) {
+        this.firstname = firstName;
+    }
+    public void setLastName(String lastName) {
+        this.lastname = lastName;
+    }
+    public String getFirstName() {
+        return this.firstname;
+    }
+    public String getLastName() {
+        return this.lastname;
+    }
 }

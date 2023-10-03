@@ -1,12 +1,18 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.enums.ProductCategory;
+import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.Product;
+import com.webshop.webshop.security.UserDetails;
 import com.webshop.webshop.service.ProductService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,31 +24,51 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         try {
             return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<ProductDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        System.out.println("Anfrage kommt and backend");
-        productService.deleteById(id);
-        String msg = "Product " + id + " deleted.";
-        return new ResponseEntity<>(msg, HttpStatus.OK);
+
+        Object authenticatedUser = SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        System.out.println(authenticatedUser);
+
+        try {
+            productService.deleteById(id);
+            String msg = "Product " + id + " deleted.";
+            return new ResponseEntity<>(msg, HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            String msg = "Product " + id + " not found.";
+            return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
+        }
+
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{itemId}")
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
-        ProductDTO updatedProduct = productService.update(itemId, productDTO);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        try {
+            ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
+
         return new ResponseEntity<>(productService.getAllProducts()
                 .stream()
                 .map(Product::convertToDto)
@@ -52,7 +78,11 @@ public class ProductController {
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) throws ObjectNotFoundException {
-        return new ResponseEntity<>(productService.findById(id).convertToDto(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(productService.findById(id).convertToDto(), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/findByCategory/{category}")

@@ -27,6 +27,8 @@ public class KimUser {
     private String userPassword;
     @Column(name = "e-mail")
     private String eMail;
+
+    @Enumerated(value = EnumType.ORDINAL)
     @NotNull
     @Column(name = "user_role")
     private Role role;
@@ -36,7 +38,7 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)
