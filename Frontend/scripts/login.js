@@ -1,5 +1,17 @@
-
 $(document).ready(function () {
+
+    $('#loginModal').click(function (e) {
+        e.preventDefault();
+        $("#loginModal").load("/components/loginModal/login.html");
+        $('#loginModal').attr('style', 'display: block');
+    })
+
+    $('#loginModalIcon').click(function (e) {
+        e.preventDefault();
+        $("#loginModal").load("/components/loginModal/login.html");
+        $('#loginModal').attr('style', 'display: block');
+    })
+
     class UserLogin {
         constructor(username, password) {
             this.username = username;
@@ -42,8 +54,8 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:8080/isAdmin',
             method: 'GET',
-            headers: 
-            { 
+            headers:
+            {
                 "Authorization": localStorage.getItem("accessToken")
             },
             contentType: 'application/json',

@@ -1,4 +1,14 @@
 $(document).ready(function () {
+
+    window.onload = setupRefresh;
+
+    function setupRefresh() {
+        setTimeout("refreshPage();", 1000);
+    }
+    function refreshPage() {
+        window.location = location.href;
+    }
+
     //User 
     class User {
         constructor(userName, userPassword, eMail, gender, firstName, lastName, address) {
@@ -23,7 +33,158 @@ $(document).ready(function () {
         }
     }
 
-    //TODO find out why email request is null in backend??
+    function validateForm() {
+        let registrationData = {
+            "gender": $('#Anrede').val(),
+            "firstName": $('#Firstname').val(),
+            "lastName": $('#Lastname').val(),
+            "userEmail": $('#Email').val(),
+            "userName": $('#Username').val(),
+            "userPassword": $('#Password').val(),
+            "repeatPassword": $('#RepeatPassword').val()
+        };
+
+        let addressData = {
+            "street": $('#Street').val(),
+            "number": $('#Number').val(),
+            "zip": $('#PLZ').val(),
+            "city": $('#City').val(),
+            "country": $('#Country').val(),
+        };
+
+        if (!isValidRegistrationData(registrationData)) {
+            alert("Registration data is not valid.");
+            return false;
+        }
+
+        isValidRegistrationData(registrationData)
+
+        if (!isValidAddressData(addressData)) {
+            alert("Address data is not valid.");
+            return false;
+        }
+
+        isValidAddressData(addressData)
+
+        return createNewUser()
+    }
+
+    function isValidRegistrationData(data) {
+        const namePattern = /^[A-Za-z]+$/;
+        if (!data.gender) {
+            $('#Anrede').addClass('invalid-input-value');
+            $('#Anrede').siblings('.invalid-input').show();
+        } else {
+            $('#Anrede').removeClass('invalid-input-value');
+            $('#Anrede').siblings('.invalid-input').hide();
+        }
+
+        if (!data.firstName.match(namePattern)) {
+            $('#Firstname').addClass('invalid-input-value');
+            $('#Firstname').siblings('.invalid-input').show();
+        } else {
+            $('#Firstname').removeClass('invalid-input-value');
+            $('#Firstname').siblings('.invalid-input').hide();
+        }
+
+        if (!data.lastName.match(namePattern)) {
+            $('#Lastname').addClass('invalid-input-value');
+            $('#Lastname').siblings('.invalid-input').show();
+        } else {
+            $('#Lastname').removeClass('invalid-input-value');
+            $('#Lastname').siblings('.invalid-input').hide();
+        }
+
+        if (!data.userName) {
+            $('#Username').addClass('invalid-input-value');
+            $('#Username').siblings('.invalid-input').show();
+        } else {
+            $('#Username').removeClass('invalid-input-value');
+            $('#Username').siblings('.invalid-input').hide();
+        }
+
+        if (!data.userPassword) {
+            $('#Password').addClass('invalid-input-value');
+            $('#Password').siblings('.invalid-input').show();
+        } else {
+            $('#Password').removeClass('invalid-input-value');
+            $('#Password').siblings('.invalid-input').hide();
+        }
+
+        if (!data.repeatPassword) {
+            $('#RepeatPassword').addClass('invalid-input-value');
+            $('#RepeatPassword').siblings('.invalid-input').show();
+        } else {
+            $('#RepeatPassword').removeClass('invalid-input-value');
+            $('#RepeatPassword').siblings('.invalid-input').hide();
+        }
+
+        if (data.userPassword !== data.repeatPassword) {
+            alert("Password and Repeat Password do not match.");
+        }
+
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(data.userEmail)) {
+            $('#Email').addClass('invalid-input-value');
+            $('#Email').siblings('.invalid-input').show();
+        } else {
+            $('#Email').removeClass('invalid-input-value');
+            $('#Email').siblings('.invalid-input').hide();
+        }
+
+        return true;
+    }
+
+    function isValidAddressData(data) {
+        const streetPattern = /^[A-Za-z\s]+$/;
+        if (!data.street.match(streetPattern)) {
+            $('#Street').addClass('invalid-input-value');
+            $('#Street').siblings('.invalid-input').show();
+        } else {
+            $('#Street').removeClass('invalid-input-value');
+            $('#Street').siblings('.invalid-input').hide();
+        }
+
+        const numberPattern = /\d+/;
+        if (!data.number.match(numberPattern)) {
+            $('#Number').addClass('invalid-input-value');
+            $('#Number').siblings('.invalid-input').show();
+        } else {
+            $('#Number').removeClass('invalid-input-value');
+            $('#Number').siblings('.invalid-input').hide();
+        }
+
+        const zipPattern = /^\d{4,}$/;
+        if (!data.zip.match(zipPattern)) {
+            $('#PLZ').addClass('invalid-input-value');
+            $('#PLZ').siblings('.invalid-input').show();
+        } else {
+            $('#PLZ').removeClass('invalid-input-value');
+            $('#PLZ').siblings('.invalid-input').hide();
+        }
+
+        const cityPattern = /^[A-Za-z]+$/;
+        if (!data.city.match(cityPattern)) {
+            $('#City').addClass('invalid-input-value');
+            $('#City').siblings('.invalid-input').show();
+        } else {
+            $('#City').removeClass('invalid-input-value');
+            $('#City').siblings('.invalid-input').hide();
+        }
+
+        const countryPattern = /^[A-Za-z]+$/;
+        if (!data.country.match(countryPattern)) {
+            $('#Country').addClass('invalid-input-value');
+            $('#Country').siblings('.invalid-input').show();
+        } else {
+            $('#Country').removeClass('invalid-input-value');
+            $('#Country').siblings('.invalid-input').hide();
+        }
+
+        return true;
+    }
+
+    //TODO find out why email request is null in backend?
     function createNewUser() {
         let registrationData = {
             "gender": $('#Anrede').val(),
@@ -43,13 +204,14 @@ $(document).ready(function () {
         };
 
         let userAddress = new Address(addressData.street, addressData.number, addressData.zip, addressData.city, addressData.country)
-        return new User (registrationData.userName, registrationData.userPassword, registrationData.userEmail, registrationData.gender, registrationData.firstName, registrationData.lastName, userAddress)
+        return new User(registrationData.userName, registrationData.userPassword, registrationData.userEmail, registrationData.gender, registrationData.firstName, registrationData.lastName, userAddress)
     }
 
     $("#registration").on("click", function (event) {
         event.preventDefault();
 
-        let newUser = createNewUser();
+        let newUser = validateForm();
+        refreshPage();
         console.log(newUser)
 
         $.ajax({
@@ -59,12 +221,13 @@ $(document).ready(function () {
             data: JSON.stringify(newUser),
             success: (response) => {
                 const accessToken = response.accessToken;
-                localStorage.setItem('accessToken', accessToken); 
+                localStorage.setItem('accessToken', accessToken);
                 /*if (accessToken.role === 'ADMIN') {
                     window.location.href = 'src/admin.html';
                 } else if (accessToken.role === 'CUSTOMER') {
                     window.location.href = 'src/home.html';
                 }*/
+                alert("Registrierung erfolgreich!")
             },
             error: function (error) {
                 console.log("Error: " + JSON.stringify(error));
