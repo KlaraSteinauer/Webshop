@@ -3,7 +3,7 @@ package com.webshop.webshop.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.config.model.KimUser;
+import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.AddressDTO;
-import com.webshop.webshop.config.model.Address;
+import com.webshop.webshop.model.Address;
 import com.webshop.webshop.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

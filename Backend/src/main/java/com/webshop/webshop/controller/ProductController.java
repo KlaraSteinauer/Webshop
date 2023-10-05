@@ -1,7 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ProductDTO;
-import com.webshop.webshop.config.model.Product;
+import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;

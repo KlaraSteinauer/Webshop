@@ -1,7 +1,7 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.config.model.Product;
-import com.webshop.webshop.config.model.ShoppingCart;
+import com.webshop.webshop.model.Product;
+import com.webshop.webshop.model.ShoppingCart;
 import com.webshop.webshop.repository.ShoppingCartRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

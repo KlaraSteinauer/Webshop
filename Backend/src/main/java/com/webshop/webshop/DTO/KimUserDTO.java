@@ -2,9 +2,9 @@ package com.webshop.webshop.DTO;
 
 
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.config.model.Address;
-import com.webshop.webshop.config.model.KimUser;
-import com.webshop.webshop.config.model.ShoppingCart;
+import com.webshop.webshop.model.Address;
+import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.model.ShoppingCart;
 import lombok.*;
 
 import java.util.List;

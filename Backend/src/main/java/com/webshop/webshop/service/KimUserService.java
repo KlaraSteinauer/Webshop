@@ -1,8 +1,8 @@
 package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.KimUserDTO;
-import com.webshop.webshop.config.model.KimUser;
-import com.webshop.webshop.config.model.Product;
+import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

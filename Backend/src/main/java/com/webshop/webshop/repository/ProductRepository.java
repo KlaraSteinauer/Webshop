@@ -1,7 +1,7 @@
 package com.webshop.webshop.repository;
 
 import com.webshop.webshop.enums.ProductCategory;
-import com.webshop.webshop.config.model.Product;
+import com.webshop.webshop.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

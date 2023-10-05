@@ -1,6 +1,6 @@
 package com.webshop.webshop.repository;
 
-import com.webshop.webshop.config.model.KimUser;
+import com.webshop.webshop.model.KimUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

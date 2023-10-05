@@ -1,4 +1,4 @@
-package com.webshop.webshop.config.model;
+package com.webshop.webshop.model;
 
 import com.webshop.webshop.DTO.AddressDTO;
 import jakarta.persistence.*;
