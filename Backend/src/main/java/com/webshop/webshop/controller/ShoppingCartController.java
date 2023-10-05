@@ -1,7 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ShoppingCartDTO;
-import com.webshop.webshop.model.Product;
+import com.webshop.webshop.config.model.Product;
 import com.webshop.webshop.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

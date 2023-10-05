@@ -2,13 +2,12 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.enums.ProductCategory;
-import com.webshop.webshop.model.Product;
+import com.webshop.webshop.config.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.webshop.webshop.service;
 
 import com.webshop.webshop.DTO.AddressDTO;
-import com.webshop.webshop.model.Address;
+import com.webshop.webshop.config.model.Address;
 import com.webshop.webshop.repository.AddressRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

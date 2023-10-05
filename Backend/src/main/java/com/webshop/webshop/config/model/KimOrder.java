@@ -1,4 +1,4 @@
-package com.webshop.webshop.model;
+package com.webshop.webshop.config.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.webshop.webshop.service;
 
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.config.model.KimUser;
 import com.webshop.webshop.security.UserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

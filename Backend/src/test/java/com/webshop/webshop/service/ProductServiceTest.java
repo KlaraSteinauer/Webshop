@@ -3,7 +3,7 @@ package com.webshop.webshop.service;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.ProductCategory;
-import com.webshop.webshop.model.Product;
+import com.webshop.webshop.config.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,7 +2,7 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.model.KimUser;
+import com.webshop.webshop.config.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
 import com.webshop.webshop.security.UserDetails;
 import org.jose4j.jwt.GeneralJwtException;

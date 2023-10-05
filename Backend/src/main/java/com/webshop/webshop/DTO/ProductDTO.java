@@ -1,7 +1,7 @@
 package com.webshop.webshop.DTO;
 
 import com.webshop.webshop.enums.ProductCategory;
-import com.webshop.webshop.model.Product;
+import com.webshop.webshop.config.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

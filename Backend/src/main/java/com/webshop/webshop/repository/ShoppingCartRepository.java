@@ -1,7 +1,6 @@
 package com.webshop.webshop.repository;
 
-import com.webshop.webshop.model.ShoppingCart;
-import org.hibernate.metamodel.model.convert.spi.JpaAttributeConverter;
+import com.webshop.webshop.config.model.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

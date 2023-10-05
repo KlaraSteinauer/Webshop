@@ -1,12 +1,8 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ProductDTO;
-import com.webshop.webshop.enums.ProductCategory;
-import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.model.Product;
-import com.webshop.webshop.security.UserDetails;
+import com.webshop.webshop.config.model.Product;
 import com.webshop.webshop.service.ProductService;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
