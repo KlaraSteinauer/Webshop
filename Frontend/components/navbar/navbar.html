@@ -1,5 +1,3 @@
-<script src="/scripts/login.js"></script>
-
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
         <a href="./home.html">
@@ -21,28 +19,25 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="./registration.html">Registrieren</a>
                 </li>
-
-                <!--svg warenkorb wird zu text ab geringer bildschirmgröße(handy,tablet)-->
+                <!--wird zu text ab geringer bildschirmgröße(handy,tablet)-->
+                <li class="nav-item">
+                    <button type="button" class="btn btn-primary home-svg-display-small" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Login
+                    </button>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active home-svg-display-small" aria-current="page"
                         href="./checkout.html">Warenkorb</a>
                 </li>
-
-                <li class="nav-item">
-                    <a type="button" class="nav-link active home-svg-display-small" data-toggle="modal"
-                        data-target="#loginModal" id="loginModal">Login</a>
-                </li>
             </ul>
-            <!--svg warenkorb wird angezeigt bei bestimmter bildschirmgröße (pc)-->
-            <a type="button" class="nav-link active home-svg-display-large" aria-current="page" data-toggle="modal"
-            data-target="#loginModal" id="loginModalIcon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" class="bi bi-person icon"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-                </svg>
+            <!--wird angezeigt bei bestimmter bildschirmgröße (pc)-->
+            <a class="nav-link active home-svg-display-large" aria-current="page" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" class="bi bi-person-fill icon" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                  </svg>
             </a>
-
             <a class="nav-link active home-svg-display-large" aria-current="page" href="./checkout.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" class="bi bi-cart4 icon"
                     viewBox="0 0 16 16">
@@ -56,7 +51,4 @@
             </form>
         </div>
     </div>
-
-    <div id="loginModal" style="display: none;"></div>
-
 </nav>

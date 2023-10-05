@@ -1,14 +1,5 @@
 $(document).ready(function () {
 
-    window.onload = setupRefresh;
-
-    function setupRefresh() {
-        setTimeout("refreshPage();", 1000);
-    }
-    function refreshPage() {
-        window.location = location.href;
-    }
-
     //User 
     class User {
         constructor(userName, userPassword, eMail, gender, firstName, lastName, address) {
@@ -33,40 +24,40 @@ $(document).ready(function () {
         }
     }
 
+    let registrationData = {
+        "gender": $('#Anrede').val(),
+        "firstName": $('#Firstname').val(),
+        "lastName": $('#Lastname').val(),
+        "userEmail": $('#Email').val(),
+        "userName": $('#Username').val(),
+        "userPassword": $('#Password').val(),
+        "repeatPassword": $('#RepeatPassword').val()
+    };
+
+    let addressData = {
+        "street": $('#Street').val(),
+        "number": $('#Number').val(),
+        "zip": $('#PLZ').val(),
+        "city": $('#City').val(),
+        "country": $('#Country').val(),
+    };
+
     function validateForm() {
-        let registrationData = {
-            "gender": $('#Anrede').val(),
-            "firstName": $('#Firstname').val(),
-            "lastName": $('#Lastname').val(),
-            "userEmail": $('#Email').val(),
-            "userName": $('#Username').val(),
-            "userPassword": $('#Password').val(),
-            "repeatPassword": $('#RepeatPassword').val()
-        };
-
-        let addressData = {
-            "street": $('#Street').val(),
-            "number": $('#Number').val(),
-            "zip": $('#PLZ').val(),
-            "city": $('#City').val(),
-            "country": $('#Country').val(),
-        };
-
         if (!isValidRegistrationData(registrationData)) {
             alert("Registration data is not valid.");
             return false;
+        } else {
+            isValidRegistrationData(registrationData)
         }
-
-        isValidRegistrationData(registrationData)
 
         if (!isValidAddressData(addressData)) {
             alert("Address data is not valid.");
             return false;
+        } else {
+            isValidAddressData(addressData)
         }
 
-        isValidAddressData(addressData)
-
-        return createNewUser()
+        return true
     }
 
     function isValidRegistrationData(data) {
@@ -131,8 +122,6 @@ $(document).ready(function () {
             $('#Email').removeClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').hide();
         }
-
-        return true;
     }
 
     function isValidAddressData(data) {
@@ -184,25 +173,7 @@ $(document).ready(function () {
         return true;
     }
 
-    //TODO find out why email request is null in backend?
     function createNewUser() {
-        let registrationData = {
-            "gender": $('#Anrede').val(),
-            "firstName": $('#Firstname').val(),
-            "lastName": $('#Lastname').val(),
-            "userEmail": $('#Email').val(),
-            "userName": $('#Username').val(),
-            "userPassword": $('#Password').val(),
-        };
-
-        let addressData = {
-            "street": $('#Street').val(),
-            "number": $('#Number').val(),
-            "zip": $('#PLZ').val(),
-            "city": $('#City').val(),
-            "country": $('#Country').val(),
-        };
-
         let userAddress = new Address(addressData.street, addressData.number, addressData.zip, addressData.city, addressData.country)
         return new User(registrationData.userName, registrationData.userPassword, registrationData.userEmail, registrationData.gender, registrationData.firstName, registrationData.lastName, userAddress)
     }
@@ -210,29 +181,43 @@ $(document).ready(function () {
     $("#registration").on("click", function (event) {
         event.preventDefault();
 
-        let newUser = validateForm();
-        refreshPage();
-        console.log(newUser)
+        if (validateForm()) {
+            let newUser = createNewUser();
+            console.log(newUser)
 
-        $.ajax({
-            url: 'http://localhost:8080/user/add',
-            method: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify(newUser),
-            success: (response) => {
-                const accessToken = response.accessToken;
-                localStorage.setItem('accessToken', accessToken);
-                /*if (accessToken.role === 'ADMIN') {
-                    window.location.href = 'src/admin.html';
-                } else if (accessToken.role === 'CUSTOMER') {
-                    window.location.href = 'src/home.html';
-                }*/
-                alert("Registrierung erfolgreich!")
-            },
-            error: function (error) {
-                console.log("Error: " + JSON.stringify(error));
-            }
-        });
+            $.ajax({
+                url: 'http://localhost:8080/user/add',
+                method: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(newUser),
+                success: (response) => {
+                    const accessToken = response.accessToken;
+                    localStorage.setItem('accessToken', accessToken);
+                    /*if (accessToken.role === 'ADMIN') {
+                        window.location.href = 'src/admin.html';
+                    } else if (accessToken.role === 'CUSTOMER') {
+                        window.location.href = 'src/home.html';
+                    }*/
+                    alert("Registrierung erfolgreich!")
+                },
+                error: function (error) {
+                    console.log("Error: " + JSON.stringify(error));
+                }
+            });
+        } else {
+            alert("Registrierung fehlgeschlagen!")
+        }
+
+    });
+
+    $("#reset").on("click", function (event) {
+        event.preventDefault();
+        $(this).closest('form').find("input[type=text], textarea").val("");
+        $(this).closest('form').find("select").val(function () {
+            return $(this).find("option[value='default']").text();
+        });                
+        isValidAddressData(addressData);
+        isValidRegistrationData(registrationData);
     });
 });
 

@@ -1,16 +1,6 @@
+$("#loginModal").load("../components/loginModal/login.html");
+
 $(document).ready(function () {
-
-    $('#loginModal').click(function (e) {
-        e.preventDefault();
-        $("#loginModal").load("/components/loginModal/login.html");
-        $('#loginModal').attr('style', 'display: block');
-    })
-
-    $('#loginModalIcon').click(function (e) {
-        e.preventDefault();
-        $("#loginModal").load("/components/loginModal/login.html");
-        $('#loginModal').attr('style', 'display: block');
-    })
 
     class UserLogin {
         constructor(username, password) {
