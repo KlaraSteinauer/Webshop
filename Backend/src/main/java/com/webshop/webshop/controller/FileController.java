@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 @RestController
 public class FileController {
 
-    private final String IMAGE_PATH = "../Frontend/images/";
+    public static String IMAGE_PATH = "../Frontend/images/";
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/upload", method = RequestMethod.POST,
