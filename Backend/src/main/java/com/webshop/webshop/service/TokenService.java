@@ -76,6 +76,7 @@ public class TokenService {
     }
 
     public Optional<UserDetails> parseToken(String jwt) throws GeneralJwtException {
+
         Jws<Claims> jwsClaims;
         jwsClaims = Jwts.parser()
                 .setSigningKey(key.getEncoded())
