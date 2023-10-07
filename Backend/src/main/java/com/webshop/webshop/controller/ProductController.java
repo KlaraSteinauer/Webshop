@@ -1,6 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.DTO.ProductFileDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,11 +25,32 @@ public class ProductController {
 
     private final ProductService productService;
 
+    public static String IMAGE_PATH = "../Frontend/images/";
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         try {
             return new ResponseEntity<ProductDTO>(productService.save(productDTO), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/file")
+    public ResponseEntity<ProductDTO> createProductWithFile(@RequestBody ProductFileDTO productFileDTO) throws IOException {
+        MultipartFile file = productFileDTO.getImage();
+        File convertFile = new File(IMAGE_PATH + productFileDTO.getImage().getOriginalFilename());
+        convertFile.createNewFile();
+        FileOutputStream fout = new FileOutputStream(convertFile);
+        fout.write(file.getBytes());
+        fout.close();
+        //return new ResponseEntity<>("File upload successful!", HttpStatus.CREATED);
+
+
+        try {
+            return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDto()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
         }
