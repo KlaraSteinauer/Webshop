@@ -17,10 +17,10 @@ $(document).ready(function () {
 
     //Product Klasse + Constructor + Logic
     class Product {
-        constructor(name, description, imageUrl, price, quantity, category) {
+        constructor(name, description, imageFile, price, quantity, category) {
             this.name = name;
             this.category = category;
-            this.imageUrl = imageUrl;
+            this.imageFile = imageFile;
             this.price = price;
             this.quantity = quantity;
             this.description = description
@@ -80,12 +80,12 @@ $(document).ready(function () {
         let productValues = {
             name: $('#product-name-val').val(),
             description: $('#product-description-val').val(),
-            imageUrl: $('#product-img-val').val(),
+            image: $('#product-img-val').val(),
             price: $('#product-price-val').val(),
             quantity: $('#product-amount-val').val(),
             category: $('#product-category option:selected').val(),
         };
-        return new Product(productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
+        return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
     }
 
     function updateProduct(id) {
@@ -93,12 +93,12 @@ $(document).ready(function () {
             id: id,
             name: $('#product-name-val').val(),
             description: $('#product-description-val').val(),
-            imageUrl: $('#product-img-val').val(),
+            image: $('#product-img-val').val(),
             price: $('#product-price-val').val(),
             quantity: $('#product-amount-val').val(),
             category: $('#product-category option:selected').val(),
         };
-        return new Product(productValues.name, productValues.description, productValues.imageUrl, productValues.price, productValues.quantity, productValues.category);
+        return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
     }
 
     //event to load product list from server
@@ -124,7 +124,7 @@ $(document).ready(function () {
         let product = createProduct();
 
         $.ajax({
-            url: 'http://localhost:8080/product',
+            url: 'http://localhost:8080/file',
             method: "POST",
             contentType: 'application/json',
             data: JSON.stringify(product),
