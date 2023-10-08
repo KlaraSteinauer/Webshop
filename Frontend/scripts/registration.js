@@ -24,44 +24,39 @@ $(document).ready(function () {
         }
     }
 
-    let registrationData = {
-        "gender": $('#Anrede').val(),
-        "firstName": $('#Firstname').val(),
-        "lastName": $('#Lastname').val(),
-        "userEmail": $('#Email').val(),
-        "userName": $('#Username').val(),
-        "userPassword": $('#Password').val(),
-        "repeatPassword": $('#RepeatPassword').val()
-    };
-
-    let addressData = {
-        "street": $('#Street').val(),
-        "number": $('#Number').val(),
-        "zip": $('#PLZ').val(),
-        "city": $('#City').val(),
-        "country": $('#Country').val(),
-    };
-
     function validateForm() {
+        let registrationData = {
+            "gender": $('#Anrede').val(),
+            "firstName": $('#Firstname').val(),
+            "lastName": $('#Lastname').val(),
+            "userEmail": $('#Email').val(),
+            "userName": $('#Username').val(),
+            "userPassword": $('#Password').val(),
+            "repeatPassword": $('#RepeatPassword').val()
+        };
         if (!isValidRegistrationData(registrationData)) {
             alert("Registration data is not valid.");
             return false;
-        } else {
-            isValidRegistrationData(registrationData)
-        }
+        } 
+
+        let addressData = {
+            "street": $('#Street').val(),
+            "number": $('#Number').val(),
+            "zip": $('#PLZ').val(),
+            "city": $('#City').val(),
+            "country": $('#Country').val(),
+        };
 
         if (!isValidAddressData(addressData)) {
             alert("Address data is not valid.");
             return false;
-        } else {
-            isValidAddressData(addressData)
-        }
+        } 
 
         return true
     }
 
     function isValidRegistrationData(data) {
-        const namePattern = /^[A-Za-z]+$/;
+        const namePattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.gender) {
             $('#Anrede').addClass('invalid-input-value');
             $('#Anrede').siblings('.invalid-input').show();
@@ -114,7 +109,7 @@ $(document).ready(function () {
             alert("Password and Repeat Password do not match.");
         }
 
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const emailPattern = /^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/;
         if (!emailPattern.test(data.userEmail)) {
             $('#Email').addClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').show();
@@ -122,10 +117,12 @@ $(document).ready(function () {
             $('#Email').removeClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').hide();
         }
+
+        return true;
     }
 
     function isValidAddressData(data) {
-        const streetPattern = /^[A-Za-z\s]+$/;
+        const streetPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.street.match(streetPattern)) {
             $('#Street').addClass('invalid-input-value');
             $('#Street').siblings('.invalid-input').show();
@@ -152,7 +149,7 @@ $(document).ready(function () {
             $('#PLZ').siblings('.invalid-input').hide();
         }
 
-        const cityPattern = /^[A-Za-z]+$/;
+        const cityPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.city.match(cityPattern)) {
             $('#City').addClass('invalid-input-value');
             $('#City').siblings('.invalid-input').show();
@@ -161,7 +158,7 @@ $(document).ready(function () {
             $('#City').siblings('.invalid-input').hide();
         }
 
-        const countryPattern = /^[A-Za-z]+$/;
+        const countryPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.country.match(countryPattern)) {
             $('#Country').addClass('invalid-input-value');
             $('#Country').siblings('.invalid-input').show();
@@ -174,6 +171,24 @@ $(document).ready(function () {
     }
 
     function createNewUser() {
+        let registrationData = {
+            "gender": $('#Anrede').val(),
+            "firstName": $('#Firstname').val(),
+            "lastName": $('#Lastname').val(),
+            "userEmail": $('#Email').val(),
+            "userName": $('#Username').val(),
+            "userPassword": $('#Password').val(),
+            "repeatPassword": $('#RepeatPassword').val()
+        };
+    
+        let addressData = {
+            "street": $('#Street').val(),
+            "number": $('#Number').val(),
+            "zip": $('#PLZ').val(),
+            "city": $('#City').val(),
+            "country": $('#Country').val(),
+        }
+
         let userAddress = new Address(addressData.street, addressData.number, addressData.zip, addressData.city, addressData.country)
         return new User(registrationData.userName, registrationData.userPassword, registrationData.userEmail, registrationData.gender, registrationData.firstName, registrationData.lastName, userAddress)
     }
@@ -193,11 +208,6 @@ $(document).ready(function () {
                 success: (response) => {
                     const accessToken = response.accessToken;
                     localStorage.setItem('accessToken', accessToken);
-                    /*if (accessToken.role === 'ADMIN') {
-                        window.location.href = 'src/admin.html';
-                    } else if (accessToken.role === 'CUSTOMER') {
-                        window.location.href = 'src/home.html';
-                    }*/
                     alert("Registrierung erfolgreich!")
                 },
                 error: function (error) {
@@ -216,8 +226,6 @@ $(document).ready(function () {
         $(this).closest('form').find("select").val(function () {
             return $(this).find("option[value='default']").text();
         });                
-        isValidAddressData(addressData);
-        isValidRegistrationData(registrationData);
     });
 });
 

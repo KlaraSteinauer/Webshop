@@ -8,15 +8,18 @@ $(document).ready(function () {
             this.password = password
         }
     }
+    console.log("ge tting user")
 
     function setLoginData() {
         let userData = {
-            "username": $('#floatingInput').val(),
-            "password": $('#floatingPassword').val()
+            "username": $('#userName').val(),
+            "password": $('#userPassword').val()
         }
 
+        console.log("getting user")
         return new UserLogin(userData.username, userData.password)
     }
+
 
     $('#loginButton').click(function (e) {
         e.preventDefault();
@@ -65,9 +68,6 @@ $(document).ready(function () {
                 console.log("Kein Admin!")
                 location.href = "home.html"
             }
-
         })
     }
-
-
 })
