@@ -101,8 +101,8 @@ $(document).ready(function () {
         return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
     }
 
-    //event to load product list from server
-    $("#search").on("click", _e => {
+    // Function to load product list from server
+    function loadProductList() {
         $.ajax({
             url: 'http://localhost:8080/product/all',
             method: 'GET',
@@ -117,6 +117,11 @@ $(document).ready(function () {
                 console.log("Error: " + error);
             }
         });
+    }
+
+    //event to load product list from server
+    $("#productManagement").on("click", _e => {
+        loadProductList();
     })
 
     //event to add a new product to the list
@@ -124,19 +129,15 @@ $(document).ready(function () {
         let product = createProduct();
 
         $.ajax({
-            url: 'http://localhost:8080/file',
+            url: 'http://localhost:8080/product',
             method: "POST",
             contentType: 'application/json',
             data: JSON.stringify(product),
             success: $.ajax({
                 url: 'http://localhost:8080/product/all',
                 method: 'GET',
-                success: (products) => {
-                    productList = products;
-                    $('#list-group-product').empty();
-                    products.forEach(product => {
-                        newProductItem(product);
-                    });
+                success: function () {
+                    loadProductList()
                 },
                 error: function (error) {
                     console.log("Error: " + error);
@@ -161,6 +162,7 @@ $(document).ready(function () {
             contentType: "application/json",
             success: function () {
                 newItem.remove();
+                loadProductList();
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -182,7 +184,6 @@ $(document).ready(function () {
                 $('#product-price-val').val(product.price);
                 $('#product-amount-val').val(product.quantity);
                 $('#product-category option:selected').val(product.category);
-                console.log("geladenes produkt", product)
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -191,14 +192,13 @@ $(document).ready(function () {
 
         $('#saveProduct').on("click", _e => {
             let product = updateProduct(id);
-            console.log("update produkt", product)
             $.ajax({
                 url: `http://localhost:8080/product/${id}`,
                 method: "PUT",
                 contentType: 'application/json',
                 data: JSON.stringify(product),
                 success: function () {
-                    console.log("Produkt wurde geladen !!")
+                    loadProductList()
                 },
                 error: function (error) {
                     console.log("Error: " + error);
