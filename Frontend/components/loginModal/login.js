@@ -1,20 +1,28 @@
+$("#loginModal").load("../components/loginModal/login.html");
 
-$(document).ready(function () {
+$('#openLoginModal').click(function (e) {
+
     class UserLogin {
         constructor(username, password) {
             this.username = username;
             this.password = password
         }
     }
+    console.log("ge tting user")
 
     function setLoginData() {
         let userData = {
-            "username": $('#floatingInput').val(),
-            "password": $('#floatingPassword').val()
+            "username": $('#userName').val(),
+            "password": $('#userPassword').val()
         }
 
+        console.log("getting user")
         return new UserLogin(userData.username, userData.password)
     }
+
+    let user = setLoginData();
+    console.log(user)
+
 
     $('#loginButton').click(function (e) {
         e.preventDefault();
@@ -42,8 +50,8 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:8080/isAdmin',
             method: 'GET',
-            headers: 
-            { 
+            headers:
+            {
                 "Authorization": localStorage.getItem("accessToken")
             },
             contentType: 'application/json',
@@ -63,9 +71,6 @@ $(document).ready(function () {
                 console.log("Kein Admin!")
                 location.href = "home.html"
             }
-
         })
     }
-
-
 })

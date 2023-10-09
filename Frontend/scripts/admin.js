@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("#footerContainer").load("/Frontend/components/navbar/footer.html");
+
     let pageLoaded = true;
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
