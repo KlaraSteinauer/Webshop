@@ -41,7 +41,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/file", method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDTO> createProductWithFile(@ModelAttribute ProductFileDTO productFileDTO)
             throws IOException {
         MultipartFile file = productFileDTO.getImage();
