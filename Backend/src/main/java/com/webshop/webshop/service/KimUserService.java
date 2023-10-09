@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class KimUserService {
 
@@ -31,6 +34,17 @@ public class KimUserService {
         }
         return kimUser.get();
     }
+
+    public List<KimUserDTO> findAll() {
+        var kimUser = kimUserRepository.findAll();
+        if (kimUser.isEmpty()) {
+            throw new ObjectNotFoundException(kimUser, "User not found.");
+        }
+        return kimUser.stream().map(KimUser::convertToDto).collect(Collectors.toList());
+
+    }
+
+
 
     public void deleteById(Long id) {
         try {

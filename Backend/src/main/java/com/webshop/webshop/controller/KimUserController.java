@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -21,9 +23,16 @@ public class KimUserController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get/{id}")
-    public ResponseEntity<KimUserDTO> getUser(@PathVariable Long id) {
+    public ResponseEntity<KimUserDTO> findUserById(@PathVariable Long id) {
         return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<List<KimUserDTO>> findAll() {
+        return new ResponseEntity<>(kimUserService.findAll(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

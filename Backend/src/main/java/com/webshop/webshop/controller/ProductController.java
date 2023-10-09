@@ -83,11 +83,11 @@ public class ProductController {
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
         try {
             ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            System.out.println("everything is fine, returning");
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping("/all")
@@ -129,10 +129,14 @@ public class ProductController {
     @Deprecated
     @GetMapping("/findByName/{letter}")
     public ResponseEntity<List<ProductDTO>> findByLetter(@PathVariable String letter) {
+        /*
         return new ResponseEntity<>(productService.findByLetter(letter).stream()
                 .map(Product::convertToDto)
                 .toList(),
                 HttpStatus.OK);
+
+         */
+        return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
     }
 
 }
