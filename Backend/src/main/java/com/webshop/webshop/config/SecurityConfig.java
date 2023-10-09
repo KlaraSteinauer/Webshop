@@ -1,5 +1,6 @@
 package com.webshop.webshop.config;
 
+import com.webshop.webshop.security.AuthenticationFilter;
 import com.webshop.webshop.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,10 +30,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/*")
                 .permitAll()
-                .anyRequest().permitAll();
-//                .authenticated() TODO aktivieren wenn im Frontend das Login komplett entwickelt ist!
-//                .and()
-//                .addFilterBefore(new AuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().permitAll()
+                .and()
+                .addFilterBefore(new AuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 }

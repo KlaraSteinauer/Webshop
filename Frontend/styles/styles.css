@@ -101,3 +101,10 @@ a:hover {
   border-color: #022135
 }
 
+.invalid-input-value {
+  border: 2px solid red;
+}
+.invalid-input {
+  color: red;
+  font-size: 12px;
+}

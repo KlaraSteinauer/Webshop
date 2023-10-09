@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("#footerContainer").load("/Frontend/components/navbar/footer.html");
+
     let pageLoaded = true;
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
@@ -132,6 +134,10 @@ $(document).ready(function () {
             url: 'http://localhost:8080/product',
             method: "POST",
             contentType: 'application/json',
+            headers: 
+            { 
+                "Authorization": localStorage.getItem("accessToken")
+            },
             data: JSON.stringify(product),
             success: $.ajax({
                 url: 'http://localhost:8080/product/all',
@@ -159,6 +165,10 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/product/${id}`,
             method: 'DELETE',
+            headers: 
+            { 
+                "Authorization": localStorage.getItem("accessToken")
+            },
             contentType: "application/json",
             success: function () {
                 newItem.remove();
@@ -195,6 +205,10 @@ $(document).ready(function () {
             $.ajax({
                 url: `http://localhost:8080/product/${id}`,
                 method: "PUT",
+                headers: 
+            { 
+                "Authorization": localStorage.getItem("accessToken")
+            },
                 contentType: 'application/json',
                 data: JSON.stringify(product),
                 success: function () {
