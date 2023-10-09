@@ -13,5 +13,4 @@ public class WebshopApplication {
 	public void run(String... args) throws Exception {
 
 	}
-
 }
