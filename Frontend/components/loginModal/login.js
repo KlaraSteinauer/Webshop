@@ -1,6 +1,6 @@
 $("#loginModal").load("../components/loginModal/login.html");
 
-$(document).ready(function () {
+$('#openLoginModal').click(function (e) {
 
     class UserLogin {
         constructor(username, password) {
@@ -19,6 +19,9 @@ $(document).ready(function () {
         console.log("getting user")
         return new UserLogin(userData.username, userData.password)
     }
+
+    let user = setLoginData();
+    console.log(user)
 
 
     $('#loginButton').click(function (e) {
