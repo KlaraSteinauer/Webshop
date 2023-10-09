@@ -1,11 +1,14 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.KimUserDTO;
+import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.service.KimUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -14,14 +17,33 @@ public class KimUserController {
 
     private final KimUserService kimUserService;
 
-    @PostMapping("/add") //DTO übergeben
-    public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
-        return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<KimUserDTO> createUser(@RequestBody KimUserDTO kimUserDTO) {
+        try {
+            return new ResponseEntity<KimUserDTO>(kimUserService.save(kimUserDTO), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<KimUserDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<KimUserDTO> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<KimUserDTO>> getAllUser() {
+        return new ResponseEntity<>(kimUserService.getAllUser()
+                .stream()
+                .map(KimUser::convertToDto)
+                .toList(),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/{itemId}")
+    public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long itemId) {
+        KimUserDTO updatedUser = kimUserService.update(itemId, kimUserDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -29,7 +29,6 @@ public class ProductController {
 
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        System.out.println("Anfrage kommt and backend");
         productService.deleteById(id);
         String msg = "Product " + id + " deleted.";
         return new ResponseEntity<>(msg, HttpStatus.OK);

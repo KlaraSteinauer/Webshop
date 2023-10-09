@@ -134,7 +134,7 @@
                             <form class="p-2 border rounded-3 bg-light adminManagementForm" id="userManagementForm">
                                 <h2>User-Management</h2>
                                 <div class="form-floating mb-3">
-                                    <select name="anrede" class="form-control" id="floatingAnrede" placeholder="Anrede">
+                                    <select name="anrede" class="form-control" id="gender" placeholder="Anrede">
                                         <option value="default">Anrede</option>
                                         <option value="Herr">Herr</option>
                                         <option value="Frau">Frau</option>
@@ -142,24 +142,29 @@
                                     </select>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingFirstname"
+                                    <input type="text" class="form-control" id="userName"
                                         placeholder="Vorname">
-                                    <label for="floatingFirstname">Vorname</label>
+                                    <label for="userName">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingLastname"
+                                    <input type="text" class="form-control" id="firstname"
+                                        placeholder="Vorname">
+                                    <label for="firstname">Vorname</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lastname"
                                         placeholder="Nachname">
-                                    <label for="floatingLastname">Nachname</label>
+                                    <label for="lastname">Nachname</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInput"
+                                    <input type="email" class="form-control" id="eMail"
                                         placeholder="name@example.com" autocomplete="username">
-                                    <label for="floatingInput">E-Mail</label>
+                                    <label for="eMail">E-Mail</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="floatingPassword"
+                                    <input type="password" class="form-control" id="userPassword"
                                         placeholder="Password" autocomplete="new-password">
-                                    <label for="floatingPassword">Passwort</label>
+                                    <label for="userPassword">Passwort</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -173,8 +178,8 @@
                                         active
                                     </label>
                                 </div>
-                                <button class="w-100 btn btn-lg btn-primary my-2">Hinzufügen</button>
-                                <button class="w-100 btn btn-lg btn-primary my-2">Bearbeiten</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="addUser">Hinzufügen</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveUser">Bearbeiten</button>
                             </form>
 
                             <form class="p-2 border rounded-3 bg-light adminManagementForm" id="orderManagementForm">
