@@ -57,30 +57,22 @@ public class FileController {
                     .map(File::getName)
                     .collect(Collectors.toSet());
         return new ResponseEntity<>(fileNames, HttpStatus.OK);
-        /*List<String> fileNames = new LinkedList<>();
-        for (final Resource res : resources) {
-            fileNames.add(res.getFilename());
-        }
-        return new ResponseEntity<>(fileNames, HttpStatus.OK);*/
     }
 
     @Deprecated
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public ResponseEntity<Object> downloadFile(@RequestParam("file") String fileName) throws IOException {
-        String filename = IMAGE_PATH + fileName;
-        File file = new File(filename);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
+        try {
+            String filePath = IMAGE_PATH + fileName;
+            File file = new File(filePath);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-        ResponseEntity<Object>
-                responseEntity = ResponseEntity.ok().headers(headers).contentLength(
-                file.length()).contentType(MediaType.parseMediaType("application/txt")).body(resource);
-        return responseEntity;
+            return new ResponseEntity<>(resource, HttpStatus.OK);
+        }
+         catch(Exception e) {
+            return new ResponseEntity<>(fileName, HttpStatus.NOT_FOUND);
+         }
     }
 
     @Deprecated
@@ -88,8 +80,7 @@ public class FileController {
     @RequestMapping(value = "/display", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] getImageWithMediaType(@RequestParam("file") String fileName) throws IOException {
-        InputStream in = getClass()
-                .getResourceAsStream(IMAGE_PATH + fileName);
+        InputStream in = new FileInputStream(IMAGE_PATH + fileName);
         System.out.println(IMAGE_PATH + fileName);
         System.out.println(in);
         return in.readAllBytes();

@@ -1,6 +1,7 @@
 package com.webshop.webshop.controller;
 
 import com.webshop.webshop.DTO.KimUserDTO;
+import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.service.KimUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -32,7 +34,18 @@ public class KimUserController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<KimUserDTO>> findAll() {
-        return new ResponseEntity<>(kimUserService.findAll(), HttpStatus.OK);
+        List<KimUser> allUsers = kimUserService.findAll();
+        return new ResponseEntity<>(allUsers.stream()
+                .map(KimUser::convertToDto)
+                .collect(Collectors.toList()),
+                HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
+        KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

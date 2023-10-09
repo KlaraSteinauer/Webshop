@@ -35,15 +35,27 @@ public class KimUserService {
         return kimUser.get();
     }
 
-    public List<KimUserDTO> findAll() {
-        var kimUser = kimUserRepository.findAll();
-        if (kimUser.isEmpty()) {
-            throw new ObjectNotFoundException(kimUser, "User not found.");
+    public List<KimUser> findAll() {
+        var allUsers = kimUserRepository.findAll();
+        if (allUsers.isEmpty()) {
+            throw new ObjectNotFoundException(allUsers, "No Users found.");
         }
-        return kimUser.stream().map(KimUser::convertToDto).collect(Collectors.toList());
+        return allUsers;
 
     }
 
+
+    public KimUserDTO update(Long id, KimUserDTO updateKimUserDTO) throws ObjectNotFoundException {
+        KimUser user = findById(id);
+        user.setUserName(updateKimUserDTO.getUserName());
+        user.setUserPassword(updateKimUserDTO.getUserPassword());
+        user.setUserEmail(updateKimUserDTO.getUserEmail());
+        user.setGender(updateKimUserDTO.getGender());
+        user.setFirstName(updateKimUserDTO.getFirstName());
+        user.setLastName(updateKimUserDTO.getLastName());
+        kimUserRepository.save(user);
+        return user.convertToDto();
+    }
 
 
     public void deleteById(Long id) {
