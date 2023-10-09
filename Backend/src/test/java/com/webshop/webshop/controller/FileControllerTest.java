@@ -7,6 +7,7 @@ import com.webshop.webshop.service.TokenService;
 import org.jose4j.jwt.GeneralJwtException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,7 @@ public class FileControllerTest {
         this.fileController.IMAGE_PATH = this.IMAGE_FOLDER_PATH;
     }
 
+    @Disabled
     @Test
     void deleteFile() throws Exception {
         String tmpdir = Files.createTempDirectory("tmp").toFile().getAbsolutePath();

@@ -7,6 +7,7 @@ import com.webshop.webshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,20 +38,21 @@ public class ProductController {
         }
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/file")
-    public ResponseEntity<ProductDTO> createProductWithFile(@RequestBody ProductFileDTO productFileDTO) throws IOException {
+    @RequestMapping(value = "/file", method = RequestMethod.POST,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductDTO> createProductWithFile(@ModelAttribute ProductFileDTO productFileDTO)
+            throws IOException {
         MultipartFile file = productFileDTO.getImage();
-        File convertFile = new File(IMAGE_PATH + productFileDTO.getImage().getOriginalFilename());
+        File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
         convertFile.createNewFile();
         FileOutputStream fout = new FileOutputStream(convertFile);
         fout.write(file.getBytes());
         fout.close();
         //return new ResponseEntity<>("File upload successful!", HttpStatus.CREATED);
-
-
         try {
-            return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDto()), HttpStatus.CREATED);
+            return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
         }
