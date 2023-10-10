@@ -16,6 +16,16 @@ $(document).ready(function () {
         return new UserLogin(userData.username, userData.password)
     }
 
+    function logout() {
+        localStorage.removeItem('accessToken');
+    }
+
+    function enableButtons(){
+        $('#showLogout').attr('style', 'display: block');
+        $('#showLogin').attr('style', 'display: none');
+        $('#showLoginIcon').attr('style', 'display: none');   
+    }
+
     $('#loginButton').click(function (e) {
         e.preventDefault();
         let user = setLoginData();
@@ -29,7 +39,6 @@ $(document).ready(function () {
             success: (response) => {
                 const accessToken = response;
                 localStorage.setItem('accessToken', accessToken);
-                console.log(localStorage.getItem("accessToken"))
                 isAdmin();
             },
             error: (err) => {
@@ -47,19 +56,19 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             contentType: 'application/json',
-            success: function () {
-                if (isAdmin) {
+            success: function (response) {
+                if (response) {
                     location.href = "admin.html"
                     $('#admin-link').attr('href', '/admin.html');
                     $('#admin-link').attr('style', 'display: block');
+                    enableButtons();
                 } else {
-                    console.log(localStorage.getItem("accessToken"))
                     location.href = "home.html"
+                    enableButtons();
                 }
             },
             error: (err) => {
-                console.log(localStorage.getItem("accessToken"))
-                console.log("Kein Admin!")
+                console.log("Anmeldung fehlgeschlagen!")
                 location.href = "home.html"
             }
         })

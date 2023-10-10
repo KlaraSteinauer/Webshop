@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     function createCardElement(product) {
         const card = $('<div>', { class: 'card' });
-        const img = $('<img>', { src: `${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
+        const img = $('<img>', { src: `/images/${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
         const cardBody = $('<div>', { class: 'card-body' });
         const cardContent = $('<div>', { class: 'card-content' });
         const cardTitle = $('<h5>', { class: 'card-title', text: `${product.name}` });

@@ -1,9 +1,11 @@
 package com.webshop.webshop.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.DTO.ProductFileDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -38,26 +40,33 @@ public class ProductController {
         }
     }
 
-
+    // Endpoint to create a product - REVIEW NEEDED
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/file", method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductDTO> createProductWithFile(@ModelAttribute ProductFileDTO productFileDTO)
-            throws IOException {
-        MultipartFile file = productFileDTO.getImage();
+    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductDTO> createProductWithFile(
+            @RequestPart("product") @Valid String productJson,
+            @RequestPart("productImage") MultipartFile file) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDTO productDTO = objectMapper.readValue(productJson, ProductDTO.class);
+        String filePath = IMAGE_PATH;
         File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
-        convertFile.createNewFile();
-        FileOutputStream fout = new FileOutputStream(convertFile);
-        fout.write(file.getBytes());
-        fout.close();
-        //return new ResponseEntity<>("File upload successful!", HttpStatus.CREATED);
-        try {
-            return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
+        if (!convertFile.getParentFile().exists()) {
+            convertFile.getParentFile().mkdirs();
         }
+        convertFile.createNewFile();
+        try (FileOutputStream fout = new FileOutputStream(convertFile)) {
+            fout.write(file.getBytes());
+        }
+        ProductFileDTO productFileDTO = new ProductFileDTO();
+        productFileDTO.setName(productDTO.getName());
+        productFileDTO.setDescription(productDTO.getDescription());
+        productFileDTO.setPrice(productDTO.getPrice());
+        productFileDTO.setQuantity(productDTO.getQuantity());
+        productFileDTO.setCategory(productDTO.getCategory());
+        productFileDTO.setImage(file);
+        return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
     }
-
+    
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {

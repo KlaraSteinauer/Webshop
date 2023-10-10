@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    $("#footerContainer").load("/Frontend/components/navbar/footer.html");
 
     let pageLoaded = true;
     // Hide all forms and lists initially
@@ -127,48 +126,44 @@ $(document).ready(function () {
     })
 
 
-    // https://stackoverflow.com/questions/13240664/how-to-set-a-boundary-on-a-multipart-form-data-request-while-using-jquery-ajax-f
     $('#addProduct').click(function (e) {
         e.preventDefault();
-
+        var imageFile = $('#product-img-val').prop('files')[0];
         var formData = new FormData();
         var product = {
-            id: 123,
             name: $('#product-name-val').val(),
             description: $('#product-description-val').val(),
             price: $('#product-price-val').val(),
             quantity: $('#product-amount-val').val(),
-            category: $('#product-category option:selected').val(),
+            category: $('#product-category option:selected').val()
         };
-        var file = $('#product-img-val').prop('files')[0];
         formData.append("product", JSON.stringify(product));
-        formData.append("file", file);
-
+        formData.append("productImage", imageFile);
         fetch("http://localhost:8080/product/file", {
             method: "POST",
-            contentType:false,
-            processData : false,
+            // No 'Content-Type' header—fetch sets it automatically due to FormData
+            headers: {
+                "Authorization": localStorage.getItem("accessToken")
+            },
             body: formData,
-        })
-            .then(response => {
+            success: function (response) {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
-            })
-            .then(data => {
                 alert("Product added successfully!");
-            })
-            .catch((error) => {
+                return response.json();
+            },
+            error: (error) => {
                 console.error('Error:', error);
                 alert("Error adding product!");
-            });
-    });
+            }
+        })
+    })
 
     //event to add a new product to the list
     /*$("#addProduct").on("click", _e => {
         let product = createProduct();
-    
+     
         $.ajax({
             url: 'http://localhost:8080/product',
             method: "POST",

@@ -74,7 +74,7 @@ public class KimUserServiceTest {
         user.setGender("male");
         user.setFirstName("userFirst");
         user.setLastName("userLast");
-        final KimUser savedUser = assertDoesNotThrow(() -> kimUserService.save(user));
+        final KimUserDTO savedUser = assertDoesNotThrow(() -> kimUserService.save(user));
         assertAll(
                 () -> assertEquals(user.getUserName(), savedUser.getUserName()),
                 () -> assertEquals(user.getUserPassword(), savedUser.getUserPassword()),

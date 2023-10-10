@@ -17,32 +17,15 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/scripts/admin.js"></script>
+    <script src="../components/navbar/loadNavbar.js" defer></script>
+    <script src="../components/footer/loadFooter.js" defer></script>
+    <script src="../components/loginModal/login.js" defer></script>
     <title>admin</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" aria-label="Fourth navbar example">
-        <div class="container-fluid">
-            <a href="./home.html">
-                <img class="navbar_logo" src="../images/logo_v2.png" alt="Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
-                aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarsExample04">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./home.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-current="page" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    
+    <div id="navbarContainer"></div>
 
     <div class="bg-picture">
         <div class="bg-transparent">
@@ -143,7 +126,7 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="userName"
-                                        placeholder="Vorname">
+                                        placeholder="Vorname" autocomplete="username">
                                     <label for="userName">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -232,6 +215,9 @@
                 </div>
             </div>
         </div>
+
+        <div id="footerContainer"></div>
+
 </body>
 
 </html>
