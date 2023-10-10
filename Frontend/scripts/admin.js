@@ -113,6 +113,7 @@ $(document).ready(function () {
                 products.forEach(product => {
                     newProductItem(product);
                 });
+
             },
             error: function (error) {
                 console.log("Error: " + error);

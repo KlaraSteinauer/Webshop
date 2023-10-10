@@ -21,6 +21,7 @@ $(document).ready(function () {
     //TODO implement page relaod 
     $('#showLogout').click(function (e) {
         localStorage.removeItem('accessToken');
+        window.location.reload()
     })
 
     function enableButtons() {
