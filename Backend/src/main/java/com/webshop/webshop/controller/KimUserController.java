@@ -6,6 +6,7 @@ import com.webshop.webshop.service.KimUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public class KimUserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get/{id}")
     public ResponseEntity<KimUserDTO> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<KimUserDTO>> getAllUser() {
         return new ResponseEntity<>(kimUserService.getAllUser()
@@ -40,12 +43,14 @@ public class KimUserController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{itemId}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long itemId) {
         KimUserDTO updatedUser = kimUserService.update(itemId, kimUserDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
         kimUserService.deleteById(id);
