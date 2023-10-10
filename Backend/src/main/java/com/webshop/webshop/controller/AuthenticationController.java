@@ -29,7 +29,7 @@ public class AuthenticationController {
         return token;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/isAdmin")
     public boolean isAdmin() {
         return true;

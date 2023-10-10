@@ -30,7 +30,7 @@ public class ProductController {
 
     public static String IMAGE_PATH = "../Frontend/images/";
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         try {
@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     // Endpoint to create a product - REVIEW NEEDED
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductDTO> createProductWithFile(
             @RequestPart("product") @Valid String productJson,
@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
     }
     
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 
@@ -87,16 +87,16 @@ public class ProductController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{itemId}")
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
         try {
             ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            System.out.println("everything is fine, returning");
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping("/all")
@@ -127,6 +127,7 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/findByDescription/{description}")
     public ResponseEntity<List<ProductDTO>> findByType(@PathVariable String description) {
         return new ResponseEntity<>(productService.findByDescription(description).stream()
@@ -134,14 +135,19 @@ public class ProductController {
                 .toList(),
                 HttpStatus.OK);
     }
+     */
 
     @Deprecated
     @GetMapping("/findByName/{letter}")
     public ResponseEntity<List<ProductDTO>> findByLetter(@PathVariable String letter) {
+        /*
         return new ResponseEntity<>(productService.findByLetter(letter).stream()
                 .map(Product::convertToDto)
                 .toList(),
                 HttpStatus.OK);
+
+         */
+        return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
     }
 
 }

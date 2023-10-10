@@ -4,24 +4,27 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.KimUserRepository;
+import com.webshop.webshop.security.KimUserDetails;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class KimUserService {
+public class KimUserService implements UserDetailsService {
 
     @Autowired
     KimUserRepository kimUserRepository;
 
-    public KimUserDTO save(KimUserDTO kimUserDTO) {
+
+    public KimUser save(KimUserDTO kimUserDTO) {
         try {
-            KimUser user = kimUserDTO.convertToKimUser();
-            KimUser savedUser = kimUserRepository.save(user);
-            return savedUser.convertToDto();
+            return kimUserRepository.save(kimUserDTO.convertToKimUser());
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("Invalid fields for user!");
         }
@@ -35,17 +38,15 @@ public class KimUserService {
         return kimUser.get();
     }
 
-    public void deleteById(Long id) {
-        try {
-            kimUserRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ObjectNotFoundException(Product.class, "User with id: " + id + "not found!");
+    public List<KimUser> findAll() {
+        var allUsers = kimUserRepository.findAll();
+        if (allUsers.isEmpty()) {
+            throw new ObjectNotFoundException(allUsers, "No Users found.");
         }
+        return allUsers;
+
     }
 
-    public List<KimUser> getAllUser() {
-        return kimUserRepository.findAll();
-    }
 
     public KimUserDTO update(Long id, KimUserDTO updateKimUserDTO) throws ObjectNotFoundException {
         KimUser user = findById(id);
@@ -59,4 +60,24 @@ public class KimUserService {
         return user.convertToDto();
     }
 
+
+    public void deleteById(Long id) {
+        try {
+            kimUserRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ObjectNotFoundException(Product.class, "User with id: " + id + "not found!");
+        }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            KimUser user = kimUserRepository.findByUserName(username).get();
+            return new KimUserDetails(
+                    user.getUserId(), user.getUserName(), user.getUserPassword(), user.getRole());
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("User name doesn't exist!");
+        }
+
+    }
 }

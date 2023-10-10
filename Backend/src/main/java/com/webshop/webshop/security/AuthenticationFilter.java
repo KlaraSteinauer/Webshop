@@ -59,7 +59,7 @@ private final TokenService tokenService;
 
     private Optional<UsernamePasswordAuthenticationToken> createAuthToken(String jwt) throws GeneralJwtException {
         // Parse JWT
-        Optional<UserDetails> userDetails = tokenService.parseToken(jwt);
+        Optional<KimUserDetails> userDetails = tokenService.parseToken(jwt);
 
         // JWT is invalid
         if (userDetails.isEmpty()) {
@@ -67,6 +67,7 @@ private final TokenService tokenService;
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
+
 
         // Add admin role if user is admin
         if (userDetails.get().getUserRole().equals(Role.ADMIN)) {
