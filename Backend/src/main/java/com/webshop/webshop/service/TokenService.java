@@ -2,7 +2,7 @@ package com.webshop.webshop.service;
 
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.security.UserDetails;
+import com.webshop.webshop.security.KimUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +15,7 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.HmacKey;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -75,7 +76,35 @@ public class TokenService {
         return result;
     }
 
-    public Optional<UserDetails> parseToken(String jwt) throws GeneralJwtException {
+    public String generateTokenFromUserDetails(KimUserDetails kimUserDetails) throws GeneralJwtException {
+        if (kimUserDetails.getUserId() == null
+                || (kimUserDetails.getUserName() == null
+                || kimUserDetails.getUserName().isEmpty())
+                || kimUserDetails.getUserRole() == null) {
+            throw new IllegalArgumentException("User:  "
+                    + kimUserDetails.getUserId() + "/"
+                    + kimUserDetails.getUserName() + "/"
+                    + kimUserDetails.getPassword()
+                    + " invalid!");
+        }
+        String result = null;
+        Date expirationDate = new Date(System.currentTimeMillis() + validity * 60000);
+        try {
+            JwtClaims claims = new JwtClaims();
+            result = Jwts.builder()
+                    .claim("id", kimUserDetails.getUserId())
+                    .claim("sub", kimUserDetails.getUserName())
+                    .claim("role", kimUserDetails.getUserRole())
+                    .setExpiration(expirationDate)
+                    .signWith(HS256, key)
+                    .compact();
+        } catch (Exception e) {
+            throw new GeneralJwtException("Invalid token.");
+        }
+        return result;
+    }
+
+    public Optional<KimUserDetails> parseToken(String jwt) throws GeneralJwtException {
 
         Jws<Claims> jwsClaims;
         jwsClaims = Jwts.parser()
@@ -91,7 +120,7 @@ public class TokenService {
         } catch (RequiredTypeException e) {
             throw new GeneralJwtException("Token includes invalid role!");
         }
-        return Optional.of(new UserDetails(userId, sub, userRole));
+        return Optional.of(new KimUserDetails(userId, sub, userRole));
     }
 
 
@@ -118,15 +147,14 @@ public class TokenService {
 
 
     public boolean isAdmin(String token) {
-        Optional<UserDetails> var;
+        Optional<KimUserDetails> var;
         try {
             var = parseToken(token);
         } catch (GeneralJwtException e) {
             throw new RuntimeException(e);
         }
-        UserDetails userDetails = var.get();
-        return userDetails.getUserRole() == Role.ADMIN;
+        KimUserDetails kimUserDetails = var.get();
+        return kimUserDetails.getUserRole() == Role.ADMIN;
     }
-
 
 }
