@@ -4,16 +4,19 @@ import com.webshop.webshop.DTO.KimUserDTO;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.KimUserRepository;
+import com.webshop.webshop.security.KimUserDetails;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class KimUserService {
+public class KimUserService implements UserDetailsService {
 
     @Autowired
     KimUserRepository kimUserRepository;
@@ -64,5 +67,17 @@ public class KimUserService {
         } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(Product.class, "User with id: " + id + "not found!");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            KimUser user = kimUserRepository.findByUserName(username).get();
+            return new KimUserDetails(
+                    user.getUserId(), user.getUserName(), user.getUserPassword(), user.getRole());
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("User name doesn't exist!");
+        }
+
     }
 }

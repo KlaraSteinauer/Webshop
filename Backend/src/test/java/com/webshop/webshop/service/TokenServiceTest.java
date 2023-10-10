@@ -4,7 +4,7 @@ import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
-import com.webshop.webshop.security.UserDetails;
+import com.webshop.webshop.security.KimUserDetails;
 import org.jose4j.jwt.GeneralJwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -85,12 +85,12 @@ public class TokenServiceTest {
                 .findFirst()
                 .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
-        Optional<UserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
-        UserDetails userDetails = assertDoesNotThrow(() -> var.get());
+        Optional<KimUserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
+        KimUserDetails kimUserDetails = assertDoesNotThrow(() -> var.get());
         assertAll(
-                () -> assertEquals(customer.getUserId(), userDetails.getUserId()),
-                () -> assertEquals(customer.getUserName(), userDetails.getUserName()),
-                () -> assertEquals(customer.getRole(), userDetails.getUserRole())
+                () -> assertEquals(customer.getUserId(), kimUserDetails.getUserId()),
+                () -> assertEquals(customer.getUserName(), kimUserDetails.getUserName()),
+                () -> assertEquals(customer.getRole(), kimUserDetails.getUserRole())
         );
     }
 
@@ -101,7 +101,7 @@ public class TokenServiceTest {
                 .findFirst()
                 .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
-        Optional<UserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
+        Optional<KimUserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
         assertFalse(tokenService.isAdmin(customerToken));
 
         final KimUser admin = kimUserRepository.findAll().stream()
