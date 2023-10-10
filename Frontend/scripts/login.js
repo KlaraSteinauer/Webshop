@@ -16,14 +16,23 @@ $(document).ready(function () {
         return new UserLogin(userData.username, userData.password)
     }
 
-    function logout() {
-        localStorage.removeItem('accessToken');
-    }
+    enableButtons();
 
-    function enableButtons(){
-        $('#showLogout').attr('style', 'display: block');
-        $('#showLogin').attr('style', 'display: none');
-        $('#showLoginIcon').attr('style', 'display: none');   
+    //TODO implement page relaod 
+    $('#showLogout').click(function (e) {
+        localStorage.removeItem('accessToken');
+    })
+
+    function enableButtons() {
+        if (localStorage.getItem("accessToken") != null) {
+            $('#showLogout').attr('style', 'display: block');
+            $('#showLogin').attr('style', 'display: none');
+            $('#showLoginIcon').attr('style', 'display: none');
+        } else {
+            $('#showLogout').attr('style', 'display: none');
+            $('#showLogin').attr('style', 'display: block');
+            $('#showLoginIcon').attr('style', 'display: block');
+        }
     }
 
     $('#loginButton').click(function (e) {
@@ -61,10 +70,8 @@ $(document).ready(function () {
                     location.href = "admin.html"
                     $('#admin-link').attr('href', '/admin.html');
                     $('#admin-link').attr('style', 'display: block');
-                    enableButtons();
                 } else {
                     location.href = "home.html"
-                    enableButtons();
                 }
             },
             error: (err) => {
