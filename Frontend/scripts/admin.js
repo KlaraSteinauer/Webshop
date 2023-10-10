@@ -78,7 +78,7 @@ $(document).ready(function () {
         $('#list-group-product').append(newItem);
     }
 
-    function createProduct() {
+    /*function createProduct() {
         let productValues = {
             name: $('#product-name-val').val(),
             description: $('#product-description-val').val(),
@@ -88,7 +88,7 @@ $(document).ready(function () {
             category: $('#product-category option:selected').val(),
         };
         return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
-    }
+    }*/
 
     function updateProduct(id) {
         let productValues = {
@@ -126,16 +126,55 @@ $(document).ready(function () {
         loadProductList();
     })
 
-    //event to add a new product to the list
-    $("#addProduct").on("click", _e => {
-        let product = createProduct();
 
+    // https://stackoverflow.com/questions/13240664/how-to-set-a-boundary-on-a-multipart-form-data-request-while-using-jquery-ajax-f
+    $('#addProduct').click(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData();
+        var product = {
+            id: 123,
+            name: $('#product-name-val').val(),
+            description: $('#product-description-val').val(),
+            price: $('#product-price-val').val(),
+            quantity: $('#product-amount-val').val(),
+            category: $('#product-category option:selected').val(),
+        };
+        var file = $('#product-img-val').prop('files')[0];
+        formData.append("product", JSON.stringify(product));
+        formData.append("file", file);
+
+        fetch("http://localhost:8080/product/file", {
+            method: "POST",
+            contentType:false,
+            processData : false,
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Product added successfully!");
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("Error adding product!");
+            });
+    });
+
+    //event to add a new product to the list
+    /*$("#addProduct").on("click", _e => {
+        let product = createProduct();
+    
         $.ajax({
             url: 'http://localhost:8080/product',
             method: "POST",
             contentType: 'application/json',
-            headers: 
-            { 
+            headers:
+            {
                 "Authorization": localStorage.getItem("accessToken")
             },
             data: JSON.stringify(product),
@@ -152,9 +191,8 @@ $(document).ready(function () {
             error: function (error) {
                 console.log("Error: " + error);
             }
-
         });
-    });
+    });*/
 
     //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
@@ -165,8 +203,8 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/product/${id}`,
             method: 'DELETE',
-            headers: 
-            { 
+            headers:
+            {
                 "Authorization": localStorage.getItem("accessToken")
             },
             contentType: "application/json",
@@ -205,10 +243,10 @@ $(document).ready(function () {
             $.ajax({
                 url: `http://localhost:8080/product/${id}`,
                 method: "PUT",
-                headers: 
-            { 
-                "Authorization": localStorage.getItem("accessToken")
-            },
+                headers:
+                {
+                    "Authorization": localStorage.getItem("accessToken")
+                },
                 contentType: 'application/json',
                 data: JSON.stringify(product),
                 success: function () {
@@ -358,7 +396,7 @@ $(document).ready(function () {
         });
     });
 
-    //event to update user from the list TODO implemeltn endpoint in backend for PUT
+    //event to update user from the list 
     $('#list-group-user').on("click", '.updateItem', function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
@@ -367,11 +405,11 @@ $(document).ready(function () {
             method: 'GET',
             success: function (user) {
                 $('#userName').val(user.userName),
-                $('#userPassword').val(user.userPassword),
-                $('#eMail').val(user.eMail),
-                $('#gender option:selected').val(user.gender),
-                $('#firstname').val(user.firstname),
-                $('#lastname').val(user.lastname)
+                    $('#userPassword').val(user.userPassword),
+                    $('#eMail').val(user.eMail),
+                    $('#gender option:selected').val(user.gender),
+                    $('#firstname').val(user.firstname),
+                    $('#lastname').val(user.lastname)
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -393,8 +431,5 @@ $(document).ready(function () {
                 }
             });
         });
-    }
-    );
-
+    });
 });
-

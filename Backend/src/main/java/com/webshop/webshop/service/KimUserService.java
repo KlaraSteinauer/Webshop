@@ -17,13 +17,14 @@ public class KimUserService {
     @Autowired
     KimUserRepository kimUserRepository;
 
- 	public KimUserDTO save(KimUserDTO kimUserDTO) {
-		try {
-        	KimUser user = kimUserDTO.convertToKimUser();
-        	KimUser savedUser = kimUserRepository.save(user);
-        	return savedUser.convertToDto();
-		} catch (NullPointerException e) {
-        	throw new IllegalArgumentException("Invalid fields for user!");
+    public KimUserDTO save(KimUserDTO kimUserDTO) {
+        try {
+            KimUser user = kimUserDTO.convertToKimUser();
+            KimUser savedUser = kimUserRepository.save(user);
+            return savedUser.convertToDto();
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Invalid fields for user!");
+        }
     }
 
     public KimUser findById(Long id) {
@@ -50,10 +51,10 @@ public class KimUserService {
         KimUser user = findById(id);
         user.setUserName(updateKimUserDTO.getUserName());
         user.setUserPassword(updateKimUserDTO.getUserPassword());
-        user.setEMail(updateKimUserDTO.getEMail());
+        user.setUserEmail(updateKimUserDTO.getUserEmail());
         user.setGender(updateKimUserDTO.getGender());
-        user.setFirstName(updateKimUserDTO.getFirstname());
-        user.setLastName(updateKimUserDTO.getLastname());
+        user.setFirstName(updateKimUserDTO.getFirstName());
+        user.setLastName(updateKimUserDTO.getLastName());
         kimUserRepository.save(user);
         return user.convertToDto();
     }
