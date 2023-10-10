@@ -28,7 +28,7 @@ public class ProductController {
 
     public static String IMAGE_PATH = "../Frontend/images/";
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         try {
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/file", method = RequestMethod.POST,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDTO> createProductWithFile(@ModelAttribute ProductFileDTO productFileDTO)
@@ -58,7 +58,7 @@ public class ProductController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 
@@ -78,7 +78,7 @@ public class ProductController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{itemId}")
     public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
         try {
@@ -118,6 +118,7 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
+    /*
     @GetMapping("/findByDescription/{description}")
     public ResponseEntity<List<ProductDTO>> findByType(@PathVariable String description) {
         return new ResponseEntity<>(productService.findByDescription(description).stream()
@@ -125,6 +126,7 @@ public class ProductController {
                 .toList(),
                 HttpStatus.OK);
     }
+     */
 
     @Deprecated
     @GetMapping("/findByName/{letter}")

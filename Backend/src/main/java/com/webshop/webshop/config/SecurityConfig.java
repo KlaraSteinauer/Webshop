@@ -48,9 +48,17 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/*")
-                .permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                // file handling
+                .requestMatchers("/upload", "file/*", "/download", "/display").hasRole("ADMIN")
+                // user
+                .requestMatchers(HttpMethod.POST,"/user/add").permitAll()
+                .requestMatchers("/user/**").hasRole("ADMIN")
+                // product
+                .requestMatchers("/product/all").permitAll()
+                .requestMatchers("/product/findByCategory/*").permitAll()
+                .requestMatchers("/product/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

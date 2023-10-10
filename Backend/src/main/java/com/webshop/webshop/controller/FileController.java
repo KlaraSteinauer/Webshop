@@ -50,7 +50,7 @@ public class FileController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "file/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/file/all", method = RequestMethod.GET)
     public ResponseEntity<Set<String>> getAllFiles() {
         Set<String> fileNames = Stream.of(new File(IMAGE_PATH).listFiles())
                     .filter(file -> !file.isDirectory())

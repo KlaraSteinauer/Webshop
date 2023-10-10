@@ -31,13 +31,13 @@ public class KimUserController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get/{id}")
     public ResponseEntity<KimUserDTO> findUserById(@PathVariable Long id) {
         return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<KimUserDTO>> findAll() {
         List<KimUser> allUsers = kimUserService.findAll();
@@ -47,14 +47,14 @@ public class KimUserController {
                 HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
         KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id) {
         kimUserService.deleteById(id);
