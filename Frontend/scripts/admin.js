@@ -1,5 +1,26 @@
 $(document).ready(function () {
 
+    //redirect to home page if no token or CUSTOMER-token is saved in local storage
+    $.ajax({
+        url: 'http://localhost:8080/isAdmin',
+        method: 'GET',
+        headers:
+        {
+            "Authorization": localStorage.getItem("accessToken")
+        },
+        contentType: 'application/json',
+        success: function (response) {
+            if (response) {
+                location.href = "admin.html"
+            } else {
+                location.href = "home.html"
+            }
+        },
+        error: (err) => {
+            location.href = "home.html"
+        }
+    })
+
     let pageLoaded = true;
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
@@ -126,7 +147,7 @@ $(document).ready(function () {
         loadProductList();
     })
 
-
+    //event to add a product from the list
     $('#addProduct').click(function (e) {
         e.preventDefault();
         var imageFile = $('#product-img-val').prop('files')[0];
@@ -160,35 +181,6 @@ $(document).ready(function () {
             }
         })
     })
-
-    //event to add a new product to the list
-    /*$("#addProduct").on("click", _e => {
-        let product = createProduct();
-     
-        $.ajax({
-            url: 'http://localhost:8080/product',
-            method: "POST",
-            contentType: 'application/json',
-            headers:
-            {
-                "Authorization": localStorage.getItem("accessToken")
-            },
-            data: JSON.stringify(product),
-            success: $.ajax({
-                url: 'http://localhost:8080/product/all',
-                method: 'GET',
-                success: function () {
-                    loadProductList()
-                },
-                error: function (error) {
-                    console.log("Error: " + error);
-                }
-            }),
-            error: function (error) {
-                console.log("Error: " + error);
-            }
-        });
-    });*/
 
     //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {

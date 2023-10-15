@@ -5,7 +5,6 @@ import com.webshop.webshop.service.AuthenticationService;
 import com.webshop.webshop.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.jose4j.jwt.GeneralJwtException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
@@ -23,7 +22,7 @@ public class AuthenticationController {
     public String login(@RequestBody LoginDTO loginDTO) throws GeneralJwtException, LoginException {
         String token = authenticationService.login(loginDTO.getUsername(), loginDTO.getPassword());
         String pre = "Bearer ";
-        if (!token.substring(0,5).equals(pre)) {
+        if (!token.substring(0, 5).equals(pre)) {
             token = pre.concat(token);
         }
         return token;
@@ -31,8 +30,8 @@ public class AuthenticationController {
 
     //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/isAdmin")
-    public boolean isAdmin() {
-        return true;
+    public boolean isAdmin(@RequestHeader(name = "Authorization") String token) {
+        return tokenService.isAdmin(token);
     }
 
 }

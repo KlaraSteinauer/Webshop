@@ -15,7 +15,6 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.HmacKey;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -113,7 +112,7 @@ public class TokenService {
 
         Long userId = jwsClaims.getBody().get("id", Long.class);
         String sub = jwsClaims.getBody().getSubject();
-        String userRoleString = jwsClaims.getBody().get("role", String.class);
+        String userRoleString = jwsClaims.getBody().get("role").toString();
         Role userRole;
         try {
             userRole = Role.valueOf(userRoleString);
@@ -124,32 +123,31 @@ public class TokenService {
     }
 
 
-
-
     public Boolean validateToken(String token) {
-    try {
-    getClaimsFromToken(token);
-    } catch (InvalidJwtException e) {
-    return false;
-    }
-    return true;
+        try {
+            getClaimsFromToken(token);
+        } catch (InvalidJwtException e) {
+            return false;
+        }
+        return true;
     }
 
 
     public Map<String, Object> getClaimsFromToken(String token) throws InvalidJwtException {
-    JwtConsumer jwtc = new JwtConsumerBuilder()
-        .setRequireExpirationTime()
-        .setVerificationKey(key)
-        .build();
-    JwtClaims claims = jwtc.processToClaims(token);
-    return claims.getClaimsMap();
+        JwtConsumer jwtc = new JwtConsumerBuilder()
+                .setRequireExpirationTime()
+                .setVerificationKey(key)
+                .build();
+        JwtClaims claims = jwtc.processToClaims(token);
+        return claims.getClaimsMap();
     }
 
 
     public boolean isAdmin(String token) {
         Optional<KimUserDetails> var;
+        String trimmedToken = token.replaceAll("Bearer ", "");
         try {
-            var = parseToken(token);
+            var = parseToken(trimmedToken);
         } catch (GeneralJwtException e) {
             throw new RuntimeException(e);
         }

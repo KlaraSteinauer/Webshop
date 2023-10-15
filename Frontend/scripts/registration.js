@@ -34,10 +34,6 @@ $(document).ready(function () {
             "userPassword": $('#Password').val(),
             "repeatPassword": $('#RepeatPassword').val()
         };
-        if (!isValidRegistrationData(registrationData)) {
-            alert("Registration data is not valid.");
-            return false;
-        } 
 
         let addressData = {
             "street": $('#Street').val(),
@@ -47,8 +43,8 @@ $(document).ready(function () {
             "country": $('#Country').val(),
         };
 
-        if (!isValidAddressData(addressData)) {
-            alert("Address data is not valid.");
+        if (!isValidAddressData(addressData) && !isValidRegistrationData(registrationData)) {
+            alert("Address or Registration data is not valid.");
             return false;
         } 
 

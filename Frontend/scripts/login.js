@@ -18,10 +18,10 @@ $(document).ready(function () {
 
     enableButtons();
 
-    //TODO implement page relaod 
     $('#showLogout').click(function (e) {
         localStorage.removeItem('accessToken');
-        window.location.reload()
+        window.location.href = 'home.html';
+        //window.location.reload()
     })
 
     function enableButtons() {
@@ -52,7 +52,7 @@ $(document).ready(function () {
                 isAdmin();
             },
             error: (err) => {
-                console.error(err, "Login fehlgeschlagen!");
+                alert("Login fehlgeschlagen!");4
             }
         });
     });
@@ -69,14 +69,12 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     location.href = "admin.html"
-                    $('#admin-link').attr('href', '/admin.html');
-                    $('#admin-link').attr('style', 'display: block');
                 } else {
                     location.href = "home.html"
                 }
             },
             error: (err) => {
-                console.log("Anmeldung fehlgeschlagen!")
+                alert("isAdmin fehlgeschlagen!")
                 location.href = "home.html"
             }
         })
