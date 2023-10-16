@@ -98,6 +98,68 @@ $(document).ready(function () {
         $('#list-group-product').append(newItem);
     }
 
+    function validateProductForm() {
+        let productData = {
+            "name": $('#product-name-val').val(),
+            "description": $('#product-description-val').val(),
+            "image": $('#product-img-val').val(),
+            "price": $('#product-price-val').val(),
+            "quantity": $('#product-amount-val').val(),
+            "category": $('#product-category').val()
+        }
+        isValidProduct(productData);
+        if (!isValidProduct(productData)) {
+            alert("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
+            return false;
+        }
+        if (
+            !productData.name ||
+            !productData.description ||
+            !productData.image ||
+            !productData.price ||
+            !productData.quantity ||
+            !productData.category
+        ) {
+            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            return false;
+        }
+        return true;
+    }
+
+    function isValidProduct(data) {
+        if (!data.name.match(/^[\w\s-]+$/)) {
+            $('#product-name').closest('.input-group').addClass('invalid-input-value');
+        } else {
+            $('#product-name').closest('.input-group').removeClass('invalid-input-value');
+        }
+        if (!data.description.match(/^(?!default$).+$/)) {
+            $('#product-description-val').closest('.input-group').addClass('invalid-input-value');
+        } else {
+            $('#product-description-val').closest('.input-group').removeClass('invalid-input-value');
+        }
+        if (!data.image.match(/^.*\.(jpg|jpeg|png|gif)$/)) {
+            $('#product-img-val').closest('.input-group').addClass('invalid-input-value');
+        } else {
+            $('#product-img-val').closest('.input-group').removeClass('invalid-input-value');
+        }
+        if (!data.price.match(/^\d+(\.\d{2})?$/)) {
+            $('#product-price-val').closest('.input-group').addClass('invalid-input-value');
+        } else {
+            $('#product-price-val').closest('.input-group').removeClass('invalid-input-value');
+        }
+        if (!data.quantity.match(/^\d+$/)) {
+            $('#product-amount-val').closest('.input-group').addClass('invalid-input-value');
+        } else {
+            $('#product-amount-val').closest('.input-group').removeClass('invalid-input-value');
+        }
+        if (data.category === "default") {
+            $('#product-category').addClass('invalid-input-value');
+        } else {
+            $('#product-category').removeClass('invalid-input-value');
+        }
+        return true;
+    }
+
     //TODO update the function with picture and not value
     function updateProduct(id) {
         let productValues = {
@@ -139,36 +201,40 @@ $(document).ready(function () {
     //event to add a product from the list
     $('#addProduct').click(function (e) {
         e.preventDefault();
-        var imageFile = $('#product-img-val').prop('files')[0];
-        var formData = new FormData();
-        var product = {
-            name: $('#product-name-val').val(),
-            description: $('#product-description-val').val(),
-            price: $('#product-price-val').val(),
-            quantity: $('#product-amount-val').val(),
-            category: $('#product-category option:selected').val()
-        };
-        formData.append("product", JSON.stringify(product));
-        formData.append("productImage", imageFile);
-        fetch("http://localhost:8080/product/file", {
-            method: "POST",
-            // No 'Content-Type' header—fetch sets it automatically due to FormData
-            headers: {
-                "Authorization": localStorage.getItem("accessToken")
-            },
-            body: formData,
-            success: function (response) {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+        if (validateProductForm()) {
+            var imageFile = $('#product-img-val').prop('files')[0];
+            var formData = new FormData();
+            var product = {
+                name: $('#product-name-val').val(),
+                description: $('#product-description-val').val(),
+                price: $('#product-price-val').val(),
+                quantity: $('#product-amount-val').val(),
+                category: $('#product-category option:selected').val()
+            };
+            formData.append("product", JSON.stringify(product));
+            formData.append("productImage", imageFile);
+            fetch("http://localhost:8080/product/file", {
+                method: "POST",
+                // No 'Content-Type' header—fetch sets it automatically due to FormData
+                headers: {
+                    "Authorization": localStorage.getItem("accessToken")
+                },
+                body: formData,
+                success: function (response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    alert("Product added successfully!");
+                    return response.json();
+                },
+                error: (error) => {
+                    console.error('Error:', error);
+                    alert("Error adding product!");
                 }
-                alert("Product added successfully!");
-                return response.json();
-            },
-            error: (error) => {
-                console.error('Error:', error);
-                alert("Error adding product!");
-            }
-        })
+            })
+        } else {
+            alert("Produkt konnte nicht hinzugefügt werden.")
+        }
     })
 
     //event to delete a product from the list
@@ -205,7 +271,7 @@ $(document).ready(function () {
             success: function (product) {
                 $('#product-name-val').val(product.name);
                 $('#product-description-val').val(product.description);
-                $('#product-img-val').val(product.imageUrl);
+                $('#product-img-val').val(product.image);
                 $('#product-price-val').val(product.price);
                 $('#product-amount-val').val(product.quantity);
                 $('#product-category option:selected').val(product.category);
@@ -216,23 +282,25 @@ $(document).ready(function () {
         });
 
         $('#saveProduct').on("click", _e => {
-            let product = updateProduct(id);
-            $.ajax({
-                url: `http://localhost:8080/product/${id}`,
-                method: "PUT",
-                headers:
-                {
-                    "Authorization": localStorage.getItem("accessToken")
-                },
-                contentType: 'application/json',
-                data: JSON.stringify(product),
-                success: function () {
-                    loadProductList()
-                },
-                error: function (error) {
-                    console.log("Error: " + error);
-                }
-            });
+            if (isValidProduct()) {
+                let product = updateProduct(id);
+                $.ajax({
+                    url: `http://localhost:8080/product/${id}`,
+                    method: "PUT",
+                    headers:
+                    {
+                        "Authorization": localStorage.getItem("accessToken")
+                    },
+                    contentType: 'application/json',
+                    data: JSON.stringify(product),
+                    success: function () {
+                        loadProductList()
+                    },
+                    error: function (error) {
+                        console.log("Error: " + error);
+                    }
+                })
+            };
         });
     }
     );
@@ -286,6 +354,68 @@ $(document).ready(function () {
         $('#list-group-user').append(newItem);
     }
 
+    function validateUserForm() {
+        let userData = {
+            "userName": $('#userName').val(),
+            "userPassword": $('#userPassword').val(),
+            "eMail": $('#eMail').val(),
+            "gender": $('#gender').val(),
+            "firstname": $('#firstname').val(),
+            "lastname": $('#lastname').val()
+        };
+        isValidUser(userData);
+        if (!isValidUser(userData)) {
+            alert("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
+            return false;
+        }
+        if (
+            !userData.userName ||
+            !userData.userPassword ||
+            !userData.eMail ||
+            !userData.gender ||
+            !userData.firstname ||
+            !userData.lastname
+        ) {
+            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            return false;
+        }
+        return true;
+    }
+
+    function isValidUser(data) {
+        if (!data.userName) {
+            $('#userName').closest('.form-floating').addClass('invalid-input-value');
+        } else {
+            $('#userName').closest('.form-floating').removeClass('invalid-input-value');
+        }
+        if (!data.userPassword) {
+            $('#userPassword').closest('.form-floating').addClass('invalid-input-value');
+        } else {
+            $('#userPassword').closest('.form-floating').removeClass('invalid-input-value');
+        }
+        if (!data.eMail.match(/^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/)) {
+            $('#eMail').closest('.form-floating').addClass('invalid-input-value');
+        } else {
+            $('#eMail').closest('.form-floating').removeClass('invalid-input-value');
+        }
+        if (!data.lastname.match(/^[A-Za-zÖÄÜöäü]+$/)) {
+            $('#lastname').closest('.form-floating').addClass('invalid-input-value');
+        } else {
+            $('#lastname').closest('.form-floating').removeClass('invalid-input-value');
+        }
+        if (!data.firstname.match(/^[A-Za-zÖÄÜöäü]+$/)) {
+            $('#firstname').closest('.form-floating').addClass('invalid-input-value');
+        } else {
+            $('#firstname').closest('.form-floating').removeClass('invalid-input-value');
+        }
+        if (data.gender === "default") {
+            $('#gender').addClass('invalid-input-value');
+        } else {
+            $('#gender').removeClass('invalid-input-value');
+        }
+        return true;
+    }
+
     function createUser() {
         let userValues = {
             userName: $('#userName').val(),
@@ -316,6 +446,10 @@ $(document).ready(function () {
         $.ajax({
             url: 'http://localhost:8080/user/all',
             method: 'GET',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
             success: (users) => {
                 userList = users;
                 $('#list-group-user').empty();
@@ -336,21 +470,23 @@ $(document).ready(function () {
 
     //event to add a new user to the list
     $("#addUser").on("click", _e => {
-        let user = createUser();
-
-        $.ajax({
-            url: 'http://localhost:8080/user',
-            method: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify(user),
-            success: function () {
-                loadUserList()
-            },
-            error: function (error) {
-                console.log("Error: " + error);
-            }
-
-        });
+        if (validateUserForm()) {
+            let user = createUser();
+            $.ajax({
+                url: 'http://localhost:8080/user/add',
+                method: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(user),
+                success: function () {
+                    loadUserList()
+                },
+                error: function (error) {
+                    console.log("Error: " + error);
+                }
+            });
+        } else {
+            alert("User konnte nicht hinzugefügt werden!")
+        }
     });
 
     //event to delete a user from the list
@@ -363,6 +499,10 @@ $(document).ready(function () {
             url: `http://localhost:8080/user/delete/${id}`,
             method: 'DELETE',
             contentType: "application/json",
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
             success: function () {
                 newItem.remove();
                 loadUserList();
@@ -380,6 +520,10 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/user/get/${id}`,
             method: 'GET',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
             success: function (user) {
                 $('#userName').val(user.userName),
                     $('#userPassword').val(user.userPassword),
@@ -394,19 +538,25 @@ $(document).ready(function () {
         });
 
         $('#saveUser').on("click", _e => {
-            let user = updateUser(id);
-            $.ajax({
-                url: `http://localhost:8080/user/${id}`,
-                method: "PUT",
-                contentType: 'application/json',
-                data: JSON.stringify(user),
-                success: function () {
-                    loadUserList()
-                },
-                error: function (error) {
-                    console.log("Error: " + error);
-                }
-            });
+            if (validateUserForm()){
+                let user = updateUser(id);
+                $.ajax({
+                    url: `http://localhost:8080/user/${id}`,
+                    method: "PUT",
+                    headers:
+                    {
+                        "Authorization": localStorage.getItem("accessToken")
+                    },
+                    contentType: 'application/json',
+                    data: JSON.stringify(user),
+                    success: function () {
+                        loadUserList()
+                    },
+                    error: function (error) {
+                        console.log("Error: " + error);
+                    }
+                });
+            }
         });
     });
 });
