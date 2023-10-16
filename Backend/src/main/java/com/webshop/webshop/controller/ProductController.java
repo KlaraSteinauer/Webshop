@@ -11,7 +11,6 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +65,7 @@ public class ProductController {
         productFileDTO.setImage(file);
         return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
     }
-    
+
     //@PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
@@ -87,17 +86,30 @@ public class ProductController {
 
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{itemId}")
-    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
+    @PutMapping(path = "/{itemId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductDTO> updateProductById(
+            @RequestPart("product") @Valid String productJson,
+            @RequestPart("productImage") MultipartFile file,
+            @PathVariable("itemId") Long itemId) throws IOException {
+
         try {
-            ProductDTO updatedProduct = productService.update(itemId, productDTO);
-            System.out.println("everything is fine, returning");
+            ProductDTO updatedProduct = productService.update(itemId, productJson, file);
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //@PreAuthorize("hasRole('ADMIN')")
+    /*@PutMapping("/{itemId}")
+    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
+        try {
+            ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }*/
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {

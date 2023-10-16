@@ -268,6 +268,10 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8080/product/findById/${id}`,
             method: 'GET',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
             success: function (product) {
                 $('#product-name-val').val(product.name);
                 $('#product-description-val').val(product.description);
@@ -282,25 +286,35 @@ $(document).ready(function () {
         });
 
         $('#saveProduct').on("click", _e => {
-            if (isValidProduct()) {
-                let product = updateProduct(id);
-                $.ajax({
-                    url: `http://localhost:8080/product/${id}`,
+            if (validateProductForm()) {
+                var imageFile = $('#product-img-val').prop('files')[0];
+                var formData = new FormData();
+                var product = {
+                    name: $('#product-name-val').val(),
+                    description: $('#product-description-val').val(),
+                    price: $('#product-price-val').val(),
+                    quantity: $('#product-amount-val').val(),
+                    category: $('#product-category option:selected').val()
+                };
+                formData.append("product", JSON.stringify(product));
+                formData.append("productImage", imageFile);
+                fetch(`http://localhost:8080/product/${id}`, {
                     method: "PUT",
-                    headers:
-                    {
+                    headers: {
                         "Authorization": localStorage.getItem("accessToken")
                     },
-                    contentType: 'application/json',
-                    data: JSON.stringify(product),
+                    body: formData,
                     success: function () {
                         loadProductList()
                     },
-                    error: function (error) {
-                        console.log("Error: " + error);
+                    error: (error) => {
+                        console.error('Error:', error);
+                        alert("Error adding product!");
                     }
                 })
-            };
+            } else {
+                alert("Produkt konnte nicht hinzugefügt werden.")
+            }
         });
     }
     );
@@ -538,7 +552,7 @@ $(document).ready(function () {
         });
 
         $('#saveUser').on("click", _e => {
-            if (validateUserForm()){
+            if (validateUserForm()) {
                 let user = updateUser(id);
                 $.ajax({
                     url: `http://localhost:8080/user/${id}`,
