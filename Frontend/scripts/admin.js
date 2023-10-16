@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-    //redirect to home page if no token or CUSTOMER-token is saved in local storage
-    $.ajax({
+    //TODO redirect to home page if no token or CUSTOMER-token is saved in local storage
+    /*$.ajax({
         url: 'http://localhost:8080/isAdmin',
         method: 'GET',
         headers:
@@ -19,7 +19,7 @@ $(document).ready(function () {
         error: (err) => {
             location.href = "home.html"
         }
-    })
+    })*/
 
     let pageLoaded = true;
     // Hide all forms and lists initially
@@ -98,18 +98,7 @@ $(document).ready(function () {
         $('#list-group-product').append(newItem);
     }
 
-    /*function createProduct() {
-        let productValues = {
-            name: $('#product-name-val').val(),
-            description: $('#product-description-val').val(),
-            image: $('#product-img-val').val(),
-            price: $('#product-price-val').val(),
-            quantity: $('#product-amount-val').val(),
-            category: $('#product-category option:selected').val(),
-        };
-        return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
-    }*/
-
+    //TODO update the function with picture and not value
     function updateProduct(id) {
         let productValues = {
             id: id,
