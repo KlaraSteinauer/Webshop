@@ -15,7 +15,7 @@ public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
 
-    @PostMapping("/addProduct/{ShoppingCartId}")
+    /*@PostMapping("/addProduct/{ShoppingCartId}")
     public ResponseEntity<ShoppingCartDTO> addProductToCart(@RequestBody Product product, @PathVariable Long ShoppingCartId) {
         ShoppingCartDTO shoppingCartDTO = shoppingCartService.addProduct(product, ShoppingCartId).convertToDto();
         if (shoppingCartDTO == null) {
@@ -23,4 +23,6 @@ public class ShoppingCartController {
         }
         return new ResponseEntity<>(shoppingCartDTO, HttpStatus.OK);
     }
+
+     */
 }

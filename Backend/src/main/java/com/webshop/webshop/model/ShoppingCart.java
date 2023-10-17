@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -23,18 +24,16 @@ public class ShoppingCart {
     @OneToOne
     @JoinColumn(name = "kim_user_id", referencedColumnName = "id")
     private KimUser kimUser;
-    @ManyToMany
-    @JoinTable(name = "shopping_cart_products", joinColumns = @JoinColumn(name = "shopping_cart_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
     @OneToOne(mappedBy = "shoppingCart")
     private KimOrder order;
+    @OneToMany(mappedBy = "cart")
+    private Set<Position> positions;
 
     public ShoppingCartDTO convertToDto() {
         return new ShoppingCartDTO(
                 this.getKimUser().getUserId(),
-                this.getProducts().stream()
-                        .map(Product::convertToDto)
+                this.getPositions().stream()
+                        .map(Position::convertToDto)
                         .collect(Collectors.toList())
         );
     }

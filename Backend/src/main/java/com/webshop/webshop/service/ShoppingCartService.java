@@ -17,7 +17,7 @@ public class ShoppingCartService {
         this.shoppingCartRepository = shoppingCartRepository;
     }
 
-    public ShoppingCart addProduct(Product product, Long shoppingCartId) {
+    /*public ShoppingCart addProduct(Product product, Long shoppingCartId) {
         var shoppingCartOptional = this.shoppingCartRepository.findById(shoppingCartId);
         if (shoppingCartOptional.isEmpty()) {
             throw new ObjectNotFoundException(shoppingCartOptional, "Shopping Cart not found.");
@@ -27,4 +27,5 @@ public class ShoppingCartService {
             return shoppingCartRepository.save(shoppingCart);
         }
     }
+     */
 }
