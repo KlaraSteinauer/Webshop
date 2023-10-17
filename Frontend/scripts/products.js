@@ -14,19 +14,18 @@ $(document).ready(function () {
 
     function createCardElement(product) {
         const card = $('<div>', { class: 'card' });
-        const img = $('<img>', { src: `${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
+        const img = $('<img>', { src: `/images/${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
         const cardBody = $('<div>', { class: 'card-body' });
         const cardContent = $('<div>', { class: 'card-content' });
         const cardTitle = $('<h5>', { class: 'card-title', text: `${product.name}` });
         const cardText = $('<p>', { class: 'card-text', text: `${product.description}` });
+        const cardQuantity = $('<p>', { class: 'card-text-quantity', text: `Anzahl aktuell verfügbarer Produkte: ${product.quantity}` });
         const btnCenter = $('<div>', { class: 'btn-center' });
         const addButton = $('<button>', { class: 'btn btn-primary', id: "btn-addToShoppingcart", text: 'Add to cart' });
-
-        cardContent.append(cardTitle, cardText);
+        cardContent.append(cardTitle, cardText, cardQuantity);
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
         card.append(img, cardBody);
-
         return card;
     }
 
@@ -55,4 +54,8 @@ $(document).ready(function () {
             console.log(error);
         }
     });
+
+    //function to add products to a shopping card
+    
+
 })

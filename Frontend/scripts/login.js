@@ -1,6 +1,4 @@
-$("#loginModal").load("../components/loginModal/login.html");
-
-$('#openLoginModal').click(function (e) {
+$(document).ready(function () {
 
     class UserLogin {
         constructor(username, password) {
@@ -8,7 +6,6 @@ $('#openLoginModal').click(function (e) {
             this.password = password
         }
     }
-    console.log("ge tting user")
 
     function setLoginData() {
         let userData = {
@@ -16,13 +13,28 @@ $('#openLoginModal').click(function (e) {
             "password": $('#userPassword').val()
         }
 
-        console.log("getting user")
         return new UserLogin(userData.username, userData.password)
     }
 
-    let user = setLoginData();
-    console.log(user)
+    enableButtons();
 
+    $('#showLogout').click(function (e) {
+        localStorage.removeItem('accessToken');
+        window.location.href = 'home.html';
+        //window.location.reload()
+    })
+
+    function enableButtons() {
+        if (localStorage.getItem("accessToken") != null) {
+            $('#showLogout').attr('style', 'display: block');
+            $('#showLogin').attr('style', 'display: none');
+            $('#showLoginIcon').attr('style', 'display: none');
+        } else {
+            $('#showLogout').attr('style', 'display: none');
+            $('#showLogin').attr('style', 'display: block');
+            $('#showLoginIcon').attr('style', 'display: block');
+        }
+    }
 
     $('#loginButton').click(function (e) {
         e.preventDefault();
@@ -37,11 +49,11 @@ $('#openLoginModal').click(function (e) {
             success: (response) => {
                 const accessToken = response;
                 localStorage.setItem('accessToken', accessToken);
-                console.log(localStorage.getItem("accessToken"))
+                localStorage.setItem('currentUser', user.username);
                 isAdmin();
             },
             error: (err) => {
-                console.error(err, "Login fehlgeschlagen!");
+                alert("Login fehlgeschlagen!");4
             }
         });
     });
@@ -55,20 +67,15 @@ $('#openLoginModal').click(function (e) {
                 "Authorization": localStorage.getItem("accessToken")
             },
             contentType: 'application/json',
-            success: function () {
-                if (isAdmin) {
+            success: function (response) {
+                if (response) {
                     location.href = "admin.html"
-                    $('#admin-link').attr('href', '/admin.html');
-                    $('#admin-link').attr('style', 'display: block');
-
                 } else {
-                    console.log(localStorage.getItem("accessToken"))
                     location.href = "home.html"
                 }
             },
             error: (err) => {
-                console.log(localStorage.getItem("accessToken"))
-                console.log("Kein Admin!")
+                alert("isAdmin fehlgeschlagen!")
                 location.href = "home.html"
             }
         })

@@ -1,15 +1,16 @@
 package com.webshop.webshop.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.webshop.DTO.ProductDTO;
 import com.webshop.webshop.DTO.ProductFileDTO;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,24 +39,31 @@ public class ProductController {
         }
     }
 
-
+    // Endpoint to create a product - REVIEW NEEDED
     //@PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/file", method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductDTO> createProductWithFile(@ModelAttribute ProductFileDTO productFileDTO)
-            throws IOException {
-        MultipartFile file = productFileDTO.getImage();
+    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductDTO> createProductWithFile(
+            @RequestPart("product") @Valid String productJson,
+            @RequestPart("productImage") MultipartFile file) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDTO productDTO = objectMapper.readValue(productJson, ProductDTO.class);
+        String filePath = IMAGE_PATH;
         File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
-        convertFile.createNewFile();
-        FileOutputStream fout = new FileOutputStream(convertFile);
-        fout.write(file.getBytes());
-        fout.close();
-        //return new ResponseEntity<>("File upload successful!", HttpStatus.CREATED);
-        try {
-            return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<ProductDTO>(HttpStatus.BAD_REQUEST);
+        if (!convertFile.getParentFile().exists()) {
+            convertFile.getParentFile().mkdirs();
         }
+        convertFile.createNewFile();
+        try (FileOutputStream fout = new FileOutputStream(convertFile)) {
+            fout.write(file.getBytes());
+        }
+        ProductFileDTO productFileDTO = new ProductFileDTO();
+        productFileDTO.setName(productDTO.getName());
+        productFileDTO.setDescription(productDTO.getDescription());
+        productFileDTO.setPrice(productDTO.getPrice());
+        productFileDTO.setQuantity(productDTO.getQuantity());
+        productFileDTO.setCategory(productDTO.getCategory());
+        productFileDTO.setImage(file);
+        return new ResponseEntity<ProductDTO>(productService.save(productFileDTO.convertToProductDTO()), HttpStatus.CREATED);
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
@@ -78,17 +86,30 @@ public class ProductController {
 
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{itemId}")
-    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
+    @PutMapping(path = "/{itemId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductDTO> updateProductById(
+            @RequestPart("product") @Valid String productJson,
+            @RequestPart("productImage") MultipartFile file,
+            @PathVariable("itemId") Long itemId) throws IOException {
+
         try {
-            ProductDTO updatedProduct = productService.update(itemId, productDTO);
-            System.out.println("everything is fine, returning");
+            ProductDTO updatedProduct = productService.update(itemId, productJson, file);
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //@PreAuthorize("hasRole('ADMIN')")
+    /*@PutMapping("/{itemId}")
+    public ResponseEntity<ProductDTO> updateProductById(@RequestBody ProductDTO productDTO, @PathVariable Long itemId) {
+        try {
+            ProductDTO updatedProduct = productService.update(itemId, productDTO);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }*/
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
