@@ -49,6 +49,7 @@ $(document).ready(function () {
             success: (response) => {
                 const accessToken = response;
                 localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('currentUser', user.username);
                 isAdmin();
             },
             error: (err) => {
