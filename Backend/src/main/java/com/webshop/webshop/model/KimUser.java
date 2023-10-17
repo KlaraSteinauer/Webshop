@@ -37,11 +37,11 @@ public class KimUser {
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
-    private List<ShoppingCart> shoppingCart;
+    private ShoppingCart shoppingCart;
 
-    public KimUser(String userName, String userPassword, String userEmail, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
+    public KimUser(String userName, String userPassword, String userEmail, String gender, String firstName, String lastName, Address address, ShoppingCart shoppingCart) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
@@ -61,8 +61,6 @@ public class KimUser {
                 this.getRole().name(),
                 this.getGender(),
                 this.getFirstName(),
-                this.getLastName(),
-                this.getAddress(),
-                this.getShoppingCart());
+                this.getLastName());
     }
 }

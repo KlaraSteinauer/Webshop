@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long shoppingCartId;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "kim_user_id", referencedColumnName = "id")
     private KimUser kimUser;
     @ManyToMany
@@ -31,8 +32,10 @@ public class ShoppingCart {
 
     public ShoppingCartDTO convertToDto() {
         return new ShoppingCartDTO(
-                this.getKimUser(),
-                this.getProducts()
+                this.getKimUser().getUserId(),
+                this.getProducts().stream()
+                        .map(Product::convertToDto)
+                        .collect(Collectors.toList())
         );
     }
 }

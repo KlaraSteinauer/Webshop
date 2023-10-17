@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShoppingCartDTO {
-    private KimUser shoppingCartUser;
-    private List<Product> shoppingCartProducts;
+    private Long userId;
+    private List<ProductDTO> products;
 }

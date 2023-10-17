@@ -23,19 +23,15 @@ public class KimUserDTO {
     private String gender;
     private String firstName;
     private String lastName;
-    private Address address;
-    private List<ShoppingCart> shoppingCart;
 
     public KimUser convertToKimUser() {
-        KimUser user = new KimUser(
-                this.getUserName(),
-                this.getUserPassword(),
-                this.getUserEmail(),
-                this.getGender(),
-                this.getFirstName(),
-                this.getLastName(),
-                this.getAddress(),
-                this.getShoppingCart());
+        KimUser user = new KimUser();
+        user.setUserName(this.getUserName());
+        user.setUserPassword(this.getUserPassword());
+        user.setUserEmail(this.getUserEmail());
+        user.setGender(this.getGender());
+        user.setFirstName(this.getFirstName());
+        user.setLastName(this.getLastName());
         user.setRole(Role.valueOf(this.getRole()));
         return user;
     }
