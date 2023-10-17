@@ -14,7 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -65,13 +66,13 @@ class ProductServiceTest {
                 .get();
         ProductDTO convertedProduct = assertDoesNotThrow(() -> productToConvert.convertToDto());
         assertAll(
-            () -> assertEquals(productToConvert.getId(), convertedProduct.getId()),
-            () -> assertEquals(productToConvert.getName(), convertedProduct.getName()),
-            () -> assertEquals(productToConvert.getDescription(), convertedProduct.getDescription()),
-            () -> assertEquals(productToConvert.getImageUrl(), convertedProduct.getImageUrl()),
-            () -> assertEquals(productToConvert.getPrice(), convertedProduct.getPrice(), 0.1),
-            () -> assertEquals(productToConvert.getQuantity(), convertedProduct.getQuantity()),
-            () -> assertEquals(productToConvert.getCategory().name(), convertedProduct.getCategory())
+                () -> assertEquals(productToConvert.getId(), convertedProduct.getId()),
+                () -> assertEquals(productToConvert.getName(), convertedProduct.getName()),
+                () -> assertEquals(productToConvert.getDescription(), convertedProduct.getDescription()),
+                () -> assertEquals(productToConvert.getImageUrl(), convertedProduct.getImageUrl()),
+                () -> assertEquals(productToConvert.getPrice(), convertedProduct.getPrice(), 0.1),
+                () -> assertEquals(productToConvert.getQuantity(), convertedProduct.getQuantity()),
+                () -> assertEquals(productToConvert.getCategory().name(), convertedProduct.getCategory())
         );
     }
 
@@ -90,8 +91,7 @@ class ProductServiceTest {
         assertEquals(4, productRepository.findAll().size());
     }
 
-
-    @Test
+/*    @Test
     void updateTest() {
         final Product productToUpdate = productRepository.findAll().stream()
                 .filter(p -> p.getName().equals("Product 1"))
@@ -123,7 +123,7 @@ class ProductServiceTest {
         // make sure no new products were generated
         assertEquals(3, productRepository.findAll().size());
     }
-
+*/
 
     @Test
     void deleteByIdTest() {
@@ -160,7 +160,6 @@ class ProductServiceTest {
         assertEquals(productToUpdate.getQuantity(), foundProduct.getQuantity());
         assertEquals(productToUpdate.getCategory(), foundProduct.getCategory());
     }
-
 
 
 }

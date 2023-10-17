@@ -89,6 +89,11 @@
     margin-bottom: 1rem;
 }
 
+.card-text-quantity {
+    font-size: 0.8rem;
+    color: gray;
+}
+
 .btn-center {
     text-align: center;
 }

@@ -34,11 +34,6 @@ $(document).ready(function () {
             "userPassword": $('#Password').val(),
             "repeatPassword": $('#RepeatPassword').val()
         };
-        if (!isValidRegistrationData(registrationData)) {
-            alert("Registration data is not valid.");
-            return false;
-        } 
-
         let addressData = {
             "street": $('#Street').val(),
             "number": $('#Number').val(),
@@ -46,13 +41,37 @@ $(document).ready(function () {
             "city": $('#City').val(),
             "country": $('#Country').val(),
         };
+        isValidAddressData(addressData);
+        isValidRegistrationData(registrationData);
 
-        if (!isValidAddressData(addressData)) {
-            alert("Address data is not valid.");
+        if (!isValidAddressData(addressData) || !isValidRegistrationData(registrationData)) {
+            alert("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
             return false;
-        } 
+        }
+        if (
+            !addressData.street ||
+            !addressData.number ||
+            !addressData.zip ||
+            !addressData.city ||
+            !addressData.country
+        ) {
+            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            return false;
+        }
+        if (
+            !registrationData.gender ||
+            !registrationData.firstName ||
+            !registrationData.lastName ||
+            !registrationData.userName ||
+            !registrationData.userPassword ||
+            !registrationData.repeatPassword ||
+            !registrationData.userEmail
+        ) {
+            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            return false;
+        }
 
-        return true
+        return true;
     }
 
     function isValidRegistrationData(data) {
@@ -64,7 +83,6 @@ $(document).ready(function () {
             $('#Anrede').removeClass('invalid-input-value');
             $('#Anrede').siblings('.invalid-input').hide();
         }
-
         if (!data.firstName.match(namePattern)) {
             $('#Firstname').addClass('invalid-input-value');
             $('#Firstname').siblings('.invalid-input').show();
@@ -72,7 +90,6 @@ $(document).ready(function () {
             $('#Firstname').removeClass('invalid-input-value');
             $('#Firstname').siblings('.invalid-input').hide();
         }
-
         if (!data.lastName.match(namePattern)) {
             $('#Lastname').addClass('invalid-input-value');
             $('#Lastname').siblings('.invalid-input').show();
@@ -80,7 +97,6 @@ $(document).ready(function () {
             $('#Lastname').removeClass('invalid-input-value');
             $('#Lastname').siblings('.invalid-input').hide();
         }
-
         if (!data.userName) {
             $('#Username').addClass('invalid-input-value');
             $('#Username').siblings('.invalid-input').show();
@@ -88,7 +104,6 @@ $(document).ready(function () {
             $('#Username').removeClass('invalid-input-value');
             $('#Username').siblings('.invalid-input').hide();
         }
-
         if (!data.userPassword) {
             $('#Password').addClass('invalid-input-value');
             $('#Password').siblings('.invalid-input').show();
@@ -96,7 +111,6 @@ $(document).ready(function () {
             $('#Password').removeClass('invalid-input-value');
             $('#Password').siblings('.invalid-input').hide();
         }
-
         if (!data.repeatPassword) {
             $('#RepeatPassword').addClass('invalid-input-value');
             $('#RepeatPassword').siblings('.invalid-input').show();
@@ -104,25 +118,22 @@ $(document).ready(function () {
             $('#RepeatPassword').removeClass('invalid-input-value');
             $('#RepeatPassword').siblings('.invalid-input').hide();
         }
-
         if (data.userPassword !== data.repeatPassword) {
             alert("Password and Repeat Password do not match.");
         }
-
         const emailPattern = /^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/;
-        if (!emailPattern.test(data.userEmail)) {
+        if (!data.userEmail.match(emailPattern)) {
             $('#Email').addClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').show();
         } else {
             $('#Email').removeClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').hide();
         }
-
         return true;
     }
 
     function isValidAddressData(data) {
-        const streetPattern = /^[A-Za-zÖÄÜöäü]+$/;
+        const streetPattern = /^[A-Za-zÖÄÜöäü\s]+$/;
         if (!data.street.match(streetPattern)) {
             $('#Street').addClass('invalid-input-value');
             $('#Street').siblings('.invalid-input').show();
@@ -130,7 +141,6 @@ $(document).ready(function () {
             $('#Street').removeClass('invalid-input-value');
             $('#Street').siblings('.invalid-input').hide();
         }
-
         const numberPattern = /\d+/;
         if (!data.number.match(numberPattern)) {
             $('#Number').addClass('invalid-input-value');
@@ -139,8 +149,7 @@ $(document).ready(function () {
             $('#Number').removeClass('invalid-input-value');
             $('#Number').siblings('.invalid-input').hide();
         }
-
-        const zipPattern = /^\d{4,}$/;
+        const zipPattern = /^\d{4,6}$/;
         if (!data.zip.match(zipPattern)) {
             $('#PLZ').addClass('invalid-input-value');
             $('#PLZ').siblings('.invalid-input').show();
@@ -148,7 +157,6 @@ $(document).ready(function () {
             $('#PLZ').removeClass('invalid-input-value');
             $('#PLZ').siblings('.invalid-input').hide();
         }
-
         const cityPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.city.match(cityPattern)) {
             $('#City').addClass('invalid-input-value');
@@ -157,7 +165,6 @@ $(document).ready(function () {
             $('#City').removeClass('invalid-input-value');
             $('#City').siblings('.invalid-input').hide();
         }
-
         const countryPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.country.match(countryPattern)) {
             $('#Country').addClass('invalid-input-value');
@@ -166,7 +173,6 @@ $(document).ready(function () {
             $('#Country').removeClass('invalid-input-value');
             $('#Country').siblings('.invalid-input').hide();
         }
-
         return true;
     }
 
@@ -180,7 +186,6 @@ $(document).ready(function () {
             "userPassword": $('#Password').val(),
             "repeatPassword": $('#RepeatPassword').val()
         };
-    
         let addressData = {
             "street": $('#Street').val(),
             "number": $('#Number').val(),
@@ -188,18 +193,15 @@ $(document).ready(function () {
             "city": $('#City').val(),
             "country": $('#Country').val(),
         }
-
         let userAddress = new Address(addressData.street, addressData.number, addressData.zip, addressData.city, addressData.country)
         return new User(registrationData.userName, registrationData.userPassword, registrationData.userEmail, registrationData.gender, registrationData.firstName, registrationData.lastName, userAddress)
     }
 
+
     $("#registration").on("click", function (event) {
         event.preventDefault();
-
         if (validateForm()) {
             let newUser = createNewUser();
-            console.log(newUser)
-
             $.ajax({
                 url: 'http://localhost:8080/user/add',
                 method: "POST",
@@ -214,10 +216,7 @@ $(document).ready(function () {
                     console.log("Error: " + JSON.stringify(error));
                 }
             });
-        } else {
-            alert("Registrierung fehlgeschlagen!")
         }
-
     });
 
     $("#reset").on("click", function (event) {
@@ -225,7 +224,7 @@ $(document).ready(function () {
         $(this).closest('form').find("input[type=text], textarea").val("");
         $(this).closest('form').find("select").val(function () {
             return $(this).find("option[value='default']").text();
-        });                
+        });
     });
 });
 
