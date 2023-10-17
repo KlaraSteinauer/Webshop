@@ -12,12 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity(name = "kim_user")
-public class KimUser {
+public class KimUser  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long userId;
-    @Column(name = "user_name")
+
+    @Column(name = "user_name", unique = true)
     private String userName;
     @Column(name = "user_password")
     private String userPassword;
