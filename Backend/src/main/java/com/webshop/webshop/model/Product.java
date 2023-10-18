@@ -32,7 +32,7 @@ public class Product {
     private int quantity;
     @Column(name = "category")
     private ProductCategory category;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Position> positions;
     public ProductViewDTO convertToViewDto() {
         return new ProductViewDTO(

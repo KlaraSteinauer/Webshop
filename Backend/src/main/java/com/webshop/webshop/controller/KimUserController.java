@@ -24,9 +24,11 @@ public class KimUserController {
     private PasswordEncoder encoder;
     private final KimUserService kimUserService;
 
-    @PostMapping
+
+    @PostMapping("/registration")
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
         kimUserDTO.setUserPassword(encoder.encode(kimUserDTO.getUserPassword()));
+        kimUserDTO.setRole("CUSTOMER");
         return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.CREATED);
     }
 

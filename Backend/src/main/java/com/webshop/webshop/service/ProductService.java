@@ -36,10 +36,9 @@ public class ProductService {
     public ProductViewDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ProductViewDTO productViewDTO = objectMapper.readValue(productJson, ProductViewDTO.class);
-        String filePath = IMAGE_PATH;
         File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
         if (!convertFile.getParentFile().exists()) {
-            convertFile.getParentFile().mkdirs();
+            convertFile.getParentFile().mkdir();
         }
         convertFile.createNewFile();
         try (FileOutputStream fout = new FileOutputStream(convertFile)) {

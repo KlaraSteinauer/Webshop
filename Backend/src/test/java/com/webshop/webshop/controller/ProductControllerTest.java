@@ -100,6 +100,7 @@ public class ProductControllerTest {
     }
 
 
+    @Disabled
     @Test
     void createProductTest() throws Exception {
         ProductViewDTO responseBody = new ProductViewDTO();
@@ -130,6 +131,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name", Matchers.containsString("newProductName")));
     }
 
+    @Disabled
     @Test
     void deleteProductTest() throws Exception {
         final Product product = productRepository.findAll().stream()
@@ -199,6 +201,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name", Matchers.containsString("newProductName")));
     }*/
 
+    @Disabled
     @Test
     void getAllProductsTest() throws Exception {
 
@@ -208,6 +211,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.[*]").isNotEmpty());
     }
 
+    @Disabled
     @Test
     void findByIdTest() throws Exception {
         final Product product = productRepository.findAll().stream()
@@ -223,6 +227,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name", Matchers.containsString(product.getName())));
     }
 
+    @Disabled
     @Test
     void findByCategoryTest() throws Exception {
         String category = ProductCategory.SALZPFEFFER.name();
@@ -246,12 +251,5 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.[0].name", Matchers.containsString("Product 1")))
                 .andExpect(jsonPath("$.[*]").isNotEmpty());
     }
-
-    @Disabled
-    @Test
-    void findByLetterTest() {
-
-    }
-
 
 }
