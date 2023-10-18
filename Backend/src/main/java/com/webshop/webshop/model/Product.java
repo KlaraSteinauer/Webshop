@@ -1,11 +1,11 @@
 package com.webshop.webshop.model;
 
-import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.DTO.ProductViewDTO;
 import com.webshop.webshop.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 //Ist das Kernobjekt der Datenbank.
 //Gibt mir die gespeicherten Werte der Datenbank oder fügt/ändert neue Objekte zur Datenbank. ("Vorlage" für Datenbankobjekte)
@@ -18,7 +18,7 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "product_id")
+    @Column(name = "id")
     private Long id;
     @Column(name = "name")
     private String name;
@@ -32,10 +32,10 @@ public class Product {
     private int quantity;
     @Column(name = "category")
     private ProductCategory category;
-    @ManyToMany(mappedBy = "products")
-    private List<ShoppingCart> shoppingCarts;
-    public ProductDTO convertToDto() {
-        return new ProductDTO(
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<Position> positions;
+    public ProductViewDTO convertToViewDto() {
+        return new ProductViewDTO(
                 this.getId(),
                 this.getName(),
                 this.getDescription(),

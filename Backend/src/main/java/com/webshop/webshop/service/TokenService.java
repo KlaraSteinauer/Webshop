@@ -48,12 +48,12 @@ public class TokenService {
      * @return String The token
      */
     public String generateToken(KimUser kimUser) throws GeneralJwtException {
-        if (kimUser.getUserId() == null
+        if (kimUser.getId() == null
                 || (kimUser.getUserName() == null
                 || kimUser.getUserName().isEmpty())
                 || kimUser.getRole() == null) {
             throw new IllegalArgumentException("User:  "
-                    + kimUser.getUserId() + "/"
+                    + kimUser.getId() + "/"
                     + kimUser.getUserName() + "/"
                     + kimUser.getUserPassword()
                     + " invalid!");
@@ -63,7 +63,7 @@ public class TokenService {
         try {
             JwtClaims claims = new JwtClaims();
             result = Jwts.builder()
-                    .claim("id", kimUser.getUserId())
+                    .claim("id", kimUser.getId())
                     .claim("sub", kimUser.getUserName())
                     .claim("role", kimUser.getRole())
                     .setExpiration(expirationDate)

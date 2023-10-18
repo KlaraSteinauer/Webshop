@@ -25,20 +25,19 @@ public class ProductFileDTO {
     private MultipartFile image;
 
     public Product convertToProduct() {
-        return new Product(
-                this.getId(),
-                this.getName(),
-                this.getDescription(),
-                this.getImage().getOriginalFilename(),
-                this.getPrice(),
-                this.getQuantity(),
-                ProductCategory.valueOf(this.getCategory()),
-                null
-        );
+        Product product = new Product();
+        product.setId(this.getId());
+        product.setName(this.getName());
+        product.setDescription(this.getDescription());
+        product.setImageUrl(this.getImage().getOriginalFilename());
+        product.setPrice(this.getPrice());
+        product.setQuantity(this.getQuantity());
+        product.setCategory(ProductCategory.valueOf(this.getCategory()));
+        return product;
     }
 
-    public ProductDTO convertToProductDTO() {
-        return new ProductDTO(
+    public ProductViewDTO convertToProductViewDTO() {
+        return new ProductViewDTO(
                 this.getId(),
                 this.getName(),
                 this.getDescription(),

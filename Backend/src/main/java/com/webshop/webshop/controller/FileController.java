@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,6 +23,7 @@ public class FileController {
 
     public static String IMAGE_PATH = "../Frontend/images/";
 
+    @Deprecated
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/upload", method = RequestMethod.POST,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -37,6 +36,7 @@ public class FileController {
         return new ResponseEntity<>("File upload successful!", HttpStatus.CREATED);
     }
 
+    @Deprecated
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/file/delete", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteFile(@RequestParam("file") String fileName) {
@@ -49,6 +49,7 @@ public class FileController {
         return new ResponseEntity<>("File " + fileName + " was deleted.", HttpStatus.OK);
     }
 
+    @Deprecated
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/file/all", method = RequestMethod.GET)
     public ResponseEntity<Set<String>> getAllFiles() {

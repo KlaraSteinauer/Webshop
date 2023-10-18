@@ -1,6 +1,6 @@
 package com.webshop.webshop.service;
 
-import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.DTO.ProductViewDTO;
 import com.webshop.webshop.WebshopApplication;
 import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.model.Product;
@@ -64,7 +64,7 @@ class ProductServiceTest {
                 .filter(p -> p.getName().equals("Product 1"))
                 .findFirst()
                 .get();
-        ProductDTO convertedProduct = assertDoesNotThrow(() -> productToConvert.convertToDto());
+        ProductViewDTO convertedProduct = assertDoesNotThrow(() -> productToConvert.convertToViewDto());
         assertAll(
                 () -> assertEquals(productToConvert.getId(), convertedProduct.getId()),
                 () -> assertEquals(productToConvert.getName(), convertedProduct.getName()),
@@ -87,7 +87,7 @@ class ProductServiceTest {
         productToSave.setPrice(99);
         productToSave.setQuantity(99);
         productToSave.setCategory(ProductCategory.SALZPFEFFER);
-        ProductDTO savedProduct = assertDoesNotThrow(() -> productService.save(productToSave.convertToDto()));
+        ProductViewDTO savedProduct = assertDoesNotThrow(() -> productService.save(productToSave.convertToViewDto()));
         assertEquals(4, productRepository.findAll().size());
     }
 

@@ -30,7 +30,7 @@ public class AuthenticationServiceTest {
     void setup() {
         kimUserRepository.deleteAll();
         KimUser customer = new KimUser();
-        customer.setUserId(1L);
+        customer.setId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
         customer.setUserEmail("customer@email.com");
@@ -39,7 +39,7 @@ public class AuthenticationServiceTest {
         customer.setFirstName("customerFirst");
         customer.setLastName("customerLast");
         KimUser admin = new KimUser();
-        admin.setUserId(2L);
+        admin.setId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
         admin.setUserEmail("admin@email.com");
@@ -48,7 +48,7 @@ public class AuthenticationServiceTest {
         admin.setFirstName("adminFirst");
         admin.setLastName("adminLast");
         KimUser anonymous = new KimUser();
-        anonymous.setUserId(3L);
+        anonymous.setId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
         anonymous.setUserEmail("anonymous@email.com");
