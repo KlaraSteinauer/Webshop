@@ -112,7 +112,7 @@ $(document).ready(function () {
     }*/
 
     let itemsInCart = 0;
-    
+
     $('#btn-promo').on("click", function () {
         shoppingCartPromotion(newPromotion)
     })
@@ -133,7 +133,7 @@ $(document).ready(function () {
         }
     });
 
-    
+
 
     //------------------------------------------------------------------------------------------------------------------------
     //--------------------------------Userdaten für Bestellung (automatisch) laden -------------------------------------------
@@ -205,25 +205,25 @@ $(document).ready(function () {
     function isValidUserData(data) {
         const namePattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.firstName.match(namePattern)) {
-            $('#firstName').show('invalid-feedback');
+            $('#firstName').siblings('.invalid-feedback').show();
         } else {
-            $('#firstName').hide('invalid-feedback');
+            $('#firstName').siblings('.invalid-feedback').hide();
         }
         if (!data.lastName.match(namePattern)) {
-            $('#lastName').show('invalid-feedback');
+            $('#lastName').siblings('.invalid-feedback').show();
         } else {
-            $('#lastName').hide('invalid-feedback');
+            $('#lastName').siblings('.invalid-feedback').hide();
         }
         if (!data.userName) {
-            $('#username').show('invalid-feedback');
+            $('#username').siblings('.invalid-feedback').show();
         } else {
-            $('#username').hide('invalid-feedback');
+            $('#username').siblings('.invalid-feedback').hide();
         }
         const emailPattern = /^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/;
         if (!data.userEmail.match(emailPattern)) {
-            $('#email').show('invalid-feedback');
+            $('#email').siblings('.invalid-feedback').show();
         } else {
-            $('#email').hide('invalid-feedback');
+            $('#email').siblings('.invalid-feedback').hide();
         }
         return true;
     }
@@ -231,41 +231,35 @@ $(document).ready(function () {
     function isValidAddressData(data) {
         const streetPattern = /^[A-Za-zÖÄÜöäü\s]+$/;
         if (!data.street.match(streetPattern)) {
-            $('#address').show('invalid-feedback');
+            $('#address').siblings('.invalid-feedback').show();
         } else {
-            $('#address').hide('invalid-feedback');
+            $('#address').siblings('.invalid-feedback').hide();
         }
         const numberPattern = /\d+/;
         if (!data.number.match(numberPattern)) {
-            $('#address2').show('invalid-feedback');
+            $('#address2').siblings('.invalid-feedback').show();
         } else {
-            $('#address2').hide('invalid-feedback');
+            $('#address2').siblings('.invalid-feedback').hide();
         }
         const zipPattern = /^\d{4,6}$/;
         if (!data.zip.match(zipPattern)) {
-            $('#zip').show('invalid-feedback');
+            $('#zip').siblings('.invalid-feedback').show();
         } else {
-            $('#zip').hide('invalid-feedback');
+            $('#zip').siblings('.invalid-feedback').hide();
         }
         const cityPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.city.match(cityPattern)) {
-            $('#city').show('invalid-feedback');
+            $('#city').siblings('.invalid-feedback').show();
         } else {
-            $('#city').hide('invalid-feedback');
+            $('#city').siblings('.invalid-feedback').hide();
         }
         const countryPattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.country.match(countryPattern)) {
-            $('#country').show('invalid-feedback');
+            $('#country').siblings('.invalid-feedback').show();
         } else {
-            $('#country').hide('invalid-feedback');
+            $('#country').siblings('.invalid-feedback').hide();
         }
         return true;
-    }
-
-
-
-    function autofillUserdata() {
-
     }
 
     const userName = localStorage.getItem("currentUser");
@@ -278,11 +272,11 @@ $(document).ready(function () {
             "Authorization": localStorage.getItem("accessToken")
         },
         success: function (user) {
-                $('#username').val(user.userName),
+            $('#username').val(user.userName),
                 $('#email').val(user.eMail),
                 $('#firstName').val(user.firstname),
                 $('#lastName').val(user.lastname)
-                $('#address').val(user.address.street),
+            $('#address').val(user.address.street),
                 $('#address2').val(user.address.number),
                 $('#zip').val(user.address.zip),
                 $('#city').val(user.address.city),
@@ -292,4 +286,9 @@ $(document).ready(function () {
             console.log("Error: " + error);
         }
     });
+
+    $('#finishOrder').on("click", function () {
+        validateForm()
+    })
+
 })

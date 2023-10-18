@@ -67,8 +67,6 @@
                                 <label for="lastName" class="form-label">Nachname</label>
                                 <input type="text" class="form-control" id="lastName" placeholder="Nachname" value=""
                                     required>
-                                <!--wenn man das formular submitted sieht man die style :invalid und :valid, je nachdem welchen boolean die methode 
-                                    (validierung) in JavaScript zurückgibt (ACHTUNG! noch nicht implementiert)-->
                                 <div class="invalid-feedback">
                                     Gültiger Nachname ist erforderlich.
                                 </div>
@@ -104,6 +102,9 @@
                                 <label for="address2" class="form-label">Hausnummer<span
                                         class="text-muted">(Optional)</span></label>
                                 <input type="text" class="form-control" id="address2" placeholder="Nummer/Stiege/Tür">
+                                <div class="invalid-feedback">
+                                    Hausnummer erforderlich.
+                                </div>
                             </div>
                             <div class="col-md-3 p-1">
                                 <label for="zip" class="form-label">Postleitzahl</label>
@@ -116,7 +117,7 @@
                                 <label for="city" class="form-label">Stadt</label>
                                 <input type="text" class="form-control" id="city" placeholder="Stadt" required>
                                 <div class="invalid-feedback">
-                                    Postleitzahl erforderlich.
+                                    Stadt erforderlich.
                                 </div>
                             </div>
                             <div class="col-md-6 p-1">
@@ -199,7 +200,7 @@
                             </div>
                         </div>
                         <hr class="my-4">
-                        <button class="w-100 btn btn-checkout btn-lg" type="submit">Bestellung abschließen</button>
+                        <div class="w-100 btn btn-checkout btn-lg" id="finishOrder">Bestellung abschließen</div>
                     </form>
                 </div>
             </div>

@@ -23,10 +23,9 @@ $(document).ready(function () {
         const cardContent = $('<div>', { class: 'card-content' });
         const cardTitle = $('<h5>', { class: 'card-title', text: `${product.name}` });
         const cardText = $('<p>', { class: 'card-text', text: `${product.description}` });
-        const cardQuantity = $('<p>', { class: 'card-text-quantity', text: `Anzahl aktuell verfügbarer Produkte: ${product.quantity}` });
         const btnCenter = $('<div>', { class: 'btn-center' });
         const addButton = $('<button>', { class: 'btn btn-primary btn-addToShoppingcart', text: 'Add to cart' });
-        cardContent.append(cardTitle, cardText, cardQuantity);
+        cardContent.append(cardTitle, cardText);
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
         card.append(img, cardBody);
