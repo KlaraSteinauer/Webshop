@@ -52,12 +52,14 @@ public class SecurityConfig {
                 // file handling
                 .requestMatchers("/upload", "file/*", "/download", "/display").hasRole("ADMIN")
                 // user
-                .requestMatchers(HttpMethod.POST,"/user/add").permitAll()
-                .requestMatchers("/user/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST,"/users/registration").permitAll()
+                .requestMatchers("/users**").hasRole("ADMIN")
                 // product
-                .requestMatchers("/product/all").permitAll()
-                .requestMatchers("/product/findByCategory/*").permitAll()
-                .requestMatchers("/product/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/products").permitAll()
+                .requestMatchers("/products/category/*").permitAll()
+                .requestMatchers("/products/*").hasRole("ADMIN")
+                .requestMatchers("/products").hasRole("ADMIN")
+                .requestMatchers("/carts**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

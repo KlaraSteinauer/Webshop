@@ -38,6 +38,14 @@ public class KimUserService implements UserDetailsService {
         return kimUser.get();
     }
 
+    public KimUser findByUserName(String userName) {
+        var kimUser = kimUserRepository.findByUserName(userName);
+        if (kimUser.isEmpty()) {
+            throw new ObjectNotFoundException(kimUser, "User not found.");
+        }
+        return kimUser.get();
+    }
+
     public List<KimUser> findAll() {
         var allUsers = kimUserRepository.findAll();
         if (allUsers.isEmpty()) {
@@ -74,7 +82,7 @@ public class KimUserService implements UserDetailsService {
         try {
             KimUser user = kimUserRepository.findByUserName(username).get();
             return new KimUserDetails(
-                    user.getUserId(), user.getUserName(), user.getUserPassword(), user.getRole());
+                    user.getId(), user.getUserName(), user.getUserPassword(), user.getRole());
         } catch (Exception e) {
             throw new UsernameNotFoundException("User name doesn't exist!");
         }

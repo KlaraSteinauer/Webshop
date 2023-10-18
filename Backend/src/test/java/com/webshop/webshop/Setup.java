@@ -8,13 +8,9 @@ import com.webshop.webshop.repository.KimUserRepository;
 import com.webshop.webshop.repository.ProductRepository;
 import com.webshop.webshop.service.TokenService;
 import org.jose4j.jwt.GeneralJwtException;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Setup {
 
@@ -64,7 +60,7 @@ public class Setup {
         product3.setQuantity(3);
         product3.setCategory(ProductCategory.SUESSMITTEL);
         KimUser admin = new KimUser();
-        admin.setUserId(2L);
+        admin.setId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
         admin.setUserEmail("admin@email.com");
@@ -77,10 +73,10 @@ public class Setup {
 
     public String generateToken () throws GeneralJwtException {
         var adminExists = kimUserRepository.findAll().stream()
-                .filter(ku -> ku.getUserId() == 2L).findFirst();
+                .filter(ku -> ku.getId() == 2L).findFirst();
         KimUser admin = new KimUser();
         if (adminExists.isEmpty()) {
-            admin.setUserId(2L);
+            admin.setId(2L);
             admin.setUserName("admin");
             admin.setUserPassword("adminPassword");
             admin.setUserEmail("admin@email.com");
@@ -100,7 +96,7 @@ public class Setup {
 
     public void userSetup() {
         KimUser customer = new KimUser();
-        customer.setUserId(1L);
+        customer.setId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
         customer.setUserEmail("customer@email.com");
@@ -109,7 +105,7 @@ public class Setup {
         customer.setFirstName("customerFirst");
         customer.setLastName("customerLast");
         KimUser admin = new KimUser();
-        admin.setUserId(2L);
+        admin.setId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
         admin.setUserEmail("admin@email.com");
@@ -118,7 +114,7 @@ public class Setup {
         admin.setFirstName("adminFirst");
         admin.setLastName("adminLast");
         KimUser anonymous = new KimUser();
-        anonymous.setUserId(3L);
+        anonymous.setId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
         anonymous.setUserEmail("anonymous@email.com");

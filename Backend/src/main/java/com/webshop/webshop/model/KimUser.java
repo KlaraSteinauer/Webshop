@@ -7,8 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @Data
 @Entity(name = "kim_user")
@@ -16,7 +14,7 @@ public class KimUser  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long userId;
+    private Long id;
 
     @Column(name = "user_name", unique = true)
     private String userName;
@@ -38,11 +36,11 @@ public class KimUser  {
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private List<ShoppingCart> shoppingCart;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private ShoppingCart shoppingCart;
 
-    public KimUser(String userName, String userPassword, String userEmail, String gender, String firstName, String lastName, Address address, List<ShoppingCart> shoppingCart) {
+    public KimUser(String userName, String userPassword, String userEmail, String gender, String firstName, String lastName, Address address, ShoppingCart shoppingCart) {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
@@ -55,15 +53,13 @@ public class KimUser  {
 
     public KimUserDTO convertToDto() {
         return new KimUserDTO(
-                this.getUserId(),
+                this.getId(),
                 this.getUserName(),
                 this.getUserPassword(),
                 this.getUserEmail(),
                 this.getRole().name(),
                 this.getGender(),
                 this.getFirstName(),
-                this.getLastName(),
-                this.getAddress(),
-                this.getShoppingCart());
+                this.getLastName());
     }
 }
