@@ -2,10 +2,10 @@ $(document).ready(function () {
 
     //User 
     class User {
-        constructor(userName, userPassword, eMail, gender, firstName, lastName, address) {
+        constructor(userName, userPassword, userEmail, gender, firstName, lastName, address) {
             this.userName = userName;
             this.userPassword = userPassword;
-            this.eMail = eMail;
+            this.userEmail = userEmail;
             this.gender = gender;
             this.firstName = firstName;
             this.lastName = lastName;
@@ -199,10 +199,12 @@ $(document).ready(function () {
 
     $("#registration").on("click", function (event) {
         event.preventDefault();
+        
         if (validateForm()) {
             let newUser = createNewUser();
+            console.log("neuer User:", newUser)
             $.ajax({
-                url: 'http://localhost:8080/user/add',
+                url: 'http://localhost:8080/users/registration',
                 method: "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(newUser),

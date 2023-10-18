@@ -46,7 +46,7 @@ $(document).ready(function () {
 
     //function to load product list from db
     $.ajax({
-        url: 'http://localhost:8080/product/all',
+        url: 'http://localhost:8080/products',
         method: 'GET',
         success: function (products) {
             products.forEach(product => {
@@ -63,25 +63,40 @@ $(document).ready(function () {
     //--------------------------------Logic to save products to the local storage --------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
 
-
+    //TODO check autorelaod to update item amount in navbar
     $('#productContainer').on('click', '.btn-addToShoppingcart', function () {
-        // You can access the product information for the clicked card using the card's HTML structure.
         const card = $(this).closest('.card');
         const productId = $(this).closest('.card').data('id');
         const cardTitle = card.find('.card-title').text();
-
-        // Example: Display the product information in an alert
-        alert(`${cardTitle} zum Warenkorb hinzugefügt`);
+        let itemsSelected = 0;
 
         $.ajax({
-            url: `http://localhost:8080/cart/${productId}`,
+            url: `http://localhost:8080/carts/${productId}`,
             method: 'POST',
             headers:
             {
                 "Authorization": localStorage.getItem("accessToken")
             },
-            success: function (cartItems) {
-                localStorage.setItem("cartItems", cartItems)
+            success: function () {
+                alert(`${cardTitle} zum Warenkorb hinzugefügt`);
+                $.ajax({
+                    url: `http://localhost:8080/carts`,
+                    method: 'GET',
+                    headers:
+                    {
+                        "Authorization": localStorage.getItem("accessToken")
+                    },
+                    success: function (products) {
+                        products.forEach(item => {
+                            itemsSelected += item.quantity;
+                        });
+                        localStorage.setItem("cartItems", itemsSelected)
+                    },
+                    error: function () {
+                        console.log("Error: ShoppingCart konnte nicht geladen werden");
+                    }
+                });
+                location.reload();
             },
             error: function () {
                 console.log("Error: ShoppingCart konnte nicht geladen werden");

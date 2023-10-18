@@ -1,11 +1,6 @@
 
 $(document).ready(function () {
 
-    /*TODO:
-    - get user details from the local Storage
-    - autofill the user details to the sender fields    
-    */
-
     //------------------------------------------------------------------------------------------------------------------------
     //--------------------------------Produktliste für das Shoppingcart erstellen --------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
@@ -27,34 +22,32 @@ $(document).ready(function () {
         }
     }
 
+    let shoppingCartList = [];
+    loadShoppingCart()
+
     //promo für shopping cart
     let newPromotion = new PromotionCode("Promo", "Beschreibung des Codes", 8)
 
     function shoppingCartItem(item) {
         let newItem = $("<li>", {
-            class: "list-group-item d-flex justify-content-between lh-sm"
+            class: "list-group-item d-flex justify-content-between lh-sm", 'data-id': item.id
         });
         let contentDiv = $("<div>", {
             id: "list-group-product-item-content",
-            html: `<span class="my-0">${item.name}</span><br><small class="text-muted">${item.description}</small>`
+            html: ` <span class="deleteItem">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </span>
+                    <span class="my-0">${item.name} [ ${item.quantity} Stk.]</span><br><small class="text-muted">${item.description}</small>`
         });
         let priceSpan = $("<span>", {
             class: "text-muted",
             html: `€ ${item.price}`
         })
-        let actionDiv = $("<div>");
-        let deleteSpan = $("<span>", {
-            class: "deleteItem",
-            html: `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                </svg>
-            `,
-        });
+
 
         contentDiv.appendTo(newItem);
-        actionDiv.appendTo(newItem);
-        deleteSpan.appendTo(actionDiv);
         priceSpan.appendTo(newItem);
         $('#shoppingCartList').append(newItem);
     }
@@ -94,46 +87,62 @@ $(document).ready(function () {
         $('#shoppingCartList').append(newItem);
     }
 
-    function summe() {
-        let summe = 0;
-        shoppingCartList.forEach(item => {
-            shoppingCartItem(item)
-            summe += item.price;
-        })
-        return summe - newPromotion.price
-    };
-
-    /*function itemsInCart() {
-        let itemsInCart = 0;
-        shoppingCartList.forEach(item => {
-            itemsInCart += item.quantity;
-        })
-        return itemsInCart
-    }*/
-
+    let summeCart = 0;
     let itemsInCart = 0;
 
+    //logic that loads the cartitems to the list and set total amount + total itemsInShoppingCart
+    function loadShoppingCart() {
+        $.ajax({
+            url: `http://localhost:8080/carts`,
+            method: 'GET',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
+            success: function (products) {
+                products.forEach(item => {
+                    shoppingCartItem(item);
+                    summeCart += item.price;
+                    itemsInCart += item.quantity;
+                });
+                shoppingCartSum(summeCart);
+                $('#amountItems').text(itemsInCart)
+                localStorage.setItem("cartItems", itemsInCart)
+            },
+            error: function () {
+                console.log("Error: ShoppingCart konnte nicht geladen werden");
+            }
+        });
+    }
+
+    //TODO promotion richtig von gesamtsumme abziehen
     $('#btn-promo').on("click", function () {
-        shoppingCartPromotion(newPromotion)
+        shoppingCartPromotion(newPromotion);
+        return summeCart = (summeCart - newPromotion.price)
     })
 
-    $.ajax({
-        url: `http://localhost:8080/findAllProductsInShoppingCart/`,
-        method: 'GET',
-        headers:
-        {
-            "Authorization": localStorage.getItem("accessToken")
-        },
-        success: function () {
-            shoppingCartSum(summe());
-            $('#amountItems').text(itemsInCart().toString())
-        },
-        error: function () {
-            console.log("Error: ShoppingCart konnte nicht geladen werden");
-        }
+    //logic to delete one item from the shopping cart
+    //TODO implement autorelaod after item is deleted
+    $('#shoppingCartList').on('click', '.deleteItem', function () {
+        let item = $(this).closest('.list-group-item');
+        let productId = item.data('id');
+
+        $.ajax({
+            url: `http://localhost:8080/carts/${productId}`,
+            method: 'DELETE',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
+            success: function () {
+                newItem.remove();
+                loadShoppingCart();
+            },
+            error: function () {
+                console.log("Error: ShoppingCart konnte nicht geladen werden");
+            }
+        });
     });
-
-
 
     //------------------------------------------------------------------------------------------------------------------------
     //--------------------------------Userdaten für Bestellung (automatisch) laden -------------------------------------------
@@ -262,10 +271,28 @@ $(document).ready(function () {
         return true;
     }
 
-    const userName = localStorage.getItem("currentUser");
+    let currentUserId;
 
+    //logic to get the userId from currentUser out of the token
+    const tokenBearer = localStorage.getItem("accessToken") || '';
+    let token = '';
+
+    if (tokenBearer.startsWith('Bearer ')) {
+        token = tokenBearer.substring(7); // Remove "Bearer " from the beginning
+    }
+
+    if (token.length > 0) {
+        try {
+            jwt = JSON.parse(atob(token.split('.')[1]));
+            currentUserId = jwt.id;
+        } catch (e) {
+            console.log('error: ' + e);
+        }
+    }
+
+    //TODO get the address from backend
     $.ajax({
-        url: `http://localhost:8080/user/get/${userName}`,
+        url: `http://localhost:8080/users/${currentUserId}`,
         method: 'GET',
         headers:
         {
@@ -273,9 +300,9 @@ $(document).ready(function () {
         },
         success: function (user) {
             $('#username').val(user.userName),
-                $('#email').val(user.eMail),
-                $('#firstName').val(user.firstname),
-                $('#lastName').val(user.lastname)
+                $('#email').val(user.userEmail),
+                $('#firstName').val(user.firstName),
+                $('#lastName').val(user.lastName)
             $('#address').val(user.address.street),
                 $('#address2').val(user.address.number),
                 $('#zip').val(user.address.zip),

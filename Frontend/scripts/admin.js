@@ -145,7 +145,7 @@ $(document).ready(function () {
     // Function to load product list from server
     function loadProductList() {
         $.ajax({
-            url: 'http://localhost:8080/product/all',
+            url: 'http://localhost:8080/products',
             method: 'GET',
             success: (products) => {
                 productList = products;
@@ -181,7 +181,7 @@ $(document).ready(function () {
             };
             formData.append("product", JSON.stringify(product));
             formData.append("productImage", imageFile);
-            fetch("http://localhost:8080/product/file", {
+            fetch("http://localhost:8080/products", {
                 method: "POST",
                 // No 'Content-Type' header—fetch sets it automatically due to FormData
                 headers: {
@@ -209,10 +209,9 @@ $(document).ready(function () {
     $('#list-group-product').on("click", '.deleteItem', function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
-        console.log(id)
 
         $.ajax({
-            url: `http://localhost:8080/product/${id}`,
+            url: `http://localhost:8080/products/${id}`,
             method: 'DELETE',
             headers:
             {
@@ -234,7 +233,7 @@ $(document).ready(function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
         $.ajax({
-            url: `http://localhost:8080/product/findById/${id}`,
+            url: `http://localhost:8080/products/${id}`,
             method: 'GET',
             headers:
             {
@@ -266,7 +265,7 @@ $(document).ready(function () {
                 };
                 formData.append("product", JSON.stringify(product));
                 formData.append("productImage", imageFile);
-                fetch(`http://localhost:8080/product/${id}`, {
+                fetch(`http://localhost:8080/products/${id}`, {
                     method: "PUT",
                     headers: {
                         "Authorization": localStorage.getItem("accessToken")
@@ -292,13 +291,13 @@ $(document).ready(function () {
     //------------------------------------------------------------------------------------------------------------------------
 
     class User {
-        constructor(userName, userPassword, eMail, gender, firstname, lastname) {
+        constructor(userName, userPassword, userEmail, gender, firstName, lastName) {
             this.userName = userName;
             this.userPassword = userPassword;
-            this.eMail = eMail;
+            this.userEmail = userEmail;
             this.gender = gender;
-            this.firstname = firstname;
-            this.lastname = lastname
+            this.firstName = firstName;
+            this.lastName = lastName
         }
     }
 
@@ -343,10 +342,10 @@ $(document).ready(function () {
         let userData = {
             "userName": $('#userName').val(),
             "userPassword": $('#userPassword').val(),
-            "eMail": $('#eMail').val(),
+            "userEmail": $('#eMail').val(),
             "gender": $('#gender').val(),
-            "firstname": $('#firstname').val(),
-            "lastname": $('#lastname').val()
+            "firstName": $('#firstName').val(),
+            "lastName": $('#lastName').val()
         };
         isValidUser(userData);
         if (!isValidUser(userData)) {
@@ -356,10 +355,10 @@ $(document).ready(function () {
         if (
             !userData.userName ||
             !userData.userPassword ||
-            !userData.eMail ||
+            !userData.userEmail ||
             !userData.gender ||
-            !userData.firstname ||
-            !userData.lastname
+            !userData.firstName ||
+            !userData.lastName
         ) {
             alert("Bitte füllen Sie alle erforderlichen Felder aus.");
             return false;
@@ -378,20 +377,20 @@ $(document).ready(function () {
         } else {
             $('#userPassword').closest('.form-floating').removeClass('invalid-input-value');
         }
-        if (!data.eMail.match(/^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/)) {
+        if (!data.userEmail.match(/^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/)) {
             $('#eMail').closest('.form-floating').addClass('invalid-input-value');
         } else {
             $('#eMail').closest('.form-floating').removeClass('invalid-input-value');
         }
-        if (!data.lastname.match(/^[A-Za-zÖÄÜöäü]+$/)) {
-            $('#lastname').closest('.form-floating').addClass('invalid-input-value');
+        if (!data.lastName.match(/^[A-Za-zÖÄÜöäü]+$/)) {
+            $('#lastName').closest('.form-floating').addClass('invalid-input-value');
         } else {
-            $('#lastname').closest('.form-floating').removeClass('invalid-input-value');
+            $('#lastName').closest('.form-floating').removeClass('invalid-input-value');
         }
-        if (!data.firstname.match(/^[A-Za-zÖÄÜöäü]+$/)) {
-            $('#firstname').closest('.form-floating').addClass('invalid-input-value');
+        if (!data.firstName.match(/^[A-Za-zÖÄÜöäü]+$/)) {
+            $('#firstName').closest('.form-floating').addClass('invalid-input-value');
         } else {
-            $('#firstname').closest('.form-floating').removeClass('invalid-input-value');
+            $('#firstName').closest('.form-floating').removeClass('invalid-input-value');
         }
         if (data.gender === "default") {
             $('#gender').addClass('invalid-input-value');
@@ -405,12 +404,12 @@ $(document).ready(function () {
         let userValues = {
             userName: $('#userName').val(),
             userPassword: $('#userPassword').val(),
-            eMail: $('#eMail').val(),
+            userEmail: $('#eMail').val(),
             gender: $('#gender option:selected').val(),
-            firstname: $('#firstname').val(),
-            lastname: $('#lastname').val(),
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
         };
-        return new User(userValues.userName, userValues.userPassword, userValues.eMail, userValues.gender, userValues.firstname, userValues.lastname);
+        return new User(userValues.userName, userValues.userPassword, userValues.userEmail, userValues.gender, userValues.firstName, userValues.lastName);
     }
 
     function updateUser(id) {
@@ -418,18 +417,18 @@ $(document).ready(function () {
             userId: id,
             userName: $('#userName').val(),
             userPassword: $('#userPassword').val(),
-            eMail: $('#eMail').val(),
+            userEmail: $('#eMail').val(),
             gender: $('#gender option:selected').val(),
-            firstname: $('#firstname').val(),
-            lastname: $('#lastname').val(),
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
         };
-        return new User(userValues.userName, userValues.userPassword, userValues.eMail, userValues.gender, userValues.firstname, userValues.lastname);
+        return new User(userValues.userName, userValues.userPassword, userValues.userEmail, userValues.gender, userValues.firstName, userValues.lastName);
     }
 
     // Function to load user list from server 
     function loadUserList() {
         $.ajax({
-            url: 'http://localhost:8080/user/all',
+            url: 'http://localhost:8080/users',
             method: 'GET',
             headers:
             {
@@ -458,8 +457,12 @@ $(document).ready(function () {
         if (validateUserForm()) {
             let user = createUser();
             $.ajax({
-                url: 'http://localhost:8080/user/add',
+                url: 'http://localhost:8080/users/registration',
                 method: "POST",
+                headers:
+                {
+                    "Authorization": localStorage.getItem("accessToken")
+                },
                 contentType: 'application/json',
                 data: JSON.stringify(user),
                 success: function () {
@@ -481,7 +484,7 @@ $(document).ready(function () {
         console.log(id)
 
         $.ajax({
-            url: `http://localhost:8080/user/delete/${id}`,
+            url: `http://localhost:8080/users/${id}`,
             method: 'DELETE',
             contentType: "application/json",
             headers:
@@ -503,7 +506,7 @@ $(document).ready(function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
         $.ajax({
-            url: `http://localhost:8080/user/get/${id}`,
+            url: `http://localhost:8080/users/${id}`,
             method: 'GET',
             headers:
             {
@@ -512,10 +515,10 @@ $(document).ready(function () {
             success: function (user) {
                 $('#userName').val(user.userName),
                     $('#userPassword').val(user.userPassword),
-                    $('#eMail').val(user.eMail),
+                    $('#eMail').val(user.userEmail),
                     $('#gender option:selected').val(user.gender),
-                    $('#firstname').val(user.firstname),
-                    $('#lastname').val(user.lastname)
+                    $('#firstName').val(user.firstName),
+                    $('#lastName').val(user.lastName)
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -526,7 +529,7 @@ $(document).ready(function () {
             if (validateUserForm()) {
                 let user = updateUser(id);
                 $.ajax({
-                    url: `http://localhost:8080/user/${id}`,
+                    url: `http://localhost:8080/users/${id}`,
                     method: "PUT",
                     headers:
                     {

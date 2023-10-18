@@ -21,6 +21,7 @@ $(document).ready(function () {
     $('#showLogout').click(function (e) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('cartItems');
         window.location.href = 'home.html';
         //window.location.reload()
     })
