@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    //------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------Produktliste im HTML erstellen ---------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
+
     class Product {
         constructor(id, name, description, imageUrl, price, quantity, category) {
             this.id = id;
@@ -13,7 +17,7 @@ $(document).ready(function () {
     }
 
     function createCardElement(product) {
-        const card = $('<div>', { class: 'card' });
+        const card = $('<div>', { class: 'card', 'data-id': product.id });
         const img = $('<img>', { src: `/images/${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
         const cardBody = $('<div>', { class: 'card-body' });
         const cardContent = $('<div>', { class: 'card-content' });
@@ -21,7 +25,7 @@ $(document).ready(function () {
         const cardText = $('<p>', { class: 'card-text', text: `${product.description}` });
         const cardQuantity = $('<p>', { class: 'card-text-quantity', text: `Anzahl aktuell verfügbarer Produkte: ${product.quantity}` });
         const btnCenter = $('<div>', { class: 'btn-center' });
-        const addButton = $('<button>', { class: 'btn btn-primary', id: "btn-addToShoppingcart", text: 'Add to cart' });
+        const addButton = $('<button>', { class: 'btn btn-primary btn-addToShoppingcart', text: 'Add to cart' });
         cardContent.append(cardTitle, cardText, cardQuantity);
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
@@ -49,13 +53,40 @@ $(document).ready(function () {
             products.forEach(product => {
                 addProductToList(product);
             });
+
         },
         error: function (error) {
             console.log(error);
         }
     });
 
-    //function to add products to a shopping card
-    
+    //------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------Logic to save products to the local storage --------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
 
+
+    $('#productContainer').on('click', '.btn-addToShoppingcart', function () {
+        // You can access the product information for the clicked card using the card's HTML structure.
+        const card = $(this).closest('.card');
+        const productId = $(this).closest('.card').data('id');
+        const cardTitle = card.find('.card-title').text();
+
+        // Example: Display the product information in an alert
+        alert(`${cardTitle} zum Warenkorb hinzugefügt`);
+
+        $.ajax({
+            url: `http://localhost:8080/cart/${productId}`,
+            method: 'POST',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
+            success: function (cartItems) {
+                localStorage.setItem("cartItems", cartItems)
+            },
+            error: function () {
+                console.log("Error: ShoppingCart konnte nicht geladen werden");
+            }
+        });
+    });
 })

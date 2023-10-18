@@ -19,6 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../components/footer/loadFooter.js" defer></script>
+    <script src="/scripts/checkout.js" defer></script>
 
     <title>shopping cart</title>
 </head>
@@ -39,46 +40,14 @@
                 <div class="col-md-5 col-lg-4 order-md-last p-3">
                     <h3 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Ihr Warenkorb</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
+                        <span class="badge bg-primary rounded-pill" id="amountItems">0</span>
                     </h3>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <span class="my-0">Produktname</span><br>
-                                <small class="text-muted">Beschreibung</small>
-                            </div>
-                            <span class="text-muted">€12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <span class="my-0">Produktname</span><br>
-                                <small class="text-muted">Beschreibung</small>
-                            </div>
-                            <span class="text-muted">€8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <span class="my-0">Produktname</span><br>
-                                <small class="text-muted">Beschreibung</small>
-                            </div>
-                            <span class="text-muted">€5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-light">
-                            <div class="text-success">
-                                <span class="my-0">PROMO CODE</span><br>
-                                <small>spicing it up</small>
-                            </div>
-                            <span class="text-success">−€5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (EUR)</span>
-                            <strong>€20</strong>
-                        </li>
+                    <ul class="list-group mb-3" id="shoppingCartList">
                     </ul>
                     <form class="card p-2">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="spicing it up">
-                            <button type="submit" class="btn btn-promo">Einlösen</button>
+                            <button type="submit" class="btn btn-promo" id="btn-promo">Einlösen</button>
                         </div>
                     </form>
                 </div>
@@ -87,8 +56,6 @@
                     <form class="needs-validation px-2" novalidate>
                         <div class="row g-3">
                             <div class="col-sm-6 p-1">
-                                <!--'lable-for' und 'input-id' müssen den gleichen namen tragen!-->
-                                <!-- value gibt den wert des input feld an-->
                                 <label for="firstName" class="form-label">Vorname</label>
                                 <input type="text" class="form-control" id="firstName" placeholder="Vorname" value=""
                                     required>
@@ -127,38 +94,45 @@
                             </div>
                             <div class="col-12 p-1">
                                 <label for="address" class="form-label">Adresse</label>
-                                <input type="text" class="form-control" id="address" placeholder="Musterstraße 321"
+                                <input type="text" class="form-control" id="address" placeholder="Musterstraße"
                                     required>
                                 <div class="invalid-feedback">
                                     Bitte geben Sie Ihre Lieferadresse ein.
                                 </div>
                             </div>
                             <div class="col-12 p-1">
-                                <label for="address2" class="form-label">Adresse 2 <span
+                                <label for="address2" class="form-label">Hausnummer<span
                                         class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Stiege/Tür">
-                            </div>
-                            <div class="col-md-5 p-1">
-                                <label for="country" class="form-label">Land</label>
-                                <select class="form-select" id="country" required>
-                                    <option value="">Auswahl...</option>
-                                    <option>Österreich</option>
-                                    <option>Deutschland</option>
-                                    <option>Italien</option>
-                                    <option>Ungarn</option>
-                                    <option>Schweiz</option>
-                                    <option>USA</option>
-                                    <option>England</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Bitte wählen Sie ein gültiges Land aus.
-                                </div>
+                                <input type="text" class="form-control" id="address2" placeholder="Nummer/Stiege/Tür">
                             </div>
                             <div class="col-md-3 p-1">
                                 <label for="zip" class="form-label">Postleitzahl</label>
                                 <input type="text" class="form-control" id="zip" placeholder="PLZ" required>
                                 <div class="invalid-feedback">
                                     Postleitzahl erforderlich.
+                                </div>
+                            </div>
+                            <div class="col-md-3 p-1">
+                                <label for="city" class="form-label">Stadt</label>
+                                <input type="text" class="form-control" id="city" placeholder="Stadt" required>
+                                <div class="invalid-feedback">
+                                    Postleitzahl erforderlich.
+                                </div>
+                            </div>
+                            <div class="col-md-6 p-1">
+                                <label for="country" class="form-label">Land</label>
+                                <select class="form-select" id="country" required>
+                                    <option value="default">Auswahl...</option>
+                                    <option value="Austria">Österreich</option>
+                                    <option value="Germany">Deutschland</option>
+                                    <option value="Italy">Italien</option>
+                                    <option value="Hungary">Ungarn</option>
+                                    <option value="Swiss">Schweiz</option>
+                                    <option value="USA">USA</option>
+                                    <option value="England">England</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Bitte wählen Sie ein gültiges Land aus.
                                 </div>
                             </div>
                         </div>

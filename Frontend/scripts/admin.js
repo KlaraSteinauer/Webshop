@@ -1,26 +1,5 @@
 $(document).ready(function () {
 
-    //TODO redirect to home page if no token or CUSTOMER-token is saved in local storage
-    /*$.ajax({
-        url: 'http://localhost:8080/isAdmin',
-        method: 'GET',
-        headers:
-        {
-            "Authorization": localStorage.getItem("accessToken")
-        },
-        contentType: 'application/json',
-        success: function (response) {
-            if (response) {
-                location.href = "admin.html"
-            } else {
-                location.href = "home.html"
-            }
-        },
-        error: (err) => {
-            location.href = "home.html"
-        }
-    })*/
-
     let pageLoaded = true;
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
@@ -49,7 +28,10 @@ $(document).ready(function () {
         }
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------
     //--------------------------------Product Klasse + Constructor + Logic-------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------------
+
     class Product {
         constructor(name, description, imageFile, price, quantity, category) {
             this.name = name;
@@ -158,20 +140,6 @@ $(document).ready(function () {
             $('#product-category').removeClass('invalid-input-value');
         }
         return true;
-    }
-
-    //TODO update the function with picture and not value
-    function updateProduct(id) {
-        let productValues = {
-            id: id,
-            name: $('#product-name-val').val(),
-            description: $('#product-description-val').val(),
-            image: $('#product-img-val').val(),
-            price: $('#product-price-val').val(),
-            quantity: $('#product-amount-val').val(),
-            category: $('#product-category option:selected').val(),
-        };
-        return new Product(productValues.name, productValues.description, productValues.image, productValues.price, productValues.quantity, productValues.category);
     }
 
     // Function to load product list from server
@@ -319,7 +287,10 @@ $(document).ready(function () {
     }
     );
 
+    //------------------------------------------------------------------------------------------------------------------------
     //--------------------------------User Klasse + Constructor + Logic-------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
+
     class User {
         constructor(userName, userPassword, eMail, gender, firstname, lastname) {
             this.userName = userName;

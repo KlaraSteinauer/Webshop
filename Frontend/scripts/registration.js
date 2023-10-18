@@ -70,7 +70,6 @@ $(document).ready(function () {
             alert("Bitte füllen Sie alle erforderlichen Felder aus.");
             return false;
         }
-
         return true;
     }
 

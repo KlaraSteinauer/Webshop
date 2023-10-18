@@ -20,6 +20,7 @@ $(document).ready(function () {
 
     $('#showLogout').click(function (e) {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('currentUser');
         window.location.href = 'home.html';
         //window.location.reload()
     })
@@ -57,6 +58,10 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#currentUser').text(localStorage.getItem("currentUser"))
+    $('#itemsInShoppingCardL').text(localStorage.getItem("cartItems").toString());
+    $('#itemsInShoppingCardS').text(localStorage.getItem("cartItems").toString());
 
     function isAdmin() {
         $.ajax({
