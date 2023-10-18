@@ -21,11 +21,11 @@ public class Position {
     private Long id;
 
     @ManyToOne
-    @Column(name = "cart_id")
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private ShoppingCart cart;
 
     @ManyToOne
-    @Column(name ="product_id")
+    @JoinColumn(name ="product_id", referencedColumnName = "id")
     private Product product;
 
     @Column(name = "quantity")
@@ -33,7 +33,7 @@ public class Position {
 
     public PositionDTO convertToDto() {
         return new PositionDTO(
-                this.getProduct().convertToDto(),
+                this.getProduct().convertToViewDto(),
                 this.getQuantity()
 
         );

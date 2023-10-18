@@ -1,8 +1,5 @@
 package com.webshop.webshop.DTO;
 
-import com.webshop.webshop.model.Product;
-import com.webshop.webshop.model.ShoppingCart;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PositionDTO {
 
-    private ProductDTO product;
+    private ProductViewDTO product;
 
     private Integer quantity;
 

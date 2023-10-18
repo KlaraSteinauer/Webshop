@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class KimUserController {
 
@@ -24,21 +24,19 @@ public class KimUserController {
     private PasswordEncoder encoder;
     private final KimUserService kimUserService;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
         kimUserDTO.setUserPassword(encoder.encode(kimUserDTO.getUserPassword()));
         return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.CREATED);
     }
 
 
-    //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<KimUserDTO> findUserById(@PathVariable Long id) {
         return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<KimUserDTO>> findAll() {
         List<KimUser> allUsers = kimUserService.findAll();
         return new ResponseEntity<>(allUsers.stream()
@@ -47,15 +45,13 @@ public class KimUserController {
                 HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
         KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         kimUserService.deleteById(id);
     }

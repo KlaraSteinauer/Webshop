@@ -1,7 +1,7 @@
 package com.webshop.webshop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.webshop.webshop.DTO.ProductDTO;
+import com.webshop.webshop.DTO.ProductViewDTO;
 import com.webshop.webshop.enums.ProductCategory;
 import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
@@ -25,15 +25,17 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public ProductDTO save(ProductDTO productDTO) {
-        Product product = productDTO.convertToProduct();
+    public ProductViewDTO save(ProductViewDTO productViewDTO) {
+        Product product = productViewDTO.convertToProduct();
         Product savedProduct = productRepository.save(product);
-        return savedProduct.convertToDto();
+        return savedProduct.convertToViewDto();
     }
 
-    public ProductDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
+
+    // TODO if newImageURL != oldImageUrl -> check if other products use the same image -> delete
+    public ProductViewDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProductDTO productDTO = objectMapper.readValue(productJson, ProductDTO.class);
+        ProductViewDTO productViewDTO = objectMapper.readValue(productJson, ProductViewDTO.class);
         String filePath = IMAGE_PATH;
         File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
         if (!convertFile.getParentFile().exists()) {
@@ -45,17 +47,17 @@ public class ProductService {
         }
 
         Product product = findById(id);
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
+        product.setName(productViewDTO.getName());
+        product.setDescription(productViewDTO.getDescription());
         product.setImageUrl(file.getOriginalFilename());
-        product.setPrice(productDTO.getPrice());
-        product.setQuantity(productDTO.getQuantity());
-        product.setCategory(ProductCategory.valueOf(productDTO.getCategory()));
+        product.setPrice(productViewDTO.getPrice());
+        product.setQuantity(productViewDTO.getQuantity());
+        product.setCategory(ProductCategory.valueOf(productViewDTO.getCategory()));
         productRepository.save(product);
-        return product.convertToDto();
+        return product.convertToViewDto();
     }
 
-
+    //TODO remove image
     public void deleteById(Long id) {
         try {
             productRepository.deleteById(id);

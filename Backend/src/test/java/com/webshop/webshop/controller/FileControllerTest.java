@@ -4,9 +4,7 @@ import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
 import com.webshop.webshop.service.TokenService;
-import org.jose4j.jwt.GeneralJwtException;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +23,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -133,7 +129,7 @@ public class FileControllerTest {
             }
         }
         KimUser admin = new KimUser();
-        admin.setUserId(2L);
+        admin.setId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
         admin.setUserEmail("admin@email.com");

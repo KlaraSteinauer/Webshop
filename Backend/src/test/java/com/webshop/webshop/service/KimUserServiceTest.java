@@ -32,7 +32,7 @@ public class KimUserServiceTest {
     void setup() {
         kimUserRepository.deleteAll();
         KimUser customer = new KimUser();
-        customer.setUserId(1L);
+        customer.setId(1L);
         customer.setUserName("customer");
         customer.setUserPassword("customerPassword");
         customer.setUserEmail("customer@email.com");
@@ -41,7 +41,7 @@ public class KimUserServiceTest {
         customer.setFirstName("customerFirst");
         customer.setLastName("customerLast");
         KimUser admin = new KimUser();
-        admin.setUserId(2L);
+        admin.setId(2L);
         admin.setUserName("admin");
         admin.setUserPassword("adminPassword");
         admin.setUserEmail("admin@email.com");
@@ -50,7 +50,7 @@ public class KimUserServiceTest {
         admin.setFirstName("adminFirst");
         admin.setLastName("adminLast");
         KimUser anonymous = new KimUser();
-        anonymous.setUserId(3L);
+        anonymous.setId(3L);
         anonymous.setUserName("anonymous");
         anonymous.setUserPassword("anonymousPassword");
         anonymous.setUserEmail("anonymous@email.com");
@@ -93,12 +93,12 @@ public class KimUserServiceTest {
                 .filter(u -> u.getUserName().equals("customer"))
                 .findFirst()
                 .get();
-        final Long customerId = customer.getUserId();
+        final Long customerId = customer.getId();
         final Long wrongId = 123456L;
         assertThrows(ObjectNotFoundException.class, () -> kimUserService.findById(wrongId));
         KimUser foundUser = assertDoesNotThrow(() -> kimUserService.findById(customerId));
         assertAll(
-                () -> assertEquals(customer.getUserId(), foundUser.getUserId()),
+                () -> assertEquals(customer.getId(), foundUser.getId()),
                 () -> assertEquals(customer.getUserName(), foundUser.getUserName()),
                 () -> assertEquals(customer.getUserPassword(), foundUser.getUserPassword()),
                 () -> assertEquals(customer.getUserEmail(), foundUser.getUserEmail()),
@@ -116,7 +116,7 @@ public class KimUserServiceTest {
                 .filter(u -> u.getUserName().equals("customer"))
                 .findFirst()
                 .get();
-        final Long idToDelete = customer.getUserId();
+        final Long idToDelete = customer.getId();
         final Long wrongId = 123456L;
         assertThrows(ObjectNotFoundException.class,
                 () -> kimUserService.deleteById(wrongId));

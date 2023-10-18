@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .requestMatchers("/product/all").permitAll()
                 .requestMatchers("/product/findByCategory/*").permitAll()
                 .requestMatchers("/product/**").hasRole("ADMIN")
+                .requestMatchers("/cart/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

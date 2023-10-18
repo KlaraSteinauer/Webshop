@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductViewDTO {
     private Long id;
     private String name;
     private String description;
@@ -22,16 +22,16 @@ public class ProductDTO {
     private int quantity;
     private String category;
 
+
     public Product convertToProduct() {
-        return new Product(
-                this.getId(),
-                this.getName(),
-                this.getDescription(),
-                this.getImageUrl(),
-                this.getPrice(),
-                this.getQuantity(),
-                ProductCategory.valueOf(this.getCategory()),
-                null
-        );
+        Product product = new Product();
+        product.setId(this.getId());
+        product.setName(this.getName());
+        product.setDescription(this.getDescription());
+        product.setImageUrl(this.getImageUrl());
+        product.setPrice(this.getPrice());
+        product.setQuantity(this.getQuantity());
+        product.setCategory(ProductCategory.valueOf(this.getCategory()));
+        return product;
     }
 }
