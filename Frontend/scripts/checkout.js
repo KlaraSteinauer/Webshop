@@ -135,8 +135,7 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function () {
-                newItem.remove();
-                loadShoppingCart();
+                item.remove();
             },
             error: function () {
                 console.log("Error: ShoppingCart konnte nicht geladen werden");
