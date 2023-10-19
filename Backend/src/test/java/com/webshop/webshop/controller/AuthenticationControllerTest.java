@@ -6,7 +6,6 @@ import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
 @ActiveProfiles("test")
@@ -50,49 +52,51 @@ public class AuthenticationControllerTest {
         KimUser customer = new KimUser();
         customer.setId(1L);
         customer.setUserName("customer");
-        customer.setUserPassword("customerPassword");
-        customer.setUserEmail("customer@email.com");
+        customer.setUserPassword("$2y$10$6/enuCKqS/fBSz6iIgfZC.XEmLmT2q9GuaKSz8dARHwOSmzEzN7Uq");
+        customer.setUserEmail("customer@customer.com");
         customer.setRole(Role.CUSTOMER);
-        customer.setGender("female");
-        customer.setFirstName("customerFirst");
-        customer.setLastName("customerLast");
+        customer.setGender("customer");
+        customer.setFirstName("customer");
+        customer.setLastName("customer");
         KimUser admin = new KimUser();
         admin.setId(2L);
         admin.setUserName("admin");
-        admin.setUserPassword("adminPassword");
-        admin.setUserEmail("admin@email.com");
+        admin.setUserPassword("$2y$10$038vqDvwT4VTy9mhDy991OIgNcFJv9PcPaBVNKEzhufIE67nRkIiS");
+        admin.setUserEmail("admin@admin.com");
         admin.setRole(Role.ADMIN);
-        admin.setGender("male");
-        admin.setFirstName("adminFirst");
-        admin.setLastName("adminLast");
-        KimUser anonymous = new KimUser();
-        anonymous.setId(3L);
-        anonymous.setUserName("anonymous");
-        anonymous.setUserPassword("anonymousPassword");
-        anonymous.setUserEmail("anonymous@email.com");
-        anonymous.setRole(Role.ANONYMOUS);
-        anonymous.setGender("non-binary");
-        anonymous.setFirstName("anonymousFirst");
-        anonymous.setLastName("anonymousLast");
-        kimUserRepository.saveAll(List.of(customer, admin, anonymous));
+        admin.setGender("admin");
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
+        kimUserRepository.saveAll(List.of(customer, admin));
     }
 
-    @Disabled
+
     @Test
     void loginTest() throws Exception {
-        final KimUser customer = kimUserRepository.findAll().stream()
-                .filter(u -> u.getUserName().equals("customer"))
-                .findFirst()
-                .get();
-        final String userName = customer.getUserName();
-        final String password = customer.getUserPassword();
-        final LoginDTO responseBody = new LoginDTO(userName, password);
+        final String userName = "customer";
+        final String userPassword = "customer";
+        final LoginDTO userResponse = new LoginDTO(userName, userPassword);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/login")
-                        .content(mapper.writeValueAsString(responseBody))
+                        .content(mapper.writeValueAsString(userResponse))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
+
+
+        final String adminName = "admin";
+        final String adminPassword = "admin";
+        final LoginDTO adminResponse = new LoginDTO(adminName, adminPassword);
+        String response = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/login")
+                        .content(mapper.writeValueAsString(adminResponse))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals("Bearer ", response.substring(0, 7));
     }
 }

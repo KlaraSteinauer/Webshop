@@ -17,7 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import static com.webshop.webshop.controller.ProductController.IMAGE_PATH;
+import static com.webshop.webshop.controller.ProductController.IMAGE_RESOURCE_PATH;
 
 @Service
 public class ProductService {
@@ -36,10 +36,11 @@ public class ProductService {
     public ProductViewDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ProductViewDTO productViewDTO = objectMapper.readValue(productJson, ProductViewDTO.class);
-        File convertFile = new File(IMAGE_PATH + file.getOriginalFilename());
-        if (!convertFile.getParentFile().exists()) {
+        File convertFile = new File(IMAGE_RESOURCE_PATH + "/" + file.getOriginalFilename());
+        /*if (!convertFile.getParentFile().exists()) {
             convertFile.getParentFile().mkdir();
         }
+         */
         convertFile.createNewFile();
         try (FileOutputStream fout = new FileOutputStream(convertFile)) {
             fout.write(file.getBytes());
@@ -58,12 +59,14 @@ public class ProductService {
 
     //TODO remove image
     public void deleteById(Long id) {
+        Product productToDelete = findById(id);
         try {
             productRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(Product.class, "Product with id: " + id + "not found!");
         }
     }
+
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpOutputMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -53,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/upload", "file/*", "/download", "/display").hasRole("ADMIN")
                 // user
                 .requestMatchers(HttpMethod.POST,"/users/registration").permitAll()
+                .requestMatchers(HttpMethod.GET, "/me").permitAll()
                 .requestMatchers("/users**").hasRole("ADMIN")
                 // product
                 .requestMatchers(HttpMethod.GET, "/products").permitAll()

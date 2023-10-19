@@ -76,15 +76,17 @@ public class ShoppingCartService {
         boolean isContained = false;
         for (Position position : positions) {
             if (position.getProduct().getId() == productId) {
-                cart.removePosition(position);
                 positionsToDelete.add(position);
                 isContained = true;
             }
         }
         if (!isContained) {
             throw new IllegalArgumentException("Cart does not contain Product with id: " + productId);
+        } else {
+            for (Position position : positionsToDelete) {
+                cart.removePosition(position);
+            }
         }
-
         shoppingCartRepository.save(cart);
         positionRepository.deleteAll(positionsToDelete);
 

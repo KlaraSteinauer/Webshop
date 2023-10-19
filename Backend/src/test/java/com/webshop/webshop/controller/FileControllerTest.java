@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -49,11 +50,6 @@ public class FileControllerTest {
 
     @Autowired
     private KimUserRepository kimUserRepository;
-
-
-    private final String IMAGE_FOLDER_PATH = "../Frontend/images";
-
-    private String targetDir = "";
 
     private String token = "";
 
@@ -100,9 +96,8 @@ public class FileControllerTest {
     @AfterEach
     void clean() {
         kimUserRepository.deleteAll();
-        this.fileController.IMAGE_PATH = this.IMAGE_FOLDER_PATH;
     }
-
+/*
     @Disabled
     @Test
     void deleteFile() throws Exception {
@@ -157,5 +152,7 @@ public class FileControllerTest {
 
 
     }
+
+ */
 
 }
