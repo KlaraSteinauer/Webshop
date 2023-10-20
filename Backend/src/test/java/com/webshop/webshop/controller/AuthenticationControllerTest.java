@@ -5,6 +5,7 @@ import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -46,12 +48,15 @@ public class AuthenticationControllerTest {
     @Autowired
     private KimUserRepository kimUserRepository;
 
+
+    /**
+     * H2 Setup
+     */
     @BeforeEach
     void setup() {
-        kimUserRepository.deleteAll();
         KimUser customer = new KimUser();
-        customer.setId(1L);
         customer.setUserName("customer");
+        // "customer" encrypted
         customer.setUserPassword("$2y$10$6/enuCKqS/fBSz6iIgfZC.XEmLmT2q9GuaKSz8dARHwOSmzEzN7Uq");
         customer.setUserEmail("customer@customer.com");
         customer.setRole(Role.CUSTOMER);
@@ -59,44 +64,71 @@ public class AuthenticationControllerTest {
         customer.setFirstName("customer");
         customer.setLastName("customer");
         KimUser admin = new KimUser();
-        admin.setId(2L);
         admin.setUserName("admin");
+        // "admin" encrypted
         admin.setUserPassword("$2y$10$038vqDvwT4VTy9mhDy991OIgNcFJv9PcPaBVNKEzhufIE67nRkIiS");
         admin.setUserEmail("admin@admin.com");
         admin.setRole(Role.ADMIN);
         admin.setGender("admin");
         admin.setFirstName("admin");
         admin.setLastName("admin");
-        kimUserRepository.saveAll(List.of(customer, admin));
+        kimUserRepository.save(customer);
+        kimUserRepository.save(admin);
     }
 
+    /**
+     * H2 Reset
+     */
+    @AfterEach
+    void tearDown() {
+        kimUserRepository.deleteAll();
+    }
 
+    /**
+     * Customer Login
+     */
     @Test
-    void loginTest() throws Exception {
-        final String userName = "customer";
-        final String userPassword = "customer";
-        final LoginDTO userResponse = new LoginDTO(userName, userPassword);
+    void loginCustomerTest() throws Exception {
+        KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst().get();        final String userName = customer.getUserName();
+        final String password = "customer";
+        final LoginDTO request = new LoginDTO(userName, password);
 
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/login")
-                        .content(mapper.writeValueAsString(userResponse))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists());
-
-
-        final String adminName = "admin";
-        final String adminPassword = "admin";
-        final LoginDTO adminResponse = new LoginDTO(adminName, adminPassword);
         String response = mockMvc.perform(MockMvcRequestBuilders
                         .post("/login")
-                        .content(mapper.writeValueAsString(adminResponse))
+                        .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
                 .andReturn().getResponse().getContentAsString();
         assertEquals("Bearer ", response.substring(0, 7));
+        assertEquals(2, StringUtils.countOccurrencesOf(response.substring(7), "."));
+
+    }
+
+    /**
+     * Admin Login
+     */
+    @Test
+    void loginAdminTest() throws Exception {
+        KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst().get();
+        final String userName = admin.getUserName();
+        final String password = "admin";
+        final LoginDTO request = new LoginDTO(userName, password);
+        String response = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/login")
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals("Bearer ", response.substring(0, 7));
+        assertEquals(2, StringUtils.countOccurrencesOf(response.substring(7), "."));
+
     }
 }

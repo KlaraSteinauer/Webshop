@@ -7,6 +7,7 @@ import com.webshop.webshop.model.Product;
 import com.webshop.webshop.repository.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import static com.webshop.webshop.controller.ProductController.IMAGE_RESOURCE_PATH;
-
 @Service
 public class ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Value("${file.upload-dir}")
+    public String IMAGE_PATH;
 
     public ProductViewDTO save(ProductViewDTO productViewDTO) {
         Product product = productViewDTO.convertToProduct();
@@ -32,11 +34,11 @@ public class ProductService {
     }
 
 
-    // TODO if newImageURL != oldImageUrl -> check if other products use the same image -> delete
     public ProductViewDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
+        Product product = findById(id);
         ObjectMapper objectMapper = new ObjectMapper();
         ProductViewDTO productViewDTO = objectMapper.readValue(productJson, ProductViewDTO.class);
-        File convertFile = new File(IMAGE_RESOURCE_PATH + "/" + file.getOriginalFilename());
+        File convertFile = new File(IMAGE_PATH + "/" + file.getOriginalFilename());
         /*if (!convertFile.getParentFile().exists()) {
             convertFile.getParentFile().mkdir();
         }
@@ -46,7 +48,7 @@ public class ProductService {
             fout.write(file.getBytes());
         }
         removeImage(productViewDTO.convertToProduct());
-        Product product = findById(id);
+
         product.setName(productViewDTO.getName());
         product.setDescription(productViewDTO.getDescription());
         product.setImageUrl(file.getOriginalFilename());
@@ -78,7 +80,7 @@ public class ProductService {
             }
         }
         if (!isUsed) {
-            File fileToDelete = new File(IMAGE_RESOURCE_PATH + "/" + product.getImageUrl());
+            File fileToDelete = new File(IMAGE_PATH + "/" + product.getImageUrl());
             deleted = fileToDelete.delete();
         }
         return deleted;
