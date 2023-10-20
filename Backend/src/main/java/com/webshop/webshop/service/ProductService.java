@@ -45,7 +45,7 @@ public class ProductService {
         try (FileOutputStream fout = new FileOutputStream(convertFile)) {
             fout.write(file.getBytes());
         }
-
+        removeImage(productViewDTO.convertToProduct());
         Product product = findById(id);
         product.setName(productViewDTO.getName());
         product.setDescription(productViewDTO.getDescription());
@@ -57,14 +57,31 @@ public class ProductService {
         return product.convertToViewDto();
     }
 
-    //TODO remove image
-    public void deleteById(Long id) {
-        Product productToDelete = findById(id);
+    public boolean deleteById(Long id) {
         try {
+            Product productToDelete = findById(id);
+            boolean deleted = removeImage(productToDelete);
             productRepository.deleteById(id);
+            return deleted;
         } catch (EmptyResultDataAccessException e) {
             throw new ObjectNotFoundException(Product.class, "Product with id: " + id + "not found!");
         }
+    }
+
+    public boolean removeImage(Product product) {
+        List<Product> products = productRepository.findAll();
+        boolean isUsed = false;
+        boolean deleted = false;
+        for (Product p : products) {
+            if (p.getId() != product.getId() && p.getImageUrl().equals(product.getImageUrl())) {
+            isUsed = true;
+            }
+        }
+        if (!isUsed) {
+            File fileToDelete = new File(IMAGE_RESOURCE_PATH + "/" + product.getImageUrl());
+            deleted = fileToDelete.delete();
+        }
+        return deleted;
     }
 
 
@@ -91,10 +108,5 @@ public class ProductService {
             throw new ObjectNotFoundException(product, "Product not found.");
         }
         return product.get();
-    }
-
-    @Deprecated
-    public List<Product> findByLetter(String letter) {
-        return productRepository.findAll();
     }
 }

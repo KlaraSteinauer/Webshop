@@ -64,11 +64,12 @@ public class ProductController {
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
-            productService.deleteById(id);
-            String msg = "Product " + id + " deleted.";
+            boolean deleted = productService.deleteById(id);
+            String msg = "Product with id:  " + id + " deleted "
+                    + (deleted == true ? "(file removed)." : ".");
             return new ResponseEntity<>(msg, HttpStatus.OK);
         } catch (ObjectNotFoundException e) {
-            String msg = "Product " + id + " not found.";
+            String msg = "Product with id: " + id + " not found.";
             return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
         }
 
