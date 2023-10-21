@@ -51,6 +51,16 @@ class ProductServiceTest {
 
     @BeforeEach
     void setup() throws IOException {
+        // copies all Images to test directory
+        File sourceFolder = new File(IMAGE_PATH);
+        File targetFolder = new File(IMAGE_TEST_PATH);
+        if (!targetFolder.isDirectory()) {
+            targetFolder.mkdirs();
+        }
+        for (File file : sourceFolder.listFiles()) {
+            String fileName = file.getName();
+            Files.copy(new File(IMAGE_PATH + "/" + fileName).toPath(), new File(IMAGE_TEST_PATH + "/" + fileName).toPath(), REPLACE_EXISTING);
+        }
         Product product1 = new Product();
         product1.setName("Product 1");
         product1.setDescription("This is Product 1");
@@ -73,12 +83,6 @@ class ProductServiceTest {
         product3.setQuantity(3);
         product3.setCategory(ProductCategory.SUESSMITTEL);
         productRepository.saveAll(List.of(product1, product2, product3));
-        // copies all Images to test directory
-        File sourceFolder = new File(IMAGE_PATH);
-        for (File file : sourceFolder.listFiles()) {
-            String fileName = file.getName();
-            Files.copy(new File(IMAGE_PATH + "/" + fileName).toPath(), new File(IMAGE_TEST_PATH + "/" + fileName).toPath(), REPLACE_EXISTING);
-        }
     }
 
     @AfterEach
