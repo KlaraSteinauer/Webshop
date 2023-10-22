@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,18 +32,9 @@ public class ProductController {
     @Autowired
     private Environment environment;
 
-    public static String IMAGE_RESOURCE_PATH;
+    @Value("${file.upload-dir}")
+    public String IMAGE_PATH;
 
-    public static String IMAGE_TEST_PATH;
-
-    static {
-        try {
-            IMAGE_RESOURCE_PATH = new File("../Frontend/images").getCanonicalPath();
-            IMAGE_TEST_PATH = new File("../Frontend/test_images").getCanonicalPath();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -52,7 +44,7 @@ public class ProductController {
         ObjectMapper objectMapper = new ObjectMapper();
         ProductViewDTO productViewDTO = objectMapper.readValue(productJson, ProductViewDTO.class);
         productViewDTO.setImageUrl(file.getOriginalFilename());
-        File convertFile = new File(IMAGE_RESOURCE_PATH + "/" +file.getOriginalFilename());
+        File convertFile = new File(IMAGE_PATH + "/" + file.getOriginalFilename());
         System.out.println(convertFile.getAbsolutePath());
         convertFile.createNewFile();
         try (FileOutputStream fout = new FileOutputStream(convertFile)) {
@@ -64,11 +56,12 @@ public class ProductController {
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
-            productService.deleteById(id);
-            String msg = "Product " + id + " deleted.";
+            boolean deleted = productService.deleteById(id);
+            String msg = "Product with id:  " + id + " deleted "
+                    + (deleted == true ? "(file removed)." : ".");
             return new ResponseEntity<>(msg, HttpStatus.OK);
         } catch (ObjectNotFoundException e) {
-            String msg = "Product " + id + " not found.";
+            String msg = "Product with id: " + id + " not found.";
             return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
         }
 

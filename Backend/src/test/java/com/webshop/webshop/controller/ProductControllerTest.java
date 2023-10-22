@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -59,19 +60,8 @@ public class ProductControllerTest {
     @Autowired
     private TokenService tokenService;
 
-    public static String IMAGE_RESOURCE_PATH;
-
-    public static String IMAGE_TEST_PATH;
-
-    static {
-        try {
-            IMAGE_RESOURCE_PATH = new File("../Frontend/images").getCanonicalPath();
-            IMAGE_TEST_PATH = new File("../Frontend/test_images").getCanonicalPath();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    @Value("${file.upload-dir}")
+    public String IMAGE_PATH;
 
     private String token = "";
 

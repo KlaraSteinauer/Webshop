@@ -28,7 +28,6 @@ public class AuthenticationController {
         return token;
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/isAdmin")
     public boolean isAdmin(@RequestHeader(name = "Authorization") String token) {
         return tokenService.isAdmin(token);

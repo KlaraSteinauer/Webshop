@@ -42,10 +42,10 @@ public class TokenService {
 
 
     /**
-     * Generates a Token out of the given User details.
+     * Generates a token for a User.
      *
-     * @param kimUser kimUser to make the token out of
-     * @return String The token
+     * @param kimUser kimUser to generate the token for
+     * @return String token
      */
     public String generateToken(KimUser kimUser) throws GeneralJwtException {
         if (kimUser.getId() == null
@@ -120,16 +120,6 @@ public class TokenService {
             throw new GeneralJwtException("Token includes invalid role!");
         }
         return Optional.of(new KimUserDetails(userId, sub, userRole));
-    }
-
-
-    public Boolean validateToken(String token) {
-        try {
-            getClaimsFromToken(token);
-        } catch (InvalidJwtException e) {
-            return false;
-        }
-        return true;
     }
 
 

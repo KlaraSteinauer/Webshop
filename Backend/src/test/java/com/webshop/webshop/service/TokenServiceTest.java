@@ -6,12 +6,11 @@ import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
 import com.webshop.webshop.security.KimUserDetails;
 import org.jose4j.jwt.GeneralJwtException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,40 +29,46 @@ public class TokenServiceTest {
     @Autowired
     private KimUserRepository kimUserRepository;
 
-
+    /**
+     * H2 Setup
+     */
     @BeforeEach
     void setup() {
-        kimUserRepository.deleteAll();
         KimUser customer = new KimUser();
-        customer.setId(1L);
         customer.setUserName("customer");
-        customer.setUserPassword("customerPassword");
-        customer.setUserEmail("customer@email.com");
+        // "customer" encrypted
+        customer.setUserPassword("$2y$10$6/enuCKqS/fBSz6iIgfZC.XEmLmT2q9GuaKSz8dARHwOSmzEzN7Uq");
+        customer.setUserEmail("customer@customer.com");
         customer.setRole(Role.CUSTOMER);
-        customer.setGender("female");
-        customer.setFirstName("customerFirst");
-        customer.setLastName("customerLast");
+        customer.setGender("customer");
+        customer.setFirstName("customer");
+        customer.setLastName("customer");
         KimUser admin = new KimUser();
-        admin.setId(2L);
         admin.setUserName("admin");
-        admin.setUserPassword("adminPassword");
-        admin.setUserEmail("admin@email.com");
+        // "admin" encrypted
+        admin.setUserPassword("$2y$10$038vqDvwT4VTy9mhDy991OIgNcFJv9PcPaBVNKEzhufIE67nRkIiS");
+        admin.setUserEmail("admin@admin.com");
         admin.setRole(Role.ADMIN);
-        admin.setGender("male");
-        admin.setFirstName("adminFirst");
-        admin.setLastName("adminLast");
-        KimUser anonymous = new KimUser();
-        anonymous.setId(3L);
-        anonymous.setUserName("anonymous");
-        anonymous.setUserPassword("anonymousPassword");
-        anonymous.setUserEmail("anonymous@email.com");
-        anonymous.setRole(Role.ANONYMOUS);
-        anonymous.setGender("non-binary");
-        anonymous.setFirstName("anonymousFirst");
-        anonymous.setLastName("anonymousLast");
-        kimUserRepository.saveAll(List.of(customer, admin, anonymous));
+        admin.setGender("admin");
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
+        kimUserRepository.save(customer);
+        kimUserRepository.save(admin);
     }
 
+    /**
+     * H2 Reset
+     */
+    @AfterEach
+    void tearDown() {
+        kimUserRepository.deleteAll();
+    }
+
+    /**
+     * Generates token for User.
+     *
+     * @throws GeneralJwtException if token is invalid.
+     */
     @Test
     void generateTokenTest() throws GeneralJwtException {
         final KimUser customer = kimUserRepository.findAll().stream()
@@ -71,29 +76,83 @@ public class TokenServiceTest {
                 .findFirst()
                 .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
+        assertNotNull(customerToken);
+        assertEquals(2, StringUtils.countOccurrencesOf(customerToken, "."));
+        final KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst()
+                .get();
+        final String adminToken = assertDoesNotThrow(() -> tokenService.generateToken(admin));
+        assertNotNull(adminToken);
+        assertEquals(2, StringUtils.countOccurrencesOf(adminToken, "."));
         KimUser wrongCustomer = customer;
         wrongCustomer.setUserName(null);
         assertThrows(IllegalArgumentException.class,
                 () -> tokenService.generateToken(wrongCustomer));
-        // tests for token?
     }
 
+    /**
+     * Generates token for User(from UserDetails).
+     */
+    @Test
+    void generateTokenFromUserDetailsTest() {
+        final KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        final KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst()
+                .get();
+        final KimUserDetails customerDetails = new KimUserDetails(
+                customer.getId(), customer.getUserName(), "customer", customer.getRole());
+        final KimUserDetails adminDetails = new KimUserDetails(
+                admin.getId(), admin.getUserName(), "admin", admin.getRole());
+        String customerToken = assertDoesNotThrow(() -> tokenService.generateTokenFromUserDetails(customerDetails));
+        String adminToken = assertDoesNotThrow(() -> tokenService.generateTokenFromUserDetails(adminDetails));
+        assertNotNull(customerToken);
+        Assertions.assertEquals(2, StringUtils.countOccurrencesOf(customerToken, "."));
+        assertNotNull(adminToken);
+        Assertions.assertEquals(2, StringUtils.countOccurrencesOf(adminToken, "."));
+    }
+
+    /**
+     * Parses tokens.
+     */
     @Test
     void parseTokenTest() {
         final KimUser customer = kimUserRepository.findAll().stream()
                 .filter(u -> u.getUserName().equals("customer"))
                 .findFirst()
                 .get();
+        final KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst()
+                .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
-        Optional<KimUserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
-        KimUserDetails kimUserDetails = assertDoesNotThrow(() -> var.get());
+        Optional<KimUserDetails> optionalCustomerDetails = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
+        KimUserDetails customerDetails = assertDoesNotThrow(() -> optionalCustomerDetails.get());
         assertAll(
-                () -> assertEquals(customer.getId(), kimUserDetails.getUserId()),
-                () -> assertEquals(customer.getUserName(), kimUserDetails.getUserName()),
-                () -> assertEquals(customer.getRole(), kimUserDetails.getUserRole())
+                () -> assertEquals(customer.getId(), customerDetails.getUserId()),
+                () -> assertEquals(customer.getUserName(), customerDetails.getUserName()),
+                () -> assertEquals(customer.getRole(), customerDetails.getUserRole())
         );
+        final String adminToken = assertDoesNotThrow(() -> tokenService.generateToken(admin));
+        Optional<KimUserDetails> optionalAdminDetails = assertDoesNotThrow(() -> tokenService.parseToken(adminToken));
+        KimUserDetails adminDetails = assertDoesNotThrow(() -> optionalAdminDetails.get());
+        assertAll(
+                () -> assertEquals(admin.getId(), adminDetails.getUserId()),
+                () -> assertEquals(admin.getUserName(), adminDetails.getUserName()),
+                () -> assertEquals(admin.getRole(), adminDetails.getUserRole())
+        );
+        final String wrongToken = "hb2le)bve.ieub/31ge.ergjiabett6k";
+        assertThrows(Exception.class,
+                () -> tokenService.parseToken(wrongToken));
     }
 
+    /**
+     * Cheks if User has Role ADMIN.
+     */
     @Test
     void isAdminTest() {
         final KimUser customer = kimUserRepository.findAll().stream()
@@ -101,7 +160,6 @@ public class TokenServiceTest {
                 .findFirst()
                 .get();
         final String customerToken = assertDoesNotThrow(() -> tokenService.generateToken(customer));
-        Optional<KimUserDetails> var = assertDoesNotThrow(() -> tokenService.parseToken(customerToken));
         assertFalse(tokenService.isAdmin(customerToken));
 
         final KimUser admin = kimUserRepository.findAll().stream()
@@ -109,22 +167,6 @@ public class TokenServiceTest {
                 .findFirst()
                 .get();
         final String adminToken = assertDoesNotThrow(() -> tokenService.generateToken(admin));
-        var = assertDoesNotThrow(() -> tokenService.parseToken(adminToken));
         assertTrue(tokenService.isAdmin(adminToken));
     }
-
-
-    @Disabled
-    @Test
-    void validateTokenTest() {
-
-    }
-
-
-    @Disabled
-    @Test
-    void getClaimsFromTokenTest() {
-
-    }
-
 }
