@@ -226,7 +226,11 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(newUser),
                 success: function () {
-                    window.location.href = 'login.html';
+                    $('#successModal').modal('show');
+                    $('#successModalText').text("Registrierung erfolgreich durchgeführt.")
+                    setTimeout(function () {
+                        window.location.href = 'login.html';
+                    }, 2000);
                 },
                 error: function (error) {
                     console.log("Error: " + JSON.stringify(error));
