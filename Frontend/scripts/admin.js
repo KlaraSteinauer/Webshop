@@ -191,11 +191,13 @@ $(document).ready(function () {
                     "Authorization": localStorage.getItem("accessToken")
                 },
                 data: formData,
+                processData: false, // To prevent jQuery from processing data
+                contentType: false, // To prevent jQuery from setting content type
                 success: function () {
                     $('#successModal').modal('show');
                     $('#successModalText').text("Produkt wurde erfolgreich hinzugefügt!");
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function (errorThrown) {
                     $('#alertModal').modal('show');
                     $('#alertModalText').text("Produkt konnte nicht hinzugefügt werden. Fehler: " + errorThrown);
                 }
