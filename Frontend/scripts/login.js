@@ -12,11 +12,25 @@ $(document).ready(function () {
             "username": $('#userName').val(),
             "password": $('#userPassword').val()
         }
-
         return new UserLogin(userData.username, userData.password)
     }
 
     enableButtons();
+
+    const userNameInput = $("#userName");
+    const userPasswordInput = $("#userPassword");
+    const loginButton = $("#loginButton");
+
+    userNameInput.on("input", toggleButtonState);
+    userPasswordInput.on("input", toggleButtonState);
+
+    function toggleButtonState() {
+        if (userNameInput.val() !== "" && userPasswordInput.val() !== "") {
+            loginButton.removeClass("disabled");
+        } else {
+            loginButton.addClass("disabled");
+        }
+    }
 
     $('#showLogout').click(function (e) {
         localStorage.removeItem('accessToken');
@@ -55,7 +69,8 @@ $(document).ready(function () {
                 isAdmin();
             },
             error: (err) => {
-                alert("Login fehlgeschlagen!");4
+                $('#alertModal').modal('show');
+                $('#alertModalText').text("Login fehlgeschlagen. Bitte überprüfen Sie nochmals ihre Logindaten!")
             }
         });
     });

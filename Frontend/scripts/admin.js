@@ -494,7 +494,6 @@ $(document).ready(function () {
     $('#list-group-user').on("click", '.deleteItem', function () {
         let newItem = $(this).closest('li');
         let id = newItem.data('item-id');
-        console.log(id)
 
         $.ajax({
             url: `http://localhost:8080/users/${id}`,
@@ -506,6 +505,8 @@ $(document).ready(function () {
             },
             success: function () {
                 newItem.remove();
+                $('#alertModal').modal('show');
+                $('#alertModalText').text("User erfolgreich gelöscht")
                 loadUserList();
             },
             error: function (error) {

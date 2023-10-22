@@ -52,7 +52,6 @@ $(document).ready(function () {
             products.forEach(product => {
                 addProductToList(product);
             });
-
         },
         error: function (error) {
             console.log(error);
@@ -78,8 +77,6 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function () {
-                $('#successProductModal').modal('show');
-                $('#successProductModalText').text(`${cardTitle} zum Warenkorb hinzugefügt`)
                 $.ajax({
                     url: `http://localhost:8080/carts`,
                     method: 'GET',
@@ -91,18 +88,22 @@ $(document).ready(function () {
                         products.forEach(item => {
                             itemsSelected += item.quantity;
                         });
-                        localStorage.setItem("cartItems", itemsSelected)
-                        location.reload();
+                        localStorage.setItem("cartItems", itemsSelected);
+                        $('#successModal').modal('show');
+                        $('#successModalText').text(`${cardTitle} zum Warenkorb hinzugefügt.`);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000)
                     },
                     error: function () {
-                        $('#alertProductModal').modal('show');
-                        $('#alertProductModalText').text(`ShoppingCart konnte nicht geladen werden`)
+                        $('#alertModal').modal('show');
+                        $('#alertModalText').text(`ShoppingCart konnte nicht geladen werden`)
                     }
                 });
             },
             error: function () {
-                $('#alertProductModal').modal('show');
-                $('#alertProductModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden`);
+                $('#alertModal').modal('show');
+                $('#alertModalText').text(`${cardTitle} konnte nicht zum Warenkorb hinzugefügt werden. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
             }
         });
     });
@@ -149,8 +150,8 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function () {
-                $('#successProductModal').modal('show');
-                $('#successProductModalText').text(`${modalTitle} zum Warenkorb hinzugefügt`);
+                $('#successModal').modal('show');
+                $('#successModalText').text(`${modalTitle} zum Warenkorb hinzugefügt. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
                 $.ajax({
                     url: `http://localhost:8080/carts`,
                     method: 'GET',
@@ -163,18 +164,21 @@ $(document).ready(function () {
                             itemsSelected += item.quantity;
                         });
                         localStorage.setItem("cartItems", itemsSelected),
+                        setTimeout(function() {
                             location.reload();
+                        }, 3000)
                     },
                     error: function () {
-                        $('#alertProductModal').modal('show');
-                        $('#alertProductModalText').text(`ShoppingCart konnte nicht geladen werden`);
+                        $('#alertModal').modal('show');
+                        $('#alertModalText').text(`ShoppingCart konnte nicht geladen werden`);
                     }
                 });
             },
             error: function () {
-                $('#alertProductModal').modal('show');
-                $('#alertProductModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden`);
+                $('#alertModal').modal('show');
+                $('#alertModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
             }
         });
     });
+    
 })
