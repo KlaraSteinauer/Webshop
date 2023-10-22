@@ -183,7 +183,7 @@ $(document).ready(function () {
             };
             formData.append("product", JSON.stringify(product));
             formData.append("productImage", imageFile);
-    
+
             $.ajax({
                 url: "http://localhost:8080/products",
                 type: "POST",
@@ -207,7 +207,7 @@ $(document).ready(function () {
             $('#alertModalText').text("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
         }
     });
-    
+
 
     //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
@@ -476,6 +476,8 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(user),
                 success: function () {
+                    $('#successModal').modal('show');
+                    $('#successModalText').text("User erfolgreich hinzugefügt.")
                     loadUserList()
                 },
                 error: function (error) {
@@ -527,7 +529,7 @@ $(document).ready(function () {
                 $('#userName').val(user.userName),
                     $('#userPassword').val(user.userPassword),
                     $('#eMail').val(user.userEmail),
-                    $('#gender option:selected').val(user.gender),
+                    $('#gender').val(user.gender),
                     $('#firstName').val(user.firstName),
                     $('#lastName').val(user.lastName)
             },
@@ -555,7 +557,46 @@ $(document).ready(function () {
                         console.log("Error: " + error);
                     }
                 });
-            }
+                var checkDeactive = $('#checkDeactive');
+                var checkActive = $('#checkActive');
+
+                if (checkActive.is(':checked')) {
+                    $.ajax({
+                        url: `http://localhost:8080/users/activate/${id}`,
+                        method: "PUT",
+                        headers:
+                        {
+                            "Authorization": localStorage.getItem("accessToken")
+                        },
+                        contentType: 'application/json',
+                        success: function () {
+                            loadUserList()
+                        },
+                        error: function (error) {
+                            console.log("Error: " + error);
+                        }
+                    });
+                } else if (checkDeactive.is(':checked')) {
+                    $.ajax({
+                        url: `http://localhost:8080/users/deactivate/${id}`,
+                        method: "PUT",
+                        headers:
+                        {
+                            "Authorization": localStorage.getItem("accessToken")
+                        },
+                        contentType: 'application/json',
+                        success: function () {
+                            loadUserList()
+                        },
+                        error: function (error) {
+                            console.log("Error: " + error);
+                        }
+                    });
+                }
+            };
+
+
         });
     });
+
 });
