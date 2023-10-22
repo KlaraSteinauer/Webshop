@@ -91,7 +91,8 @@ $(document).ready(function () {
         }
         isValidProduct(productData);
         if (!isValidProduct(productData)) {
-            alert("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.")
             return false;
         }
         if (
@@ -102,7 +103,8 @@ $(document).ready(function () {
             !productData.quantity ||
             !productData.category
         ) {
-            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("Bitte füllen Sie alle erforderlichen Felder aus.")
             return false;
         }
         return true;
@@ -170,7 +172,7 @@ $(document).ready(function () {
     $('#addProduct').click(function (e) {
         e.preventDefault();
         if (validateProductForm()) {
-            var imageFile = $('#product-img-val').prop('files')[0];
+            var imageFile = $('#product-img-val')[0].files[0];
             var formData = new FormData();
             var product = {
                 name: $('#product-name-val').val(),
@@ -181,29 +183,29 @@ $(document).ready(function () {
             };
             formData.append("product", JSON.stringify(product));
             formData.append("productImage", imageFile);
-            fetch("http://localhost:8080/products", {
-                method: "POST",
-                // No 'Content-Type' header—fetch sets it automatically due to FormData
+    
+            $.ajax({
+                url: "http://localhost:8080/products",
+                type: "POST",
                 headers: {
                     "Authorization": localStorage.getItem("accessToken")
                 },
-                body: formData,
-                success: function (response) {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    alert("Product added successfully!");
-                    return response.json();
+                data: formData,
+                success: function () {
+                    $('#successModal').modal('show');
+                    $('#successModalText').text("Produkt wurde erfolgreich hinzugefügt!");
                 },
-                error: (error) => {
-                    console.error('Error:', error);
-                    alert("Error adding product!");
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#alertModal').modal('show');
+                    $('#alertModalText').text("Produkt konnte nicht hinzugefügt werden. Fehler: " + errorThrown);
                 }
-            })
+            });
         } else {
-            alert("Produkt konnte nicht hinzugefügt werden.")
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
         }
-    })
+    });
+    
 
     //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
@@ -220,6 +222,8 @@ $(document).ready(function () {
             contentType: "application/json",
             success: function () {
                 newItem.remove();
+                $('#alertModal').modal('show');
+                $('#alertModalText').text("Produkt wurde erfolgreich gelöscht.")
                 loadProductList();
             },
             error: function (error) {
@@ -245,7 +249,7 @@ $(document).ready(function () {
                 $('#product-img-val').val(product.image);
                 $('#product-price-val').val(product.price);
                 $('#product-amount-val').val(product.quantity);
-                $('#product-category option:selected').val(product.category);
+                $('#product-category').val(product.category);
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -276,11 +280,13 @@ $(document).ready(function () {
                     },
                     error: (error) => {
                         console.error('Error:', error);
-                        alert("Error adding product!");
+                        $('#alertModal').modal('show');
+                        $('#alertModalText').text("Error adding product!")
                     }
                 })
             } else {
-                alert("Produkt konnte nicht hinzugefügt werden.")
+                $('#alertModal').modal('show');
+                $('#alertModalText').text("Produkt konnte nicht hinzugefügt werden.")
             }
         });
     }
@@ -349,7 +355,8 @@ $(document).ready(function () {
         };
         isValidUser(userData);
         if (!isValidUser(userData)) {
-            alert("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.");
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("Validierung fehlgeschlagen! Bitte Eingabedaten nochmals überprüfen.")
             return false;
         }
         if (
@@ -360,7 +367,8 @@ $(document).ready(function () {
             !userData.firstName ||
             !userData.lastName
         ) {
-            alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("Bitte füllen Sie alle erforderlichen Felder aus.")
             return false;
         }
         return true;
@@ -473,7 +481,8 @@ $(document).ready(function () {
                 }
             });
         } else {
-            alert("User konnte nicht hinzugefügt werden!")
+            $('#alertModal').modal('show');
+            $('#alertModalText').text("User konnte nicht hinzugefügt werden!")
         }
     });
 
