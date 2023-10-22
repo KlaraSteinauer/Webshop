@@ -29,9 +29,6 @@ $(document).ready(function () {
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
         card.append(img, cardBody);
-        card.on('click', function () {
-            $('#productDetailModal').modal('show');
-        });
         return card;
     }
 
@@ -66,6 +63,7 @@ $(document).ready(function () {
     //--------------------------------Logic to add products to shoppingcart------ --------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
 
+    //event to add product to the shoppingcart
     $('#productContainer').on('click', '.btn-addToShoppingcart', function () {
         const card = $(this).closest('.card');
         const productId = $(this).closest('.card').data('id');
@@ -80,7 +78,8 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function () {
-                alert(`${cardTitle} zum Warenkorb hinzugefügt`);
+                $('#successProductModal').modal('show');
+                $('#successProductModalText').text(`${cardTitle} zum Warenkorb hinzugefügt`)
                 $.ajax({
                     url: `http://localhost:8080/carts`,
                     method: 'GET',
@@ -93,29 +92,34 @@ $(document).ready(function () {
                             itemsSelected += item.quantity;
                         });
                         localStorage.setItem("cartItems", itemsSelected)
+                        location.reload();
                     },
                     error: function () {
-                        console.log("Error: ShoppingCart konnte nicht geladen werden");
+                        $('#alertProductModal').modal('show');
+                        $('#alertProductModalText').text(`ShoppingCart konnte nicht geladen werden`)
                     }
                 });
-                location.reload();
             },
             error: function () {
-                console.log("Error: ShoppingCart konnte nicht geladen werden");
+                $('#alertProductModal').modal('show');
+                $('#alertProductModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden`);
             }
         });
     });
 
-    $('#productContainer').on('click', '.card', function () {
+    //function to display detail modal for product
+    $('#productContainer').on('click', '.card-content', function () {
         const card = $(this).closest('.card');
         const productId = card.data('id');
-        
+        $('#productDetailModal').modal('show');
+
         $.ajax({
             url: 'http://localhost:8080/products',
             method: 'GET',
             success: function (products) {
                 products.forEach(product => {
-                    if(product.id === productId){
+                    if (product.id === productId) {
+                        $('#productDetailModal').data('id', product.id);
                         $('#productDetailModalLabel').text(`${product.name}`)
                         $('#productDetailCategory').text(`Produktkategorie: ${product.category}`)
                         $('#productDetailimageUrl').attr('src', `/images/${product.imageUrl}`)
@@ -131,10 +135,10 @@ $(document).ready(function () {
         });
     });
 
-    $('#productDetailModal').on('click', '.btn-addToShoppingcart', function () {
+    $('#productDetailModal').on('click', '.btn-modal-addToShoppingcart', function () {
         const modal = $(this).closest('.modal');
         const productId = modal.data('id');
-        const modalTitle = card.find('.modal-title').text();
+        const modalTitle = modal.find('.modal-title').text();
         let itemsSelected = 0;
 
         $.ajax({
@@ -145,7 +149,8 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function () {
-                alert(`${modalTitle} zum Warenkorb hinzugefügt`);
+                $('#successProductModal').modal('show');
+                $('#successProductModalText').text(`${modalTitle} zum Warenkorb hinzugefügt`);
                 $.ajax({
                     url: `http://localhost:8080/carts`,
                     method: 'GET',
@@ -157,16 +162,18 @@ $(document).ready(function () {
                         products.forEach(item => {
                             itemsSelected += item.quantity;
                         });
-                        localStorage.setItem("cartItems", itemsSelected)
+                        localStorage.setItem("cartItems", itemsSelected),
+                            location.reload();
                     },
                     error: function () {
-                        console.log("Error: ShoppingCart konnte nicht geladen werden");
+                        $('#alertProductModal').modal('show');
+                        $('#alertProductModalText').text(`ShoppingCart konnte nicht geladen werden`);
                     }
                 });
-                location.reload();
             },
             error: function () {
-                console.log("Error: ShoppingCart konnte nicht geladen werden");
+                $('#alertProductModal').modal('show');
+                $('#alertProductModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden`);
             }
         });
     });

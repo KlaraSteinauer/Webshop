@@ -61,8 +61,8 @@ $(document).ready(function () {
     });
 
     $('#currentUser').text(localStorage.getItem("currentUser"))
-    $('#itemsInShoppingCardL').text(localStorage.getItem("cartItems").toString());
-    $('#itemsInShoppingCardS').text(localStorage.getItem("cartItems").toString());
+    $('#itemsInShoppingCardL').text(localStorage.getItem("cartItems"));
+    $('#itemsInShoppingCardS').text(localStorage.getItem("cartItems"));
 
     function isAdmin() {
         $.ajax({
