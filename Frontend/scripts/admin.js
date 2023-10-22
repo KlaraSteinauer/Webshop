@@ -526,12 +526,19 @@ $(document).ready(function () {
                 "Authorization": localStorage.getItem("accessToken")
             },
             success: function (user) {
-                $('#userName').val(user.userName),
+                    $('#userName').val(user.userName),
                     $('#userPassword').val(user.userPassword),
                     $('#eMail').val(user.userEmail),
                     $('#gender').val(user.gender),
                     $('#firstName').val(user.firstName),
-                    $('#lastName').val(user.lastName)
+                    $('#lastName').val(user.lastName);
+                    if(user.isActive){
+                        $('#checkActive').prop('checked', true);
+                        $('#checkDeactive').prop('checked', false);
+                    } else {
+                        $('#checkDeactive').prop('checked', true);
+                        $('#checkActive').prop('checked', false);
+                    }
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -557,10 +564,8 @@ $(document).ready(function () {
                         console.log("Error: " + error);
                     }
                 });
-                var checkDeactive = $('#checkDeactive');
-                var checkActive = $('#checkActive');
 
-                if (checkActive.is(':checked')) {
+                if ($('#checkActive').is(':checked')) {
                     $.ajax({
                         url: `http://localhost:8080/users/activate/${id}`,
                         method: "PUT",
@@ -576,7 +581,7 @@ $(document).ready(function () {
                             console.log("Error: " + error);
                         }
                     });
-                } else if (checkDeactive.is(':checked')) {
+                } else if ($('#checkDeactive').is(':checked')) {
                     $.ajax({
                         url: `http://localhost:8080/users/deactivate/${id}`,
                         method: "PUT",
