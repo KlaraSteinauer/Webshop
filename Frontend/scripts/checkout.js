@@ -45,8 +45,6 @@ $(document).ready(function () {
             class: "text-muted",
             html: `€ ${item.price}`
         })
-
-
         contentDiv.appendTo(newItem);
         priceSpan.appendTo(newItem);
         $('#shoppingCartList').append(newItem);
@@ -64,7 +62,6 @@ $(document).ready(function () {
             class: "text-success",
             html: `€ - ${item.price}`
         })
-
         contentDiv.appendTo(newItem);
         priceSpan.appendTo(newItem);
         $('#shoppingCartList').append(newItem);
@@ -81,17 +78,15 @@ $(document).ready(function () {
         let priceSpan = $("<strong>", {
             html: `€ ${summe}`
         })
-
         contentDiv.appendTo(newItem);
         priceSpan.appendTo(newItem);
         $('#shoppingCartList').append(newItem);
     }
 
-    let summeCart = 0;
-    let itemsInCart = 0;
-
     //logic that loads the cartitems to the list and set total amount + total itemsInShoppingCart
     function loadShoppingCart() {
+        let summeCart = 0;
+        let itemsInCart = 0;
         $.ajax({
             url: `http://localhost:8080/carts`,
             method: 'GET',
@@ -115,14 +110,13 @@ $(document).ready(function () {
         });
     }
 
-    //TODO promotion richtig von gesamtsumme abziehen
+    //TODO promotion richtig von gesamtsumme abziehen - button nach 1x klicken deaktivieren
     $('#btn-promo').on("click", function () {
         shoppingCartPromotion(newPromotion);
         return summeCart = (summeCart - newPromotion.price)
     })
 
     //logic to delete one item from the shopping cart
-    //TODO implement autorelaod after item is deleted
     $('#shoppingCartList').on('click', '.deleteItem', function () {
         let item = $(this).closest('.list-group-item');
         let productId = item.data('id');
@@ -136,6 +130,7 @@ $(document).ready(function () {
             },
             success: function () {
                 item.remove();
+                location.reload();
             },
             error: function () {
                 console.log("Error: ShoppingCart konnte nicht geladen werden");
@@ -210,6 +205,7 @@ $(document).ready(function () {
         return true;
     }
 
+    //TODO check the validation
     function isValidUserData(data) {
         const namePattern = /^[A-Za-zÖÄÜöäü]+$/;
         if (!data.firstName.match(namePattern)) {
@@ -291,7 +287,7 @@ $(document).ready(function () {
 
     //TODO get the address from backend
     $.ajax({
-        url: `http://localhost:8080/users/${currentUserId}`,
+        url: `http://localhost:8080/users/me`,
         method: 'GET',
         headers:
         {

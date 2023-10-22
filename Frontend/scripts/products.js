@@ -29,13 +29,16 @@ $(document).ready(function () {
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
         card.append(img, cardBody);
+        card.on('click', function () {
+            $('#productDetailModal').modal('show');
+        });
         return card;
     }
 
     function addProductToList(product) {
         const cardElement = createCardElement(product);
         const productCategory = product.category;
-        const categoryList = document.getElementById(`section-${product.category}`);
+        const categoryList = $(`#section-${product.category}`);
 
         if (productCategory) {
             $(categoryList).append(cardElement);
@@ -60,10 +63,9 @@ $(document).ready(function () {
     });
 
     //------------------------------------------------------------------------------------------------------------------------
-    //--------------------------------Logic to save products to the local storage --------------------------------------------
+    //--------------------------------Logic to add products to shoppingcart------ --------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
 
-    //TODO check autorelaod to update item amount in navbar
     $('#productContainer').on('click', '.btn-addToShoppingcart', function () {
         const card = $(this).closest('.card');
         const productId = $(this).closest('.card').data('id');
@@ -79,6 +81,71 @@ $(document).ready(function () {
             },
             success: function () {
                 alert(`${cardTitle} zum Warenkorb hinzugefügt`);
+                $.ajax({
+                    url: `http://localhost:8080/carts`,
+                    method: 'GET',
+                    headers:
+                    {
+                        "Authorization": localStorage.getItem("accessToken")
+                    },
+                    success: function (products) {
+                        products.forEach(item => {
+                            itemsSelected += item.quantity;
+                        });
+                        localStorage.setItem("cartItems", itemsSelected)
+                    },
+                    error: function () {
+                        console.log("Error: ShoppingCart konnte nicht geladen werden");
+                    }
+                });
+                location.reload();
+            },
+            error: function () {
+                console.log("Error: ShoppingCart konnte nicht geladen werden");
+            }
+        });
+    });
+
+    $('#productContainer').on('click', '.card', function () {
+        const card = $(this).closest('.card');
+        const productId = card.data('id');
+        
+        $.ajax({
+            url: 'http://localhost:8080/products',
+            method: 'GET',
+            success: function (products) {
+                products.forEach(product => {
+                    if(product.id === productId){
+                        $('#productDetailModalLabel').text(`${product.name}`)
+                        $('#productDetailCategory').text(`Produktkategorie: ${product.category}`)
+                        $('#productDetailimageUrl').attr('src', `/images/${product.imageUrl}`)
+                        $('#productDetailPrice').text(`Preis pro Stück: ${product.price}`)
+                        $('#productDetailQuantity').text(`Aktuell sind ${product.quantity} verfügbar.`)
+                        $('#productDetailDescription').text(`Produktbeschreibung: ${product.description}`)
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#productDetailModal').on('click', '.btn-addToShoppingcart', function () {
+        const modal = $(this).closest('.modal');
+        const productId = modal.data('id');
+        const modalTitle = card.find('.modal-title').text();
+        let itemsSelected = 0;
+
+        $.ajax({
+            url: `http://localhost:8080/carts/${productId}`,
+            method: 'POST',
+            headers:
+            {
+                "Authorization": localStorage.getItem("accessToken")
+            },
+            success: function () {
+                alert(`${modalTitle} zum Warenkorb hinzugefügt`);
                 $.ajax({
                     url: `http://localhost:8080/carts`,
                     method: 'GET',

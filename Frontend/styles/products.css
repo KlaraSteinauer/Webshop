@@ -132,4 +132,9 @@
         height: 8rem;
         object-fit: cover;
     }
+}  
+
+.productDetailModal {
+    width: 4rem;
+    height: 8rem;
 }
