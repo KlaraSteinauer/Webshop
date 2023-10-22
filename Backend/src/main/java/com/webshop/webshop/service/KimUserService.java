@@ -82,6 +82,7 @@ public class KimUserService implements UserDetailsService {
         boolean activityHasChanged = false;
         if (!user.isActive()) {
             user.setActive(true);
+            kimUserRepository.save(user);
             activityHasChanged = true;
         }
         return activityHasChanged;
@@ -92,6 +93,7 @@ public class KimUserService implements UserDetailsService {
         boolean activityHasChanged = false;
         if (user.isActive()) {
             user.setActive(false);
+            kimUserRepository.save(user);
             activityHasChanged = true;
         }
         return activityHasChanged;

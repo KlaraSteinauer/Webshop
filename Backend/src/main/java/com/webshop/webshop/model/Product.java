@@ -4,6 +4,7 @@ import com.webshop.webshop.DTO.ProductViewDTO;
 import com.webshop.webshop.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
 
 import java.util.Set;
 
@@ -46,4 +47,7 @@ public class Product {
         );
     }
 
+    /*
+    @OnDelete(productService.removeImage);
+     */
 }

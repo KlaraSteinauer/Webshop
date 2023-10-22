@@ -221,7 +221,6 @@ class ProductServiceTest {
                 .get();
         boolean deleted = assertDoesNotThrow(() -> productService.removeImage(product));
         assertTrue(deleted);
-
     }
 
 }
