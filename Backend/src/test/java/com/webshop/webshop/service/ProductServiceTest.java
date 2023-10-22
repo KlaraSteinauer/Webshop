@@ -29,8 +29,7 @@ import java.util.List;
 import static java.nio.file.StandardCopyOption.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(classes = WebshopApplication.class)
@@ -214,5 +213,15 @@ class ProductServiceTest {
         assertEquals(productToUpdate.getCategory(), foundProduct.getCategory());
     }
 
+    @Test
+    void removeImageTest() {
+        final Product product = productRepository.findAll().stream()
+                .filter(p -> p.getName().equals("Product 1"))
+                .findFirst()
+                .get();
+        boolean deleted = assertDoesNotThrow(() -> productService.removeImage(product));
+        assertTrue(deleted);
+
+    }
 
 }

@@ -70,4 +70,13 @@ public class KimUserController {
         kimUserService.deleteById(id);
     }
 
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<Boolean> activateUser(@PathVariable Long id) {
+        return new ResponseEntity<>(kimUserService.activateUser(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<Boolean> deactivateUser(@PathVariable Long id) {
+        return new ResponseEntity<>(kimUserService.deactivateUser(id), HttpStatus.OK);
+    }
 }
