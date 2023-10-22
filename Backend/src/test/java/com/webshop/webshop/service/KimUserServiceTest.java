@@ -225,4 +225,44 @@ public class KimUserServiceTest {
                 () -> assertEquals(customer.getRole(), kimUserDetails.getUserRole())
         );
     }
+
+    @Test
+    void userActivationTest() {
+        KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        final Long userId = customer.getId();
+        assertTrue(customer.isActive());
+        boolean activityHasChanged = assertDoesNotThrow(() -> kimUserService.deactivateUser(userId));
+        assertTrue(activityHasChanged);
+        customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        assertFalse(customer.isActive());
+        activityHasChanged = assertDoesNotThrow(() -> kimUserService.deactivateUser(userId));
+        assertFalse(activityHasChanged);
+        customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        assertFalse(customer.isActive());
+        activityHasChanged = assertDoesNotThrow(() -> kimUserService.activateUser(userId));
+        assertTrue(activityHasChanged);
+        customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        assertTrue(customer.isActive());
+        activityHasChanged = assertDoesNotThrow(() -> kimUserService.activateUser(userId));
+        assertFalse(activityHasChanged);
+        customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        assertTrue(customer.isActive());
+    }
+
+
 }
