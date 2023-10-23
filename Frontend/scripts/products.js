@@ -195,7 +195,7 @@ $(document).ready(function () {
                         $('#productDetailModalLabel').text(`${product.name}`)
                         $('#productDetailCategory').text(`Produktkategorie: ${product.category}`)
                         $('#productDetailimageUrl').attr('src', `/images/${product.imageUrl}`)
-                        $('#productDetailPrice').text(`Preis pro Stück: ${product.price}`)
+                        $('#productDetailPrice').text(`Preis pro Stück: ${product.price}€`)
                         $('#productDetailQuantity').text(`Aktuell sind ${product.quantity} verfügbar.`)
                         $('#productDetailDescription').text(`Produktbeschreibung: ${product.description}`)
                     }
