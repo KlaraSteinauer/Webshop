@@ -26,7 +26,7 @@ $(document).ready(function () {
     loadShoppingCart()
 
     //promo für shopping cart
-    let newPromotion = new PromotionCode("Promo", "Beschreibung des Codes", 8)
+    let newPromotion = new PromotionCode("Herbstpromo", "Gratis Kostprobe eines neuen Produktes", 0)
 
     function shoppingCartItem(item) {
         let newItem = $("<li>", {
@@ -85,8 +85,8 @@ $(document).ready(function () {
 
     //logic that loads the cartitems to the list and set total amount + total itemsInShoppingCart
     function loadShoppingCart() {
-        let summeCart = 0;
         let itemsInCart = 0;
+        let summeCart = 0;
         $.ajax({
             url: `http://localhost:8080/carts`,
             method: 'GET',
@@ -111,10 +111,9 @@ $(document).ready(function () {
     }
 
     //TODO promotion richtig von gesamtsumme abziehen - button nach 1x klicken deaktivieren
-    $('#btn-promo').on("click", function () {
+    $("#btn-promo").one("click", function() {
         shoppingCartPromotion(newPromotion);
-        return summeCart = (summeCart - newPromotion.price)
-    })
+    });
 
     //logic to delete one item from the shopping cart
     $('#shoppingCartList').on('click', '.deleteItem', function () {
