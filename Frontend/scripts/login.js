@@ -12,27 +12,45 @@ $(document).ready(function () {
             "username": $('#userName').val(),
             "password": $('#userPassword').val()
         }
-
         return new UserLogin(userData.username, userData.password)
     }
 
     enableButtons();
 
+    const userNameInput = $("#userName");
+    const userPasswordInput = $("#userPassword");
+    const loginButton = $("#loginButton");
+
+    userNameInput.on("input", toggleButtonState);
+    userPasswordInput.on("input", toggleButtonState);
+
+    function toggleButtonState() {
+        if (userNameInput.val() !== "" && userPasswordInput.val() !== "") {
+            loginButton.removeClass("disabled");
+        } else {
+            loginButton.addClass("disabled");
+        }
+    }
+
     $('#showLogout').click(function (e) {
-        localStorage.removeItem('accessToken');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('cartItems');
         window.location.href = 'home.html';
         //window.location.reload()
     })
 
     function enableButtons() {
-        if (localStorage.getItem("accessToken") != null) {
+        if (sessionStorage.getItem("accessToken") != null) {
             $('#showLogout').attr('style', 'display: block');
             $('#showLogin').attr('style', 'display: none');
             $('#showLoginIcon').attr('style', 'display: none');
+            $('#showRegistration').attr('style', 'display: none');
         } else {
             $('#showLogout').attr('style', 'display: none');
             $('#showLogin').attr('style', 'display: block');
             $('#showLoginIcon').attr('style', 'display: block');
+            $('#showRegistration').attr('style', 'display: block');
         }
     }
 
@@ -48,15 +66,20 @@ $(document).ready(function () {
             dataType: 'text',
             success: (response) => {
                 const accessToken = response;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('currentUser', user.username);
+                sessionStorage.setItem('accessToken', accessToken);
+                sessionStorage.setItem('currentUser', user.username);
                 isAdmin();
             },
             error: (err) => {
-                alert("Login fehlgeschlagen!");4
+                $('#alertModal').modal('show');
+                $('#alertModalText').text("Login fehlgeschlagen. Bitte überprüfen Sie nochmals ihre Logindaten!")
             }
         });
     });
+
+    $('#currentUser').text(sessionStorage.getItem("currentUser"))
+    $('#itemsInShoppingCardL').text(sessionStorage.getItem("cartItems"));
+    $('#itemsInShoppingCardS').text(sessionStorage.getItem("cartItems"));
 
     function isAdmin() {
         $.ajax({
@@ -64,7 +87,7 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             contentType: 'application/json',
             success: function (response) {

@@ -102,21 +102,93 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <div>
-                        <div class="d-flex" id="section-SALZPFEFFER">
+                    <br>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produktfilter</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="filterAllProducts">Alle Produkte</a></li>
+                            <li><a class="dropdown-item" id="filterSalzPfeffer">Salt and Pepper</a></li>
+                            <li><a class="dropdown-item" id="filterKraeuter">Pure Herbs</a></li>
+                            <li><a class="dropdown-item" id="filterSuessmittel">Sweetener</a></li>
+                        </ul>
+                    </div>
+                    <div id="productContainer">
+                        <div class="d-flex filter-section" id="section-SALZPFEFFER">
                         </div>
-                        <div class="d-flex" id="section-KRAEUTER">
+                        <div class="d-flex filter-section" id="section-KRAEUTER">
                         </div>
-                        <div class="d-flex" id="section-SUESSMITTEL">
+                        <div class="d-flex filter-section" id="section-SUESSMITTEL">
                         </div>
                     </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="productDetailModalLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="productDetailimageUrl"
+                        style="width: 100%; height: 300px; border: 1px solid rgba(2, 33, 53, 0.2); object-fit: cover">
+                    <p id="productDetailCategory"></p>
+                    <p id="productDetailPrice"></p>
+                    <p id="productDetailQuantity"></p>
+                    <p id="productDetailDescription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-modal-addToShoppingcart">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="color: red;" id="alertModalLabel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                        </svg>
+                        <span>ACHTUNG</span>
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: red;" id="alertModalText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalTextLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="color: green;" id="successModalTextLabel">SUCCESS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="color: green;" id="successModalText"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="footerContainer"></div>
-    <!-- <div id="loginModal"></div> -->
 
 </body>
 

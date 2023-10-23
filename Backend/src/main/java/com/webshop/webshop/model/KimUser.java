@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity(name = "kim_user")
-public class KimUser  {
+public class KimUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,6 +33,8 @@ public class KimUser  {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(name = "active")
+    private boolean isActive = true;
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
@@ -60,6 +62,7 @@ public class KimUser  {
                 this.getRole().name(),
                 this.getGender(),
                 this.getFirstName(),
-                this.getLastName());
+                this.getLastName(),
+                this.isActive());
     }
 }

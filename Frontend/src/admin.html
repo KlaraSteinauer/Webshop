@@ -30,23 +30,6 @@
         <div class="bg-transparent">
             <div class="container-fluid">
                 <div class="borders-main-content">
-                    <div class="row alert alert-danger d-flex align-items-center" role="alert">
-                        <div class="col-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                <path
-                                    d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
-                            </svg>
-                        </div>
-                        <div class="col-10">
-                            Achtung: Wenn Sie fortfahren, werden die Daten endgültig
-                            gelöscht oder bearbeitet. Stellen Sie sicher, dass Sie alle
-                            wichtigen
-                            Informationen
-                            gesichert
-                            haben, bevor Sie mit dem Bearbeitungsvorgang fortfahren. </div>
-                    </div>
                     <div class="row d-flex justify-content-between">
 
 
@@ -110,7 +93,7 @@
                                         id="product-description-val"></textarea>
                                 </div>
                                 <button class="w-100 btn btn-lg btn-primary my-2" id="addProduct">Hinzufügen</button>
-                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Bearbeiten</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveProduct">Update</button>
                             </form>
 
                             <form class="p-2 border rounded-3 bg-light adminManagementForm" id="userManagementForm">
@@ -129,11 +112,11 @@
                                     <label for="userName">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="firstname" placeholder="Vorname">
+                                    <input type="text" class="form-control" id="firstName" placeholder="Vorname">
                                     <label for="firstname">Vorname</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lastname" placeholder="Nachname">
+                                    <input type="text" class="form-control" id="lastName" placeholder="Nachname">
                                     <label for="lastname">Nachname</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -147,19 +130,18 @@
                                     <label for="userPassword">Passwort</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        deactive</label>
+                                    <input class="form-check-input" type="checkbox" value="" id="checkDeactive">
+                                    <label class="form-check-label" for="checkDeactive">
+                                        inaktive</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
-                                        checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        active
+                                    <input class="form-check-input" type="checkbox" value="" id="checkActive">
+                                    <label class="form-check-label" for="checkActive">
+                                        aktiv
                                     </label>
                                 </div>
                                 <button class="w-100 btn btn-lg btn-primary my-2" id="addUser">Hinzufügen</button>
-                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveUser">Bearbeiten</button>
+                                <button class="w-100 btn btn-lg btn-primary my-2" id="saveUser">Update</button>
                             </form>
 
                             <form class="p-2 border rounded-3 bg-light adminManagementForm" id="orderManagementForm">
@@ -208,6 +190,44 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Modal -->
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" style="color: red;" id="alertModalLabel">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                            </svg>
+                            <span>ACHTUNG</span>
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: red;" id="alertModalText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" style="color: green;" id="successModalLabel">SUCCESS</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: green;" id="successModalText"></p>
                     </div>
                 </div>
             </div>

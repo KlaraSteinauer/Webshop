@@ -14,9 +14,11 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.HmacKey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.LoginException;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -26,6 +28,9 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 @Service
 public class TokenService {
+
+    @Autowired
+    private KimUserService kimUserService;
 
     @Value("${application.jwt.secret}")
     private String secret;
@@ -42,12 +47,13 @@ public class TokenService {
 
 
     /**
-     * Generates a Token out of the given User details.
+     * Generates a token for a User.
      *
-     * @param kimUser kimUser to make the token out of
-     * @return String The token
+     * @param kimUser kimUser to generate the token for
+     * @return String token
      */
     public String generateToken(KimUser kimUser) throws GeneralJwtException {
+
         if (kimUser.getId() == null
                 || (kimUser.getUserName() == null
                 || kimUser.getUserName().isEmpty())
@@ -57,6 +63,10 @@ public class TokenService {
                     + kimUser.getUserName() + "/"
                     + kimUser.getUserPassword()
                     + " invalid!");
+        }
+        boolean isActive = checkUserActivity(kimUser.getId());
+        if (!isActive) {
+            throw new GeneralJwtException("User with id: " + kimUser.getId() + " is inactive!");
         }
         String result = null;
         Date expirationDate = new Date(System.currentTimeMillis() + validity * 60000);
@@ -75,6 +85,7 @@ public class TokenService {
         return result;
     }
 
+
     public String generateTokenFromUserDetails(KimUserDetails kimUserDetails) throws GeneralJwtException {
         if (kimUserDetails.getUserId() == null
                 || (kimUserDetails.getUserName() == null
@@ -85,6 +96,10 @@ public class TokenService {
                     + kimUserDetails.getUserName() + "/"
                     + kimUserDetails.getPassword()
                     + " invalid!");
+        }
+        boolean isActive = checkUserActivity(kimUserDetails.getUserId());
+        if (!isActive) {
+            throw new GeneralJwtException("User with id: " + kimUserDetails.getUserId() + " is inactive!");
         }
         String result = null;
         Date expirationDate = new Date(System.currentTimeMillis() + validity * 60000);
@@ -123,16 +138,6 @@ public class TokenService {
     }
 
 
-    public Boolean validateToken(String token) {
-        try {
-            getClaimsFromToken(token);
-        } catch (InvalidJwtException e) {
-            return false;
-        }
-        return true;
-    }
-
-
     public Map<String, Object> getClaimsFromToken(String token) throws InvalidJwtException {
         JwtConsumer jwtc = new JwtConsumerBuilder()
                 .setRequireExpirationTime()
@@ -142,6 +147,10 @@ public class TokenService {
         return claims.getClaimsMap();
     }
 
+    private boolean checkUserActivity(Long userId) {
+        KimUser user = kimUserService.findById(userId);
+        return user.isActive();
+    }
 
     public boolean isAdmin(String token) {
         Optional<KimUserDetails> var;

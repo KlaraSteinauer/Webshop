@@ -5,8 +5,8 @@ import com.webshop.webshop.DTO.LoginDTO;
 import com.webshop.webshop.enums.Role;
 import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.repository.KimUserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
 @ActiveProfiles("test")
@@ -44,55 +48,87 @@ public class AuthenticationControllerTest {
     @Autowired
     private KimUserRepository kimUserRepository;
 
+
+    /**
+     * H2 Setup
+     */
     @BeforeEach
     void setup() {
-        kimUserRepository.deleteAll();
         KimUser customer = new KimUser();
-        customer.setId(1L);
         customer.setUserName("customer");
-        customer.setUserPassword("customerPassword");
-        customer.setUserEmail("customer@email.com");
+        // "customer" encrypted
+        customer.setUserPassword("$2y$10$6/enuCKqS/fBSz6iIgfZC.XEmLmT2q9GuaKSz8dARHwOSmzEzN7Uq");
+        customer.setUserEmail("customer@customer.com");
         customer.setRole(Role.CUSTOMER);
-        customer.setGender("female");
-        customer.setFirstName("customerFirst");
-        customer.setLastName("customerLast");
+        customer.setGender("customer");
+        customer.setFirstName("customer");
+        customer.setLastName("customer");
         KimUser admin = new KimUser();
-        admin.setId(2L);
         admin.setUserName("admin");
-        admin.setUserPassword("adminPassword");
-        admin.setUserEmail("admin@email.com");
+        // "admin" encrypted
+        admin.setUserPassword("$2y$10$038vqDvwT4VTy9mhDy991OIgNcFJv9PcPaBVNKEzhufIE67nRkIiS");
+        admin.setUserEmail("admin@admin.com");
         admin.setRole(Role.ADMIN);
-        admin.setGender("male");
-        admin.setFirstName("adminFirst");
-        admin.setLastName("adminLast");
-        KimUser anonymous = new KimUser();
-        anonymous.setId(3L);
-        anonymous.setUserName("anonymous");
-        anonymous.setUserPassword("anonymousPassword");
-        anonymous.setUserEmail("anonymous@email.com");
-        anonymous.setRole(Role.ANONYMOUS);
-        anonymous.setGender("non-binary");
-        anonymous.setFirstName("anonymousFirst");
-        anonymous.setLastName("anonymousLast");
-        kimUserRepository.saveAll(List.of(customer, admin, anonymous));
+        admin.setGender("admin");
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
+        kimUserRepository.save(customer);
+        kimUserRepository.save(admin);
     }
 
-    @Disabled
-    @Test
-    void loginTest() throws Exception {
-        final KimUser customer = kimUserRepository.findAll().stream()
-                .filter(u -> u.getUserName().equals("customer"))
-                .findFirst()
-                .get();
-        final String userName = customer.getUserName();
-        final String password = customer.getUserPassword();
-        final LoginDTO responseBody = new LoginDTO(userName, password);
+    /**
+     * H2 Reset
+     */
+    @AfterEach
+    void tearDown() {
+        kimUserRepository.deleteAll();
+    }
 
-        mockMvc.perform(MockMvcRequestBuilders
+    /**
+     * Customer Login
+     */
+    @Test
+    void loginCustomerTest() throws Exception {
+        KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst().get();        final String userName = customer.getUserName();
+        final String password = "customer";
+        final LoginDTO request = new LoginDTO(userName, password);
+
+        String response = mockMvc.perform(MockMvcRequestBuilders
                         .post("/login")
-                        .content(mapper.writeValueAsString(responseBody))
+                        .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").exists());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals("Bearer ", response.substring(0, 7));
+        assertEquals(2, StringUtils.countOccurrencesOf(response.substring(7), "."));
+
+    }
+
+    /**
+     * Admin Login
+     */
+    @Test
+    void loginAdminTest() throws Exception {
+        KimUser admin = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("admin"))
+                .findFirst().get();
+        final String userName = admin.getUserName();
+        final String password = "admin";
+        final LoginDTO request = new LoginDTO(userName, password);
+        String response = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/login")
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals("Bearer ", response.substring(0, 7));
+        assertEquals(2, StringUtils.countOccurrencesOf(response.substring(7), "."));
+
     }
 }

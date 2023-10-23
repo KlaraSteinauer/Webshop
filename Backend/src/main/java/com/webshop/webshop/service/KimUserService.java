@@ -77,6 +77,28 @@ public class KimUserService implements UserDetailsService {
         }
     }
 
+    public boolean activateUser(Long userId) {
+        KimUser user = findById(userId);
+        boolean activityHasChanged = false;
+        if (!user.isActive()) {
+            user.setActive(true);
+            kimUserRepository.save(user);
+            activityHasChanged = true;
+        }
+        return activityHasChanged;
+    }
+
+    public boolean deactivateUser(Long userId) {
+        KimUser user = findById(userId);
+        boolean activityHasChanged = false;
+        if (user.isActive()) {
+            user.setActive(false);
+            kimUserRepository.save(user);
+            activityHasChanged = true;
+        }
+        return activityHasChanged;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {

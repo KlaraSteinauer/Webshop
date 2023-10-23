@@ -81,12 +81,16 @@
 
 
 .card-body {
-    height: 14rem;
+    height: 10rem;
 }
 
 .card-content {
-    height: 9rem;
+    height: 5rem;
     margin-bottom: 1rem;
+}
+
+.card-content:hover {
+    cursor: pointer;
 }
 
 .card-text-quantity {
@@ -132,4 +136,9 @@
         height: 8rem;
         object-fit: cover;
     }
+}  
+
+.productDetailModal {
+    width: 4rem;
+    height: 8rem;
 }

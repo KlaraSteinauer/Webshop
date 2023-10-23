@@ -2,12 +2,8 @@ package com.webshop.webshop.DTO;
 
 
 import com.webshop.webshop.enums.Role;
-import com.webshop.webshop.model.Address;
 import com.webshop.webshop.model.KimUser;
-import com.webshop.webshop.model.ShoppingCart;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +19,7 @@ public class KimUserDTO {
     private String gender;
     private String firstName;
     private String lastName;
+    private Boolean isActive;
 
     public KimUser convertToKimUser() {
         KimUser user = new KimUser();

@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    //------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------Produktliste im HTML erstellen ---------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
+
     class Product {
         constructor(id, name, description, imageUrl, price, quantity, category) {
             this.id = id;
@@ -13,16 +17,15 @@ $(document).ready(function () {
     }
 
     function createCardElement(product) {
-        const card = $('<div>', { class: 'card' });
+        const card = $('<div>', { class: 'card', 'data-id': product.id });
         const img = $('<img>', { src: `/images/${product.imageUrl}`, class: 'card-img-top', alt: `${product.name}` });
         const cardBody = $('<div>', { class: 'card-body' });
         const cardContent = $('<div>', { class: 'card-content' });
         const cardTitle = $('<h5>', { class: 'card-title', text: `${product.name}` });
         const cardText = $('<p>', { class: 'card-text', text: `${product.description}` });
-        const cardQuantity = $('<p>', { class: 'card-text-quantity', text: `Anzahl aktuell verfügbarer Produkte: ${product.quantity}` });
         const btnCenter = $('<div>', { class: 'btn-center' });
-        const addButton = $('<button>', { class: 'btn btn-primary', id: "btn-addToShoppingcart", text: 'Add to cart' });
-        cardContent.append(cardTitle, cardText, cardQuantity);
+        const addButton = $('<button>', { class: 'btn btn-primary btn-addToShoppingcart', text: 'Add to cart' });
+        cardContent.append(cardTitle, cardText);
         btnCenter.append(addButton);
         cardBody.append(cardContent, btnCenter);
         card.append(img, cardBody);
@@ -32,7 +35,7 @@ $(document).ready(function () {
     function addProductToList(product) {
         const cardElement = createCardElement(product);
         const productCategory = product.category;
-        const categoryList = document.getElementById(`section-${product.category}`);
+        const categoryList = $(`#section-${product.category}`);
 
         if (productCategory) {
             $(categoryList).append(cardElement);
@@ -43,7 +46,7 @@ $(document).ready(function () {
 
     //function to load product list from db
     $.ajax({
-        url: 'http://localhost:8080/product/all',
+        url: 'http://localhost:8080/products',
         method: 'GET',
         success: function (products) {
             products.forEach(product => {
@@ -55,7 +58,198 @@ $(document).ready(function () {
         }
     });
 
-    //function to add products to a shopping card
-    
+    function clearProductList() {
+        $(`#section-SALZPFEFFER`).empty();
+        $(`#section-KRAEUTER`).empty();
+        $(`#section-SUESSMITTEL`).empty();   
+    }
+
+    //event to set product filter
+    $("#filterAllProducts").click(function () {
+        $.ajax({
+            url: 'http://localhost:8080/products',
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterSalzPfeffer").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/SALZPFEFFER`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterKraeuter").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/KRAEUTER`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterSuessmittel").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/SUESSMITTEL`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------Logic to add products to shoppingcart------ --------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //event to add product to the shoppingcart
+    $('#productContainer').on('click', '.btn-addToShoppingcart', function () {
+        const card = $(this).closest('.card');
+        const productId = $(this).closest('.card').data('id');
+        const cardTitle = card.find('.card-title').text();
+        let itemsSelected = 0;
+
+        $.ajax({
+            url: `http://localhost:8080/carts/${productId}`,
+            method: 'POST',
+            headers:
+            {
+                "Authorization": sessionStorage.getItem("accessToken")
+            },
+            success: function () {
+                $.ajax({
+                    url: `http://localhost:8080/carts`,
+                    method: 'GET',
+                    headers:
+                    {
+                        "Authorization": sessionStorage.getItem("accessToken")
+                    },
+                    success: function (products) {
+                        products.forEach(item => {
+                            itemsSelected += item.quantity;
+                        });
+                        sessionStorage.setItem("cartItems", itemsSelected);
+                        $('#successModal').modal('show');
+                        $('#successModalText').text(`${cardTitle} zum Warenkorb hinzugefügt.`);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000)
+                    },
+                    error: function () {
+                        $('#alertModal').modal('show');
+                        $('#alertModalText').text(`ShoppingCart konnte nicht geladen werden`)
+                    }
+                });
+            },
+            error: function () {
+                $('#alertModal').modal('show');
+                $('#alertModalText').text(`${cardTitle} konnte nicht zum Warenkorb hinzugefügt werden. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
+            }
+        });
+    });
+
+    //function to display detail modal for product
+    $('#productContainer').on('click', '.card-content', function () {
+        const card = $(this).closest('.card');
+        const productId = card.data('id');
+        $('#productDetailModal').modal('show');
+
+        $.ajax({
+            url: 'http://localhost:8080/products',
+            method: 'GET',
+            success: function (products) {
+                products.forEach(product => {
+                    if (product.id === productId) {
+                        $('#productDetailModal').data('id', product.id);
+                        $('#productDetailModalLabel').text(`${product.name}`)
+                        $('#productDetailCategory').text(`Produktkategorie: ${product.category}`)
+                        $('#productDetailimageUrl').attr('src', `/images/${product.imageUrl}`)
+                        $('#productDetailPrice').text(`Preis pro Stück: ${product.price}€`)
+                        $('#productDetailQuantity').text(`Aktuell sind ${product.quantity} verfügbar.`)
+                        $('#productDetailDescription').text(`Produktbeschreibung: ${product.description}`)
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#productDetailModal').on('click', '.btn-modal-addToShoppingcart', function () {
+        const modal = $(this).closest('.modal');
+        const productId = modal.data('id');
+        const modalTitle = modal.find('.modal-title').text();
+        let itemsSelected = 0;
+
+        $.ajax({
+            url: `http://localhost:8080/carts/${productId}`,
+            method: 'POST',
+            headers:
+            {
+                "Authorization": sessionStorage.getItem("accessToken")
+            },
+            success: function () {
+                $('#successModal').modal('show');
+                $('#successModalText').text(`${modalTitle} zum Warenkorb hinzugefügt. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
+                $.ajax({
+                    url: `http://localhost:8080/carts`,
+                    method: 'GET',
+                    headers:
+                    {
+                        "Authorization": sessionStorage.getItem("accessToken")
+                    },
+                    success: function (products) {
+                        products.forEach(item => {
+                            itemsSelected += item.quantity;
+                        });
+                        sessionStorage.setItem("cartItems", itemsSelected),
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000)
+                    },
+                    error: function () {
+                        $('#alertModal').modal('show');
+                        $('#alertModalText').text(`ShoppingCart konnte nicht geladen werden`);
+                    }
+                });
+            },
+            error: function () {
+                $('#alertModal').modal('show');
+                $('#alertModalText').text(`${modalTitle} konnte nicht zum Warenkorb hinzugefügt werden. Um Produkte hinzuzufügen, bitten wir Sie, sich zuerst anzumelden.`);
+            }
+        });
+    });
 
 })
