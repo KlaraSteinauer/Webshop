@@ -33,22 +33,24 @@ $(document).ready(function () {
     }
 
     $('#showLogout').click(function (e) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('cartItems');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('cartItems');
         window.location.href = 'home.html';
         //window.location.reload()
     })
 
     function enableButtons() {
-        if (localStorage.getItem("accessToken") != null) {
+        if (sessionStorage.getItem("accessToken") != null) {
             $('#showLogout').attr('style', 'display: block');
             $('#showLogin').attr('style', 'display: none');
             $('#showLoginIcon').attr('style', 'display: none');
+            $('#showRegistration').attr('style', 'display: none');
         } else {
             $('#showLogout').attr('style', 'display: none');
             $('#showLogin').attr('style', 'display: block');
             $('#showLoginIcon').attr('style', 'display: block');
+            $('#showRegistration').attr('style', 'display: block');
         }
     }
 
@@ -64,8 +66,8 @@ $(document).ready(function () {
             dataType: 'text',
             success: (response) => {
                 const accessToken = response;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('currentUser', user.username);
+                sessionStorage.setItem('accessToken', accessToken);
+                sessionStorage.setItem('currentUser', user.username);
                 isAdmin();
             },
             error: (err) => {
@@ -75,9 +77,9 @@ $(document).ready(function () {
         });
     });
 
-    $('#currentUser').text(localStorage.getItem("currentUser"))
-    $('#itemsInShoppingCardL').text(localStorage.getItem("cartItems"));
-    $('#itemsInShoppingCardS').text(localStorage.getItem("cartItems"));
+    $('#currentUser').text(sessionStorage.getItem("currentUser"))
+    $('#itemsInShoppingCardL').text(sessionStorage.getItem("cartItems"));
+    $('#itemsInShoppingCardS').text(sessionStorage.getItem("cartItems"));
 
     function isAdmin() {
         $.ajax({
@@ -85,7 +87,7 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             contentType: 'application/json',
             success: function (response) {

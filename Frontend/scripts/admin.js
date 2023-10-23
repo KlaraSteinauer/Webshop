@@ -188,7 +188,7 @@ $(document).ready(function () {
                 url: "http://localhost:8080/products",
                 type: "POST",
                 headers: {
-                    "Authorization": localStorage.getItem("accessToken")
+                    "Authorization": sessionStorage.getItem("accessToken")
                 },
                 data: formData,
                 processData: false, // To prevent jQuery from processing data
@@ -208,7 +208,6 @@ $(document).ready(function () {
         }
     });
 
-
     //event to delete a product from the list
     $('#list-group-product').on("click", '.deleteItem', function () {
         let newItem = $(this).closest('li');
@@ -219,7 +218,7 @@ $(document).ready(function () {
             method: 'DELETE',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             contentType: "application/json",
             success: function () {
@@ -243,7 +242,7 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function (product) {
                 $('#product-name-val').val(product.name);
@@ -274,7 +273,7 @@ $(document).ready(function () {
                 fetch(`http://localhost:8080/products/${id}`, {
                     method: "PUT",
                     headers: {
-                        "Authorization": localStorage.getItem("accessToken")
+                        "Authorization": sessionStorage.getItem("accessToken")
                     },
                     body: formData,
                     success: function () {
@@ -442,7 +441,7 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: (users) => {
                 userList = users;
@@ -471,7 +470,7 @@ $(document).ready(function () {
                 method: "POST",
                 headers:
                 {
-                    "Authorization": localStorage.getItem("accessToken")
+                    "Authorization": sessionStorage.getItem("accessToken")
                 },
                 contentType: 'application/json',
                 data: JSON.stringify(user),
@@ -501,7 +500,7 @@ $(document).ready(function () {
             contentType: "application/json",
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function () {
                 newItem.remove();
@@ -524,22 +523,22 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function (user) {
-                    $('#userName').val(user.userName),
+                $('#userName').val(user.userName),
                     $('#userPassword').val(user.userPassword),
                     $('#eMail').val(user.userEmail),
                     $('#gender').val(user.gender),
                     $('#firstName').val(user.firstName),
                     $('#lastName').val(user.lastName);
-                    if(user.isActive){
-                        $('#checkActive').prop('checked', true);
-                        $('#checkDeactive').prop('checked', false);
-                    } else {
-                        $('#checkDeactive').prop('checked', true);
-                        $('#checkActive').prop('checked', false);
-                    }
+                if (user.isActive) {
+                    $('#checkActive').prop('checked', true);
+                    $('#checkDeactive').prop('checked', false);
+                } else {
+                    $('#checkDeactive').prop('checked', true);
+                    $('#checkActive').prop('checked', false);
+                }
             },
             error: function (error) {
                 console.log("Error: " + error);
@@ -554,7 +553,7 @@ $(document).ready(function () {
                     method: "PUT",
                     headers:
                     {
-                        "Authorization": localStorage.getItem("accessToken")
+                        "Authorization": sessionStorage.getItem("accessToken")
                     },
                     contentType: 'application/json',
                     data: JSON.stringify(user),
@@ -572,7 +571,7 @@ $(document).ready(function () {
                         method: "PUT",
                         headers:
                         {
-                            "Authorization": localStorage.getItem("accessToken")
+                            "Authorization": sessionStorage.getItem("accessToken")
                         },
                         contentType: 'application/json',
                         success: function () {
@@ -588,7 +587,7 @@ $(document).ready(function () {
                         method: "PUT",
                         headers:
                         {
-                            "Authorization": localStorage.getItem("accessToken")
+                            "Authorization": sessionStorage.getItem("accessToken")
                         },
                         contentType: 'application/json',
                         success: function () {
@@ -600,9 +599,22 @@ $(document).ready(function () {
                     });
                 }
             };
-
-
         });
     });
+
+    // Function to toggle the activate checkbox
+    function toggleCheckbox() {
+        if ($('#checkActive').is(':checked')) {
+            $('#checkDeactive').prop('checked', false);
+        } else if ($('#checkDeactive').is(':checked')) {
+            $('#checkActive').prop('checked', false);
+        }
+    }
+
+    // Attach the change event handler to both checkboxes
+    $('#checkActive, #checkDeactive').on('change', function () {
+        toggleCheckbox();
+    });
+
 
 });

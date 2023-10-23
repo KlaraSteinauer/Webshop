@@ -92,7 +92,7 @@ $(document).ready(function () {
             method: 'GET',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function (products) {
                 products.forEach(item => {
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 });
                 shoppingCartSum(summeCart);
                 $('#amountItems').text(itemsInCart)
-                localStorage.setItem("cartItems", itemsInCart)
+                sessionStorage.setItem("cartItems", itemsInCart)
             },
             error: function () {
                 console.log("Error: ShoppingCart konnte nicht geladen werden");
@@ -126,7 +126,7 @@ $(document).ready(function () {
             method: 'DELETE',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function () {
                 item.remove();
@@ -269,7 +269,7 @@ $(document).ready(function () {
     let currentUserId;
 
     //logic to get the userId from currentUser out of the token
-    const tokenBearer = localStorage.getItem("accessToken") || '';
+    const tokenBearer = sessionStorage.getItem("accessToken") || '';
     let token = '';
 
     if (tokenBearer.startsWith('Bearer ')) {
@@ -291,7 +291,7 @@ $(document).ready(function () {
         method: 'GET',
         headers:
         {
-            "Authorization": localStorage.getItem("accessToken")
+            "Authorization": sessionStorage.getItem("accessToken")
         },
         success: function (user) {
             $('#username').val(user.userName),

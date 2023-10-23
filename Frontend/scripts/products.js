@@ -58,6 +58,77 @@ $(document).ready(function () {
         }
     });
 
+    function clearProductList() {
+        $(`#section-SALZPFEFFER`).empty();
+        $(`#section-KRAEUTER`).empty();
+        $(`#section-SUESSMITTEL`).empty();   
+    }
+
+    //event to set product filter
+    $("#filterAllProducts").click(function () {
+        $.ajax({
+            url: 'http://localhost:8080/products',
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterSalzPfeffer").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/SALZPFEFFER`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterKraeuter").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/KRAEUTER`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#filterSuessmittel").click(function () {
+        $.ajax({
+            url: `http://localhost:8080/products/category/SUESSMITTEL`,
+            method: 'GET',
+            success: function (products) {
+                clearProductList()
+                products.forEach(product => {
+                    addProductToList(product);
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
     //------------------------------------------------------------------------------------------------------------------------
     //--------------------------------Logic to add products to shoppingcart------ --------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
@@ -74,7 +145,7 @@ $(document).ready(function () {
             method: 'POST',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function () {
                 $.ajax({
@@ -82,16 +153,16 @@ $(document).ready(function () {
                     method: 'GET',
                     headers:
                     {
-                        "Authorization": localStorage.getItem("accessToken")
+                        "Authorization": sessionStorage.getItem("accessToken")
                     },
                     success: function (products) {
                         products.forEach(item => {
                             itemsSelected += item.quantity;
                         });
-                        localStorage.setItem("cartItems", itemsSelected);
+                        sessionStorage.setItem("cartItems", itemsSelected);
                         $('#successModal').modal('show');
                         $('#successModalText').text(`${cardTitle} zum Warenkorb hinzugefügt.`);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             location.reload();
                         }, 3000)
                     },
@@ -147,7 +218,7 @@ $(document).ready(function () {
             method: 'POST',
             headers:
             {
-                "Authorization": localStorage.getItem("accessToken")
+                "Authorization": sessionStorage.getItem("accessToken")
             },
             success: function () {
                 $('#successModal').modal('show');
@@ -157,16 +228,16 @@ $(document).ready(function () {
                     method: 'GET',
                     headers:
                     {
-                        "Authorization": localStorage.getItem("accessToken")
+                        "Authorization": sessionStorage.getItem("accessToken")
                     },
                     success: function (products) {
                         products.forEach(item => {
                             itemsSelected += item.quantity;
                         });
-                        localStorage.setItem("cartItems", itemsSelected),
-                        setTimeout(function() {
-                            location.reload();
-                        }, 3000)
+                        sessionStorage.setItem("cartItems", itemsSelected),
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000)
                     },
                     error: function () {
                         $('#alertModal').modal('show');
@@ -180,5 +251,5 @@ $(document).ready(function () {
             }
         });
     });
-    
+
 })
