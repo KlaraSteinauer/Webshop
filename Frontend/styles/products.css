@@ -89,6 +89,10 @@
     margin-bottom: 1rem;
 }
 
+.card-content:hover {
+    cursor: pointer;
+}
+
 .card-text-quantity {
     font-size: 0.8rem;
     color: gray;

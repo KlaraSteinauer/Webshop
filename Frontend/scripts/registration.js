@@ -32,7 +32,8 @@ $(document).ready(function () {
             "userEmail": $('#Email').val(),
             "userName": $('#Username').val(),
             "userPassword": $('#Password').val(),
-            "repeatPassword": $('#RepeatPassword').val()
+            "repeatPassword": $('#RepeatPassword').val(),
+            "acceptedAGB": $('#acceptedAGB')
         };
         let addressData = {
             "street": $('#Street').val(),
@@ -67,7 +68,8 @@ $(document).ready(function () {
             !registrationData.userName ||
             !registrationData.userPassword ||
             !registrationData.repeatPassword ||
-            !registrationData.userEmail
+            !registrationData.userEmail ||
+            !registrationData.acceptedAGB
         ) {
             $('#alertModal').modal('show');
             $('#alertModalText').text("Bitte füllen Sie alle erforderlichen Felder aus.");
@@ -130,6 +132,7 @@ $(document).ready(function () {
         if (data.userPassword !== data.repeatPassword) {
             $('#alertModal').modal('show');
             $('#alertModalText').text("Password and Repeat Password do not match.")
+            isValid = false;
         }
         const emailPattern = /^[a-zA-Z0-9._-ÖÄÜöäü]+@[a-zA-Z0-9.-ÖÄÜöäü]+\.[a-zA-Z]{2,4}$/;
         if (!data.userEmail.match(emailPattern)) {
@@ -140,6 +143,15 @@ $(document).ready(function () {
             $('#Email').removeClass('invalid-input-value');
             $('#Email').siblings('.invalid-input').hide();
         }
+        if (!data.acceptedAGB.is(':checked')) {
+            $('#acceptedAGB').addClass('invalid-input-value');
+            $('#acceptedAGB').siblings('.invalid-input').show();
+            isValid = false;
+        } else {
+            $('#acceptedAGB').removeClass('invalid-input-value');
+            $('#acceptedAGB').siblings('.invalid-input').hide();
+        }
+
         return isValid;
     }
 
@@ -233,7 +245,8 @@ $(document).ready(function () {
                     }, 2000);
                 },
                 error: function (error) {
-                    console.log("Error: " + JSON.stringify(error));
+                    $('#alertModal').modal('show');
+                    $('#alertModalText').text("Username ist bereits vergeben!");
                 }
             });
         }

@@ -102,14 +102,25 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
+                    <br>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Produktfilter</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="filterAllProducts">Alle Produkte</a></li>
+                            <li><a class="dropdown-item" id="filterSalzPfeffer">Salt and Pepper</a></li>
+                            <li><a class="dropdown-item" id="filterKraeuter">Pure Herbs</a></li>
+                            <li><a class="dropdown-item" id="filterSuessmittel">Sweetener</a></li>
+                        </ul>
+                    </div>
                     <div id="productContainer">
-                        <div class="d-flex" id="section-SALZPFEFFER">
+                        <div class="d-flex filter-section" id="section-SALZPFEFFER">
                         </div>
-                        <div class="d-flex" id="section-KRAEUTER">
+                        <div class="d-flex filter-section" id="section-KRAEUTER">
                         </div>
-                        <div class="d-flex" id="section-SUESSMITTEL">
+                        <div class="d-flex filter-section" id="section-SUESSMITTEL">
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
