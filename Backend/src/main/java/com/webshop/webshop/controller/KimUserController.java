@@ -6,7 +6,9 @@ import com.webshop.webshop.model.KimUser;
 import com.webshop.webshop.security.KimUserDetails;
 import com.webshop.webshop.service.KimUserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,13 +40,21 @@ public class KimUserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<KimUserDTO> findUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(kimUserService.findById(id).convertToDto(), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
     @GetMapping("/me")
-    public ResponseEntity<KimUserDTO> findUserById(@AuthenticationPrincipal Optional<KimUserDetails> user) {
-        return new ResponseEntity<>(kimUserService.findById(user.get().getUserId()).convertToDto(), HttpStatus.OK);
+    public ResponseEntity<KimUserDTO> findYourself(@AuthenticationPrincipal Optional<KimUserDetails> user) {
+        try {
+            return new ResponseEntity<>(kimUserService.findById(user.get().getUserId()).convertToDto(), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
@@ -60,23 +70,43 @@ public class KimUserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
-        KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        try {
+            KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (DataAccessException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        kimUserService.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+        try {
+            kimUserService.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/activate/{id}")
     public ResponseEntity<Boolean> activateUser(@PathVariable Long id) {
-        return new ResponseEntity<>(kimUserService.activateUser(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(kimUserService.activateUser(id), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/deactivate/{id}")
     public ResponseEntity<Boolean> deactivateUser(@PathVariable Long id) {
-        return new ResponseEntity<>(kimUserService.deactivateUser(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(kimUserService.deactivateUser(id), HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

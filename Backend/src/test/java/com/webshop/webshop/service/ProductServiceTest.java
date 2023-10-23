@@ -213,6 +213,8 @@ class ProductServiceTest {
         assertEquals(productToUpdate.getCategory(), foundProduct.getCategory());
     }
 
+
+
     @Test
     void removeImageTest() {
         final Product product = productRepository.findAll().stream()

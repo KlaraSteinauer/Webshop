@@ -123,6 +123,31 @@ public class KimUserServiceTest {
     }
 
     /**
+     *  Fetches a User from DB using userName which is unique.
+     */
+    @Test
+    void findByUserNameTest() {
+        final KimUser customer = kimUserRepository.findAll().stream()
+                .filter(u -> u.getUserName().equals("customer"))
+                .findFirst()
+                .get();
+        final String userName = customer.getUserName();
+        final String wrongUserName = "wrongUserName";
+        assertThrows(ObjectNotFoundException.class, () -> kimUserService.findByUserName(wrongUserName));
+        KimUser foundUser = assertDoesNotThrow(() -> kimUserService.findByUserName(userName));
+        assertAll(
+                () -> assertEquals(customer.getId(), foundUser.getId()),
+                () -> assertEquals(customer.getUserName(), foundUser.getUserName()),
+                () -> assertEquals(customer.getUserPassword(), foundUser.getUserPassword()),
+                () -> assertEquals(customer.getUserEmail(), foundUser.getUserEmail()),
+                () -> assertEquals(customer.getRole(), foundUser.getRole()),
+                () -> assertEquals(customer.getGender(), foundUser.getGender()),
+                () -> assertEquals(customer.getFirstName(), foundUser.getFirstName()),
+                () -> assertEquals(customer.getLastName(), foundUser.getLastName())
+        );
+    }
+
+    /**
      * Fetches all Users from DB.
      */
     @Test
