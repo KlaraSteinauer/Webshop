@@ -36,7 +36,14 @@ public class ProductController {
     public String IMAGE_PATH;
 
 
-
+    /**
+     * Creates a new Product including file upload.
+     *
+     * @param productJson JSON holding Product information
+     * @param file image file
+     * @return Product
+     * @throws IOException
+     */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductViewDTO> createProductWithFile(
             @RequestPart("product") @Valid String productJson,
@@ -53,6 +60,12 @@ public class ProductController {
         return new ResponseEntity<ProductViewDTO>(productService.save(productViewDTO), HttpStatus.CREATED);
     }
 
+    /**
+     * Removes a Product from the Database.
+     *
+     * @param id product id
+     * @return status message
+     */
     @DeleteMapping("/{id}")// deletes a product (ID)
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
@@ -67,6 +80,15 @@ public class ProductController {
 
     }
 
+    /**
+     * Updates a product.
+     *
+     * @param productJson JSON holding Product information
+     * @param file image file
+     * @param itemId id of Product to be updated
+     * @return Product
+     * @throws IOException
+     */
     @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductViewDTO> updateProductById(
             @RequestPart("product") @Valid String productJson,
@@ -81,8 +103,11 @@ public class ProductController {
         }
     }
 
-
-
+    /**
+     * Fetches all Products from the Database.
+     *
+     * @return List of all Products
+     */
     @GetMapping
     public ResponseEntity<List<ProductViewDTO>> getAllProducts() {
 
@@ -93,6 +118,13 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Fetches Product from the Database.
+     *
+     * @param id product id
+     * @return Product
+     * @throws ObjectNotFoundException
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ProductViewDTO> findById(@PathVariable Long id) throws ObjectNotFoundException {
         try {
@@ -102,6 +134,12 @@ public class ProductController {
         }
     }
 
+    /**
+     * Fetches all Products of a Category from the Database.
+     *
+     * @param category ProductCategory
+     * @return List of Products of a given category
+     */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductViewDTO>> findByCategory(@PathVariable String category) {
         return new ResponseEntity<>(productService.findByCategory(category)

@@ -27,13 +27,29 @@ public class ProductService {
     @Value("${file.upload-dir}")
     public String IMAGE_PATH;
 
+
+    /**
+     * Saves a Product.
+     *
+     * @param productViewDTO DTO holding the Product information
+     * @return Product
+     */
     public ProductViewDTO save(ProductViewDTO productViewDTO) {
         Product product = productViewDTO.convertToProduct();
         Product savedProduct = productRepository.save(product);
         return savedProduct.convertToViewDto();
     }
 
-
+    /**
+     *  Creates a new Product including file upload.
+     *
+     * @param id id of Product to update
+     * @param productJson JSON holding Product information
+     * @param file image file
+     * @return Product
+     * @throws ObjectNotFoundException
+     * @throws IOException
+     */
     public ProductViewDTO update(Long id, String productJson, MultipartFile file) throws ObjectNotFoundException, IOException {
         Product product = findById(id);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -59,6 +75,13 @@ public class ProductService {
         return product.convertToViewDto();
     }
 
+    /**
+     * Removes a Product from the Database.
+     *
+     * @param id product id
+     * @return true if Product was successfully deleted
+     *          / false otherwise
+     */
     public boolean deleteById(Long id) {
         try {
             Product productToDelete = findById(id);
@@ -70,6 +93,13 @@ public class ProductService {
         }
     }
 
+    /**
+     * Checks if a Product's image is used by other Products and removes it if not.
+     *
+     * @param product Product holding the image URL
+     * @return true if image was deleted
+     *      *          / false otherwise
+     */
     public boolean removeImage(Product product) {
         List<Product> products = productRepository.findAll();
         boolean isUsed = false;
@@ -86,7 +116,11 @@ public class ProductService {
         return deleted;
     }
 
-
+    /**
+     * Fetches all Products from the Database.
+     *
+     * @return List of all Products
+     */
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
@@ -95,7 +129,12 @@ public class ProductService {
         return productRepository.findByDescription(description);
     }
 
-
+    /**
+     * Fetches all Products of a Category from the Database.
+     *
+     * @param category ProductCategory
+     * @return List of Products of a given category
+     */
     public List<Product> findByCategory(String category) {
         try {
             return productRepository.findByCategory(ProductCategory.valueOf(category));
@@ -104,6 +143,13 @@ public class ProductService {
         }
     }
 
+    /**
+     * Fetches Product from the Database.
+     *
+     * @param id product id
+     * @return Product
+     * @throws ObjectNotFoundException
+     */
     public Product findById(Long id) throws ObjectNotFoundException {
         var product = productRepository.findById(id);
         if (product.isEmpty()) {

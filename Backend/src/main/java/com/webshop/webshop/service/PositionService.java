@@ -15,6 +15,13 @@ public class PositionService {
     @Autowired
     private PositionRepository positionRepository;
 
+    /**
+     * Creates a new Position, adding a Product to a ShoppingCart.
+     *
+     * @param cart ShoppingCart
+     * @param product Product
+     * @return
+     */
     public Position createPosition(ShoppingCart cart, Product product) {
         Position position = new Position();
         position.setCart(cart);
@@ -24,6 +31,10 @@ public class PositionService {
         return position;
     }
 
+    /**
+     * Deletes a Position, removing a Product from a ShoppingCart.
+     * @param position Position to be removed
+     */
     public void removePosition(Position position) {
         positionRepository.delete(position);
     }
