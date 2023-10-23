@@ -33,7 +33,7 @@ public class KimUser {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean isActive = true;
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
