@@ -52,7 +52,7 @@ $(document).ready(function () {
             $('#showLoginIcon').attr('style', 'display: block');
             $('#showRegistration').attr('style', 'display: block');
         }
-    }
+    } 
 
     $('#loginButton').click(function (e) {
         e.preventDefault();

@@ -1,5 +1,29 @@
 $(document).ready(function () {
 
+    function checkAdminAccess() {
+        const tokenBearer = sessionStorage.getItem("accessToken") || '';
+        let token = '';
+        if (tokenBearer.startsWith('Bearer ')) {
+            token = tokenBearer.substring(7); 
+        }
+        if (token.length > 0) {
+            try {
+                const jwt = JSON.parse(atob(token.split('.')[1])); 
+                const currentUserRole = jwt.role; 
+                if (currentUserRole === "ADMIN") { 
+                    return; 
+                }
+            } catch (e) {
+                console.log('Fehler: ' + e);
+            }
+        }
+            window.location.href = "home.html";
+    }
+    
+    checkAdminAccess();
+    
+    
+
     let pageLoaded = true;
     // Hide all forms and lists initially
     $('.adminManagementForm, .managementList').hide();
