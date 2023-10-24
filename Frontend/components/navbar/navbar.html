@@ -1,4 +1,5 @@
 <script src="/scripts/login.js"></script>
+<script src="/scripts/navbar.js"></script>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
@@ -21,6 +22,9 @@
                 <li class="nav-item" id="showRegistration">
                     <a class="nav-link active" aria-current="page" href="./registration.html">Registrieren</a>
                 </li>
+                <li class="nav-item" id="showAdminPage" style="display: none;">
+                    <a class="nav-link active" aria-current="page" href="./admin.html">Admin Management</a>
+                </li>
                 <li class="nav-item" id="showLogin">
                     <a class="nav-link active home-svg-display-small" aria-current="page" href="./login.html"
                         id="disabledLogin">Login</a>
@@ -29,12 +33,6 @@
                     <a class="nav-link active" style="color:rgba(255, 255, 255, 0.5) ;" aria-current="page" id="enableLogout">Logout <span id="currentUser"></span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" id="openLoginModal">
-                        Login
-                    </button>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link active home-svg-display-small" aria-current="page" href="./checkout.html">
                         Warenkorb [Items <span id="itemsInShoppingCardL"style="color: white;">0</span>]</a>

@@ -100,7 +100,7 @@ $(document).ready(function () {
                     summeCart += item.price;
                     itemsInCart += item.quantity;
                 });
-                shoppingCartSum(summeCart);
+                shoppingCartSum(parseFloat(summeCart));
                 $('#amountItems').text(itemsInCart)
                 sessionStorage.setItem("cartItems", itemsInCart)
             },

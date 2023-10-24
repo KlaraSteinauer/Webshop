@@ -54,15 +54,15 @@ public class KimUser {
     }
 
     public KimUserDTO convertToDto() {
-        return new KimUserDTO(
-                this.getId(),
-                this.getUserName(),
-                this.getUserPassword(),
-                this.getUserEmail(),
-                this.getRole().name(),
-                this.getGender(),
-                this.getFirstName(),
-                this.getLastName(),
-                this.isActive());
+        KimUserDTO user = new KimUserDTO();
+        user.setUserId(this.getId());
+        user.setUserName(this.getUserName());
+        user.setUserEmail(this.getUserEmail());
+        user.setRole(this.getRole().name());
+        user.setGender(this.getGender());
+        user.setFirstName(this.getFirstName());
+        user.setLastName(this.getLastName());
+        user.setIsActive(this.isActive);
+        return user;
     }
 }

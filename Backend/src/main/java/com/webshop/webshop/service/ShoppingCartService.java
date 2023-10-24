@@ -37,6 +37,13 @@ public class ShoppingCartService {
         this.shoppingCartRepository = shoppingCartRepository;
     }
 
+    /**
+     * Adds a Product to a User's ShoppingCart.
+     *
+     * @param userId user id
+     * @param productId product id
+     * @return amount of Products in ShoppingCart
+     */
     public Integer addProduct(Long userId, Long productId) {
         KimUser user = kimUserService.findById(userId);
         Product product = productService.findById(productId);
@@ -64,6 +71,13 @@ public class ShoppingCartService {
         return cart.countItems();
     }
 
+    /**
+     * Removes a Product from a User's ShoppingCart.
+     *
+     * @param userId user id
+     * @param productId product id
+     * @return amount of Products in ShoppingCart
+     */
     public Integer removeProduct(Long userId, Long productId) {
         KimUser user = kimUserService.findById(userId);
         Product product = productService.findById(productId);
@@ -93,6 +107,12 @@ public class ShoppingCartService {
         return cart.countItems();
     }
 
+    /**
+     * Fetches all Products in a User's ShoppingCart from Database.
+     *
+     * @param userId user id
+     * @return Set of Products from ShoppingCart
+     */
     public Set<ProductViewDTO> findAllProductsInCart(Long userId) {
         KimUser user = kimUserService.findById(userId);
         ShoppingCart cart = user.getShoppingCart();
@@ -109,6 +129,12 @@ public class ShoppingCartService {
         return products;
     }
 
+    /**
+     * Creates a new ShoppingCart for a User.
+     *
+     * @param user user
+     * @return ShoppingCart
+     */
     private ShoppingCart createCart(KimUser user) {
         ShoppingCart cart = new ShoppingCart();
         cart.setKimUser(user);

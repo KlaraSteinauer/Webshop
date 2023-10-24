@@ -30,6 +30,12 @@ public class KimUserController {
     private final KimUserService kimUserService;
 
 
+    /**
+     * Registers a new User.
+     *
+     * @param kimUserDTO DTO holding User information
+     * @return the created User
+     */
     @PostMapping("/registration")
     public ResponseEntity<KimUserDTO> createKimUser(@RequestBody KimUserDTO kimUserDTO) {
         kimUserDTO.setUserPassword(encoder.encode(kimUserDTO.getUserPassword()));
@@ -37,7 +43,12 @@ public class KimUserController {
         return new ResponseEntity<>(kimUserService.save(kimUserDTO).convertToDto(), HttpStatus.CREATED);
     }
 
-
+    /**
+     * Fetches User from the Database.
+     *
+     * @param id user id
+     * @return KimUser
+     */
     @GetMapping("/{id}")
     public ResponseEntity<KimUserDTO> findUserById(@PathVariable Long id) {
         try {
@@ -47,7 +58,11 @@ public class KimUserController {
         }
     }
 
-
+    /**
+     * Fetches User from the Database using the JWT token.
+     *
+     * @return KimUser
+     */
     @GetMapping("/me")
     public ResponseEntity<KimUserDTO> findYourself(@AuthenticationPrincipal Optional<KimUserDetails> user) {
         try {
@@ -57,7 +72,11 @@ public class KimUserController {
         }
     }
 
-
+    /**
+     * Fetches all Users from the Database.
+     *
+     * @return List of all Users.
+     */
     @GetMapping
     public ResponseEntity<List<KimUserDTO>> findAll() {
         List<KimUser> allUsers = kimUserService.findAll();
@@ -67,10 +86,20 @@ public class KimUserController {
                 HttpStatus.OK);
     }
 
-
+    /**
+     * Updates a User.
+     *
+     * @param kimUserDTO DTO holding information of updated User
+     * @param id id of user to update
+     * @return KimUser
+     */
     @PutMapping("/{id}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
         try {
+            if (kimUserDTO.getUserPassword() == null) {
+            return new ResponseEntity<>(kimUserDTO, HttpStatus.BAD_REQUEST);
+        }
+            kimUserDTO.setUserPassword(encoder.encode(kimUserDTO.getUserPassword()));
             KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (ObjectNotFoundException e) {
@@ -81,7 +110,12 @@ public class KimUserController {
 
     }
 
-
+    /**
+     * Removes a User from the Database.
+     *
+     * @param id user id
+     * @return HttpStatus code
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
         try {
@@ -92,6 +126,13 @@ public class KimUserController {
         }
     }
 
+    /**
+     * Activates a User.
+     *
+     * @param id user id
+     * @return true if activity has been changed
+     *          / false otherwise
+     */
     @PutMapping("/activate/{id}")
     public ResponseEntity<Boolean> activateUser(@PathVariable Long id) {
         try {
@@ -101,6 +142,13 @@ public class KimUserController {
         }
     }
 
+    /**
+     * Deactivates a User.
+     *
+     * @param id userId
+     * @return true if activity has been changed
+     *          / false otherwise
+     */
     @PutMapping("/deactivate/{id}")
     public ResponseEntity<Boolean> deactivateUser(@PathVariable Long id) {
         try {

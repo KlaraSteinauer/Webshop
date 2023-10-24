@@ -26,6 +26,13 @@ public class ShoppingCartController {
     @Autowired
     private final ShoppingCartService shoppingCartService;
 
+    /**
+     * Adds a Product to a User's ShoppingCart.
+     *
+     * @param user UserDetails from JWT token
+     * @param productId product id
+     * @return amount of Products in ShoppingCart
+     */
     @PostMapping("/{productId}")
     public ResponseEntity<Integer> addProduct(@AuthenticationPrincipal Optional<KimUserDetails> user, @PathVariable Long productId) {
         Long userId = user.get().getUserId();
@@ -37,6 +44,13 @@ public class ShoppingCartController {
         }
     }
 
+    /**
+     * Removes a Product from a User's ShoppingCart.
+     *
+     * @param user UserDetails from JWT token
+     * @param productId product id
+     * @return amount of Products in ShoppingCart
+     */
     @DeleteMapping("/{productId}")
     public ResponseEntity<Integer> removeProduct(@AuthenticationPrincipal Optional<KimUserDetails> user, @PathVariable Long productId) {
         Long userId = user.get().getUserId();
@@ -48,6 +62,12 @@ public class ShoppingCartController {
         }
     }
 
+    /**
+     * Fetches all Products in a User's ShoppingCart from Database.
+     *
+     * @param user UserDetails from JWT token
+     * @return Set of Products from ShoppingCart
+     */
     @GetMapping
     public ResponseEntity<Set<ProductViewDTO>> findAllProductsInShoppingCart(@AuthenticationPrincipal Optional<KimUserDetails> user) {
         Long userId = user.get().getUserId();
