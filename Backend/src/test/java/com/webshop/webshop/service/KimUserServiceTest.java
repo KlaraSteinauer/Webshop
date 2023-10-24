@@ -175,7 +175,7 @@ public class KimUserServiceTest {
         updateDto.setUserId(9999L);
         updateDto.setUserName("updatedUser");
         // "password" encrypted
-        updateDto.setUserPassword("$2y$10$CRsUFq1glsvT9d/JdRKjN./8jRiFfCs4otsxIhfh3Z9Z7Ud2qqCue");
+        updateDto.setUserPassword("updatedPassword");
         updateDto.setUserEmail("updatedUser@updatedUser.com");
         updateDto.setRole(Role.ANONYMOUS.name());
         updateDto.setGender("updatedUser");
@@ -191,7 +191,8 @@ public class KimUserServiceTest {
                 // ID unchanged
                 () -> assertEquals(customer.getId(), updatedUser.getUserId()),
                 () -> assertEquals(updateDto.getUserName(), updatedUser.getUserName()),
-                () -> assertEquals(updateDto.getUserPassword(), updatedUser.getUserPassword()),
+                // password was hashed, stored in DB and will not be returned
+                () -> assertEquals(null, updatedUser.getUserPassword()),
                 () -> assertEquals(updateDto.getUserEmail(), updatedUser.getUserEmail()),
                 // Role unchanged
                 () -> assertEquals(customer.getRole().name(), updatedUser.getRole()),
