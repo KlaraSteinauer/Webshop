@@ -96,6 +96,10 @@ public class KimUserController {
     @PutMapping("/{id}")
     public ResponseEntity<KimUserDTO> updateUserById(@RequestBody KimUserDTO kimUserDTO, @PathVariable Long id) {
         try {
+            if (kimUserDTO.getUserPassword() == null) {
+            return new ResponseEntity<>(kimUserDTO, HttpStatus.BAD_REQUEST);
+        }
+            kimUserDTO.setUserPassword(encoder.encode(kimUserDTO.getUserPassword()));
             KimUserDTO updatedUser = kimUserService.update(id, kimUserDTO);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (ObjectNotFoundException e) {
