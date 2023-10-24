@@ -70,8 +70,8 @@ public class ProductController {
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
             boolean deleted = productService.deleteById(id);
-            String msg = "Product with id:  " + id + " deleted "
-                    + (deleted == true ? "(file removed)." : ".");
+            String msg = "Product with id:  " + id + " deleted"
+                    + (deleted == true ? " (file removed)." : ".");
             return new ResponseEntity<>(msg, HttpStatus.OK);
         } catch (ObjectNotFoundException e) {
             String msg = "Product with id: " + id + " not found.";
