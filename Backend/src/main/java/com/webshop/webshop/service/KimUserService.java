@@ -21,7 +21,12 @@ public class KimUserService implements UserDetailsService {
     @Autowired
     KimUserRepository kimUserRepository;
 
-
+    /**
+     * Saves a User.
+     *
+     * @param kimUserDTO DTO holding User information
+     * @return
+     */
     public KimUser save(KimUserDTO kimUserDTO) {
         try {
             return kimUserRepository.save(kimUserDTO.convertToKimUser());
@@ -30,6 +35,12 @@ public class KimUserService implements UserDetailsService {
         }
     }
 
+    /**
+     * Fetches User from the Database.
+     *
+     * @param id user id
+     * @return KimUser
+     */
     public KimUser findById(Long id) {
         var kimUser = kimUserRepository.findById(id);
         if (kimUser.isEmpty()) {
@@ -38,6 +49,12 @@ public class KimUserService implements UserDetailsService {
         return kimUser.get();
     }
 
+    /**
+     * Fetches User from the Database using userName.
+     *
+     * @param userName user name
+     * @return KimUser
+     */
     public KimUser findByUserName(String userName) {
         var kimUser = kimUserRepository.findByUserName(userName);
         if (kimUser.isEmpty()) {
@@ -46,6 +63,11 @@ public class KimUserService implements UserDetailsService {
         return kimUser.get();
     }
 
+    /**
+     * Fetches all Users from the Database.
+     *
+     * @return List of all Users.
+     */
     public List<KimUser> findAll() {
         var allUsers = kimUserRepository.findAll();
         if (allUsers.isEmpty()) {
@@ -55,7 +77,13 @@ public class KimUserService implements UserDetailsService {
 
     }
 
-
+    /**
+     * Updates a User.
+     *
+     * @param updateKimUserDTO DTO holding information of updated User
+     * @param id id of user to update
+     * @return KimUser
+     */
     public KimUserDTO update(Long id, KimUserDTO updateKimUserDTO) throws ObjectNotFoundException {
         KimUser user = findById(id);
         user.setUserName(updateKimUserDTO.getUserName());
@@ -68,7 +96,11 @@ public class KimUserService implements UserDetailsService {
         return user.convertToDto();
     }
 
-
+    /**
+     * Removes a User from the Database.
+     *
+     * @param id user id
+     */
     public void deleteById(Long id) {
         try {
             kimUserRepository.deleteById(id);
@@ -77,6 +109,13 @@ public class KimUserService implements UserDetailsService {
         }
     }
 
+    /**
+     * Activates a User.
+     *
+     * @param userId user id
+     * @return true if activity has been changed
+     *          / false otherwise
+     */
     public boolean activateUser(Long userId) {
         KimUser user = findById(userId);
         boolean activityHasChanged = false;
@@ -88,6 +127,13 @@ public class KimUserService implements UserDetailsService {
         return activityHasChanged;
     }
 
+    /**
+     * Deactivates a User.
+     *
+     * @param userId user id
+     * @return true if activity has been changed
+     *          / false otherwise
+     */
     public boolean deactivateUser(Long userId) {
         KimUser user = findById(userId);
         boolean activityHasChanged = false;
@@ -99,6 +145,13 @@ public class KimUserService implements UserDetailsService {
         return activityHasChanged;
     }
 
+    /**
+     * Creates UserDetails from User information.
+     *
+     * @param username user name
+     * @return UserDetails
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {

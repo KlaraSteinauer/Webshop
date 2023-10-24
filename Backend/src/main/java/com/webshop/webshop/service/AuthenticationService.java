@@ -30,6 +30,15 @@ public class AuthenticationService {
     @Autowired
     KimUserRepository kimUserRepository;
 
+    /**
+     * User login, creates a JWT token for a User.
+     *
+     * @param userName user name
+     * @param userPassword password
+     * @return JWT token
+     * @throws LoginException
+     * @throws GeneralJwtException
+     */
     public String login(String userName, String userPassword) throws LoginException, GeneralJwtException {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));

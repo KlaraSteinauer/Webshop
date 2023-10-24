@@ -49,8 +49,8 @@ public class TokenService {
     /**
      * Generates a token for a User.
      *
-     * @param kimUser kimUser to generate the token for
-     * @return String token
+     * @param kimUser KimUser
+     * @return JWT token
      */
     public String generateToken(KimUser kimUser) throws GeneralJwtException {
 
@@ -85,7 +85,12 @@ public class TokenService {
         return result;
     }
 
-
+    /**
+     * Generates a token for a User from UserDetails.
+     *
+     * @param kimUserDetails UserDetails holding User information
+     * @return JWT token
+     */
     public String generateTokenFromUserDetails(KimUserDetails kimUserDetails) throws GeneralJwtException {
         if (kimUserDetails.getUserId() == null
                 || (kimUserDetails.getUserName() == null
@@ -118,6 +123,13 @@ public class TokenService {
         return result;
     }
 
+    /**
+     * Parses a token, creating UserDetails from it's claims.
+     *
+     * @param jwt JWT token
+     * @return UserDetails
+     * @throws GeneralJwtException
+     */
     public Optional<KimUserDetails> parseToken(String jwt) throws GeneralJwtException {
 
         Jws<Claims> jwsClaims;
@@ -137,7 +149,13 @@ public class TokenService {
         return Optional.of(new KimUserDetails(userId, sub, userRole));
     }
 
-
+    /**
+     * Creates a Map from JWT token claims.
+     *
+     * @param token JWT token
+     * @return claims Map
+     * @throws InvalidJwtException
+     */
     public Map<String, Object> getClaimsFromToken(String token) throws InvalidJwtException {
         JwtConsumer jwtc = new JwtConsumerBuilder()
                 .setRequireExpirationTime()
@@ -147,11 +165,25 @@ public class TokenService {
         return claims.getClaimsMap();
     }
 
+    /**
+     * Checks whether a User is active.
+     *
+     * @param userId user id
+     * @return true if User is active
+     *          / false otherwise
+     */
     private boolean checkUserActivity(Long userId) {
         KimUser user = kimUserService.findById(userId);
         return user.isActive();
     }
 
+    /**
+     * Determines whether a JWT token belongs to a User with the Role ADMIN.
+     *
+     * @param token JWT token
+     * @return true if User has the Role ADMIN
+     *          / false otherwise
+     */
     public boolean isAdmin(String token) {
         Optional<KimUserDetails> var;
         String trimmedToken = token.replaceAll("Bearer ", "");

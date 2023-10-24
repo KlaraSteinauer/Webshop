@@ -134,6 +134,7 @@ public class ProductControllerTest {
         kimUserRepository.deleteAll();
     }
 
+    /*
 
     @Disabled
     @Test
@@ -155,7 +156,7 @@ public class ProductControllerTest {
         MockPart productImage = new MockPart("productImage", multipartFile.getBytes());
 
          */
-        final ProductViewDTO emptyBody = new ProductViewDTO();
+        /*final ProductViewDTO emptyBody = new ProductViewDTO();
 
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -189,7 +190,8 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name", Matchers.containsString("newProductName")));
 
          */
-    }
+    //}
+
 
     @Test
     void deleteProductTest() throws Exception {
@@ -212,6 +214,7 @@ public class ProductControllerTest {
 
     }
 
+    /*
     @Disabled
     @Test
     void updateProductByIdTest() throws Exception {
@@ -259,6 +262,8 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name", Matchers.containsString("newProductName")));
     }
+
+     */
 
     @Test
     void getAllProductsTest() throws Exception {
